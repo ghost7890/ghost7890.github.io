@@ -5,9 +5,9 @@
   <subtitle>努力诚可贵，坚持价更高</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://ghost7890.github.io/"/>
+  <link href="https://mrleecn.cn/"/>
   <updated>2019-05-24T15:33:45.029Z</updated>
-  <id>http://ghost7890.github.io/</id>
+  <id>https://mrleecn.cn/</id>
   
   <author>
     <name>西加加先生</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>字符带旋转的验证码识别思路（Python）</title>
-    <link href="http://ghost7890.github.io/2019/05/22/yzm-thinking/"/>
-    <id>http://ghost7890.github.io/2019/05/22/yzm-thinking/</id>
+    <link href="https://mrleecn.cn/2019/05/22/yzm-thinking/"/>
+    <id>https://mrleecn.cn/2019/05/22/yzm-thinking/</id>
     <published>2019-05-22T08:26:14.000Z</published>
     <updated>2019-05-24T15:33:45.029Z</updated>
     
@@ -35,18 +35,18 @@
     </summary>
     
     
-      <category term="Python" scheme="http://ghost7890.github.io/tags/Python/"/>
+      <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
-      <category term="爬虫" scheme="http://ghost7890.github.io/tags/%E7%88%AC%E8%99%AB/"/>
+      <category term="爬虫" scheme="https://mrleecn.cn/tags/%E7%88%AC%E8%99%AB/"/>
     
-      <category term="验证码识别" scheme="http://ghost7890.github.io/tags/%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/"/>
+      <category term="验证码识别" scheme="https://mrleecn.cn/tags/%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/"/>
     
   </entry>
   
   <entry>
     <title>Numpy笔记</title>
-    <link href="http://ghost7890.github.io/2019/05/22/numpy/"/>
-    <id>http://ghost7890.github.io/2019/05/22/numpy/</id>
+    <link href="https://mrleecn.cn/2019/05/22/numpy/"/>
+    <id>https://mrleecn.cn/2019/05/22/numpy/</id>
     <published>2019-05-22T06:28:25.000Z</published>
     <updated>2019-05-24T15:33:45.028Z</updated>
     
@@ -62,18 +62,18 @@
     </summary>
     
     
-      <category term="Python" scheme="http://ghost7890.github.io/tags/Python/"/>
+      <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
-      <category term="Numpy" scheme="http://ghost7890.github.io/tags/Numpy/"/>
+      <category term="数据处理" scheme="https://mrleecn.cn/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/"/>
     
-      <category term="数据处理" scheme="http://ghost7890.github.io/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/"/>
+      <category term="Numpy" scheme="https://mrleecn.cn/tags/Numpy/"/>
     
   </entry>
   
   <entry>
     <title>Pandas中 Series、DataFrame</title>
-    <link href="http://ghost7890.github.io/2019/05/22/Pandas/"/>
-    <id>http://ghost7890.github.io/2019/05/22/Pandas/</id>
+    <link href="https://mrleecn.cn/2019/05/22/Pandas/"/>
+    <id>https://mrleecn.cn/2019/05/22/Pandas/</id>
     <published>2019-05-22T06:10:17.000Z</published>
     <updated>2019-05-24T15:33:45.025Z</updated>
     
@@ -89,18 +89,18 @@
     </summary>
     
     
-      <category term="Python" scheme="http://ghost7890.github.io/tags/Python/"/>
+      <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
-      <category term="数据处理" scheme="http://ghost7890.github.io/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/"/>
+      <category term="Pandas" scheme="https://mrleecn.cn/tags/Pandas/"/>
     
-      <category term="Pandas" scheme="http://ghost7890.github.io/tags/Pandas/"/>
+      <category term="数据处理" scheme="https://mrleecn.cn/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/"/>
     
   </entry>
   
   <entry>
     <title>验证码高效切片方法（Python）</title>
-    <link href="http://ghost7890.github.io/2019/05/21/image-split/"/>
-    <id>http://ghost7890.github.io/2019/05/21/image-split/</id>
+    <link href="https://mrleecn.cn/2019/05/21/image-split/"/>
+    <id>https://mrleecn.cn/2019/05/21/image-split/</id>
     <published>2019-05-21T11:46:14.000Z</published>
     <updated>2019-05-24T15:33:45.027Z</updated>
     
@@ -117,18 +117,18 @@
     </summary>
     
     
-      <category term="Python" scheme="http://ghost7890.github.io/tags/Python/"/>
+      <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
-      <category term="爬虫" scheme="http://ghost7890.github.io/tags/%E7%88%AC%E8%99%AB/"/>
+      <category term="爬虫" scheme="https://mrleecn.cn/tags/%E7%88%AC%E8%99%AB/"/>
     
-      <category term="验证码识别" scheme="http://ghost7890.github.io/tags/%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/"/>
+      <category term="验证码识别" scheme="https://mrleecn.cn/tags/%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/"/>
     
   </entry>
   
   <entry>
     <title>位运算技巧总结（python版）</title>
-    <link href="http://ghost7890.github.io/2019/05/19/%E4%BD%8D%E8%BF%90%E7%AE%97/"/>
-    <id>http://ghost7890.github.io/2019/05/19/位运算/</id>
+    <link href="https://mrleecn.cn/2019/05/19/%E4%BD%8D%E8%BF%90%E7%AE%97/"/>
+    <id>https://mrleecn.cn/2019/05/19/位运算/</id>
     <published>2019-05-19T01:44:54.000Z</published>
     <updated>2019-05-24T15:33:45.029Z</updated>
     
@@ -144,16 +144,16 @@
     </summary>
     
     
-      <category term="Python" scheme="http://ghost7890.github.io/tags/Python/"/>
+      <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
-      <category term="编程技巧" scheme="http://ghost7890.github.io/tags/%E7%BC%96%E7%A8%8B%E6%8A%80%E5%B7%A7/"/>
+      <category term="编程技巧" scheme="https://mrleecn.cn/tags/%E7%BC%96%E7%A8%8B%E6%8A%80%E5%B7%A7/"/>
     
   </entry>
   
   <entry>
     <title>Git使用（二）</title>
-    <link href="http://ghost7890.github.io/2019/05/17/git%E4%BD%BF%E7%94%A8%E4%BA%8C/"/>
-    <id>http://ghost7890.github.io/2019/05/17/git使用二/</id>
+    <link href="https://mrleecn.cn/2019/05/17/git%E4%BD%BF%E7%94%A8%E4%BA%8C/"/>
+    <id>https://mrleecn.cn/2019/05/17/git使用二/</id>
     <published>2019-05-17T01:10:50.000Z</published>
     <updated>2019-05-24T15:33:45.026Z</updated>
     
@@ -171,14 +171,14 @@
     </summary>
     
     
-      <category term="Git" scheme="http://ghost7890.github.io/tags/Git/"/>
+      <category term="Git" scheme="https://mrleecn.cn/tags/Git/"/>
     
   </entry>
   
   <entry>
     <title>time模块和datetime模块常见用法总结</title>
-    <link href="http://ghost7890.github.io/2019/05/16/time%E6%A8%A1%E5%9D%97%E5%92%8Cdatetime%E6%A8%A1%E5%9D%97%E5%B8%B8%E8%A7%81%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/"/>
-    <id>http://ghost7890.github.io/2019/05/16/time模块和datetime模块常见用法总结/</id>
+    <link href="https://mrleecn.cn/2019/05/16/time%E6%A8%A1%E5%9D%97%E5%92%8Cdatetime%E6%A8%A1%E5%9D%97%E5%B8%B8%E8%A7%81%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/"/>
+    <id>https://mrleecn.cn/2019/05/16/time模块和datetime模块常见用法总结/</id>
     <published>2019-05-16T07:41:50.000Z</published>
     <updated>2019-05-24T15:33:45.028Z</updated>
     
@@ -194,14 +194,14 @@
     </summary>
     
     
-      <category term="Python" scheme="http://ghost7890.github.io/tags/Python/"/>
+      <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
   </entry>
   
   <entry>
     <title>Git使用（一）</title>
-    <link href="http://ghost7890.github.io/2019/05/15/git%E4%BD%BF%E7%94%A8%E4%B8%80/"/>
-    <id>http://ghost7890.github.io/2019/05/15/git使用一/</id>
+    <link href="https://mrleecn.cn/2019/05/15/git%E4%BD%BF%E7%94%A8%E4%B8%80/"/>
+    <id>https://mrleecn.cn/2019/05/15/git使用一/</id>
     <published>2019-05-15T13:06:50.000Z</published>
     <updated>2019-05-24T15:33:45.026Z</updated>
     
@@ -219,14 +219,14 @@
     </summary>
     
     
-      <category term="Git" scheme="http://ghost7890.github.io/tags/Git/"/>
+      <category term="Git" scheme="https://mrleecn.cn/tags/Git/"/>
     
   </entry>
   
   <entry>
     <title>【转载】写给年轻程序员的10点启示</title>
-    <link href="http://ghost7890.github.io/2019/05/14/%E5%86%99%E7%BB%99%E5%B9%B4%E8%BD%BB%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%8410%E7%82%B9%E5%90%AF%E7%A4%BA/"/>
-    <id>http://ghost7890.github.io/2019/05/14/写给年轻程序员的10点启示/</id>
+    <link href="https://mrleecn.cn/2019/05/14/%E5%86%99%E7%BB%99%E5%B9%B4%E8%BD%BB%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%8410%E7%82%B9%E5%90%AF%E7%A4%BA/"/>
+    <id>https://mrleecn.cn/2019/05/14/写给年轻程序员的10点启示/</id>
     <published>2019-05-14T12:24:47.000Z</published>
     <updated>2019-05-24T15:33:45.029Z</updated>
     
@@ -242,16 +242,16 @@
     </summary>
     
     
-      <category term="转载" scheme="http://ghost7890.github.io/tags/%E8%BD%AC%E8%BD%BD/"/>
+      <category term="转载" scheme="https://mrleecn.cn/tags/%E8%BD%AC%E8%BD%BD/"/>
     
-      <category term="职场" scheme="http://ghost7890.github.io/tags/%E8%81%8C%E5%9C%BA/"/>
+      <category term="职场" scheme="https://mrleecn.cn/tags/%E8%81%8C%E5%9C%BA/"/>
     
   </entry>
   
   <entry>
     <title>时间是怎么浪费掉的</title>
-    <link href="http://ghost7890.github.io/2019/05/13/%E6%97%B6%E9%97%B4%E6%98%AF%E6%80%8E%E4%B9%88%E6%B5%AA%E8%B4%B9%E6%8E%89%E7%9A%84/"/>
-    <id>http://ghost7890.github.io/2019/05/13/时间是怎么浪费掉的/</id>
+    <link href="https://mrleecn.cn/2019/05/13/%E6%97%B6%E9%97%B4%E6%98%AF%E6%80%8E%E4%B9%88%E6%B5%AA%E8%B4%B9%E6%8E%89%E7%9A%84/"/>
+    <id>https://mrleecn.cn/2019/05/13/时间是怎么浪费掉的/</id>
     <published>2019-05-13T14:06:50.000Z</published>
     <updated>2019-05-24T15:33:45.029Z</updated>
     
@@ -267,16 +267,16 @@
     </summary>
     
     
-      <category term="读书笔记" scheme="http://ghost7890.github.io/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+      <category term="读书笔记" scheme="https://mrleecn.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     
-      <category term="软技能" scheme="http://ghost7890.github.io/tags/%E8%BD%AF%E6%8A%80%E8%83%BD/"/>
+      <category term="软技能" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E6%8A%80%E8%83%BD/"/>
     
   </entry>
   
   <entry>
     <title>十步学习法</title>
-    <link href="http://ghost7890.github.io/2019/04/28/%E5%8D%81%E6%AD%A5%E5%AD%A6%E4%B9%A0%E6%B3%95/"/>
-    <id>http://ghost7890.github.io/2019/04/28/十步学习法/</id>
+    <link href="https://mrleecn.cn/2019/04/28/%E5%8D%81%E6%AD%A5%E5%AD%A6%E4%B9%A0%E6%B3%95/"/>
+    <id>https://mrleecn.cn/2019/04/28/十步学习法/</id>
     <published>2019-04-28T13:24:35.000Z</published>
     <updated>2019-05-24T15:33:45.029Z</updated>
     
@@ -294,9 +294,9 @@
     </summary>
     
     
-      <category term="读书笔记" scheme="http://ghost7890.github.io/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+      <category term="读书笔记" scheme="https://mrleecn.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     
-      <category term="软技能" scheme="http://ghost7890.github.io/tags/%E8%BD%AF%E6%8A%80%E8%83%BD/"/>
+      <category term="软技能" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E6%8A%80%E8%83%BD/"/>
     
   </entry>
   
