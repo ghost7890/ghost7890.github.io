@@ -64,9 +64,9 @@
     
       <category term="Python" scheme="http://ghost7890.github.io/tags/Python/"/>
     
-      <category term="数据处理" scheme="http://ghost7890.github.io/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/"/>
-    
       <category term="Numpy" scheme="http://ghost7890.github.io/tags/Numpy/"/>
+    
+      <category term="数据处理" scheme="http://ghost7890.github.io/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/"/>
     
   </entry>
   
@@ -91,9 +91,9 @@
     
       <category term="Python" scheme="http://ghost7890.github.io/tags/Python/"/>
     
-      <category term="Pandas" scheme="http://ghost7890.github.io/tags/Pandas/"/>
-    
       <category term="数据处理" scheme="http://ghost7890.github.io/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/"/>
+    
+      <category term="Pandas" scheme="http://ghost7890.github.io/tags/Pandas/"/>
     
   </entry>
   
