@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?53891daf9e0316e03eadf2da354a713d"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>字符带旋转的验证码识别思路（Python） | 西加加先生&#39;Blog | 努力诚可贵，坚持价更高</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Python,爬虫,验证码识别">
+    <meta name="description" content="背景介绍为了实现某网站的模拟登录，需要对验证码进行识别，该验证码除了有背景的干扰图案之外，字符也有不同角度的倾斜，高度也不统一，如下图所示：                                                                                              mark">
+<meta name="keywords" content="Python,爬虫,验证码识别">
+<meta property="og:type" content="article">
+<meta property="og:title" content="字符带旋转的验证码识别思路（Python）">
+<meta property="og:url" content="http://ghost7890.github.io/2019/05/22/yzm-thinking/index.html">
+<meta property="og:site_name" content="西加加先生&#39;Blog">
+<meta property="og:description" content="背景介绍为了实现某网站的模拟登录，需要对验证码进行识别，该验证码除了有背景的干扰图案之外，字符也有不同角度的倾斜，高度也不统一，如下图所示：                                                                                              mark">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://prwhphxqa.bkt.clouddn.com/blog/20190524/d2QvuRTvckKu.gif">
+<meta property="og:image" content="http://prwhphxqa.bkt.clouddn.com/blog/20190524/3RWw0c55yLWU.gif">
+<meta property="og:image" content="http://prwhphxqa.bkt.clouddn.com/blog/20190524/Sn3AoOvHkock.gif">
+<meta property="og:updated_time" content="2019-05-24T15:33:45.029Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="字符带旋转的验证码识别思路（Python）">
+<meta name="twitter:description" content="背景介绍为了实现某网站的模拟登录，需要对验证码进行识别，该验证码除了有背景的干扰图案之外，字符也有不同角度的倾斜，高度也不统一，如下图所示：                                                                                              mark">
+<meta name="twitter:image" content="http://prwhphxqa.bkt.clouddn.com/blog/20190524/d2QvuRTvckKu.gif">
+    
+        <link rel="alternate" type="application/atom+xml" title="西加加先生&#39;Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.gif">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">西加加先生</h5>
+          <a href="mailto:466987329@qq.com" title="466987329@qq.com" class="mail">466987329@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ghost7890" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books">
+                <i class="icon icon-lg icon-book"></i>
+                我的读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies">
+                <i class="icon icon-lg icon-film"></i>
+                我的电影
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends-link">
+                <i class="icon icon-lg icon-link"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends-apply">
+                <i class="icon icon-lg icon-user-plus"></i>
+                友链申请
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">字符带旋转的验证码识别思路（Python）</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">字符带旋转的验证码识别思路（Python）</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-05-22T08:26:14.000Z" itemprop="datePublished" class="page-time">
+  2019-05-22
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#背景介绍"><span class="post-toc-number">1.</span> <span class="post-toc-text">背景介绍</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#面临的问题"><span class="post-toc-number">2.</span> <span class="post-toc-text">面临的问题</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#解决思路"><span class="post-toc-number">3.</span> <span class="post-toc-text">解决思路</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#第一步：获取大量验证码图片"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">第一步：获取大量验证码图片</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#第二步：验证码图片预处理"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">第二步：验证码图片预处理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#第三步：-验证码图片切片"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">第三步： 验证码图片切片</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#第四步：手动制作原始验证码库"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">第四步：手动制作原始验证码库</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#第五步：验证码识别"><span class="post-toc-number">3.5.</span> <span class="post-toc-text">第五步：验证码识别</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#第六步：实现验证码库自动更新"><span class="post-toc-number">3.6.</span> <span class="post-toc-text">第六步：实现验证码库自动更新</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#细节部分"><span class="post-toc-number">4.</span> <span class="post-toc-text">细节部分</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-yzm-thinking" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">字符带旋转的验证码识别思路（Python）</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-05-22 16:26:14" datetime="2019-05-22T08:26:14.000Z" itemprop="datePublished">2019-05-22</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="背景介绍"><a href="#背景介绍" class="headerlink" title="背景介绍"></a>背景介绍</h1><p>为了实现某网站的模拟登录，需要对验证码进行识别，该验证码除了有背景的干扰图案之外，字符也有<strong>不同角度的倾斜</strong>，<strong>高度也不统一</strong>，如下图所示：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://prwhphxqa.bkt.clouddn.com/blog/20190524/d2QvuRTvckKu.gif" alt="mark" title>
+                </div>
+                <div class="image-caption">mark</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://prwhphxqa.bkt.clouddn.com/blog/20190524/3RWw0c55yLWU.gif" alt="mark" title>
+                </div>
+                <div class="image-caption">mark</div>
+            </figure>
+<h1 id="面临的问题"><a href="#面临的问题" class="headerlink" title="面临的问题"></a>面临的问题</h1><p>经过各方查找，网上大多数验证码识别教程都是<strong>字符规整且直立</strong>的验证码，方法也都大同小异。</p>
+<ul>
+<li>字符粘连在一起就切片，自己做验证码库进行识别；</li>
+<li>没有粘连在一起，就通过<strong>机器学习、神经网络</strong>等方法进行识别。</li>
+</ul>
+<p>对于<strong>没有学习过机器学习、神经网络</strong>的我，不能短时间上手。</p>
+<h1 id="解决思路"><a href="#解决思路" class="headerlink" title="解决思路"></a>解决思路</h1><p>于是，想到了采用<strong>切片做库</strong>的识别思路。</p>
+<h2 id="第一步：获取大量验证码图片"><a href="#第一步：获取大量验证码图片" class="headerlink" title="第一步：获取大量验证码图片"></a>第一步：获取大量验证码图片</h2><p>下载大量的验证码（视情况而定，<strong>我选择了300张</strong>），为后面验证码切片做库做准备。<strong>图片最好保存为gif格式</strong>。</p>
+<h2 id="第二步：验证码图片预处理"><a href="#第二步：验证码图片预处理" class="headerlink" title="第二步：验证码图片预处理"></a>第二步：验证码图片预处理</h2><p>对第一步下载的全部验证码图片进行<strong>灰度化、二值化</strong>。</p>
+<p>为保证经过预处理后的验证码图片效果，此处需要对<strong>二值化的阈值，进行仔细调整</strong>。</p>
+<p><strong>预处理代码如下：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line">   </span><br><span class="line">   <span class="function"><span class="keyword">def</span> <span class="title">preprocessing</span><span class="params">(yzm_path=<span class="string">'yzm.gif'</span>, new_yzm_path=<span class="string">'yzm.gif'</span>)</span>:</span></span><br><span class="line">       <span class="string">'''</span></span><br><span class="line"><span class="string">       验证码预处理，灰度化，二值化</span></span><br><span class="line"><span class="string">       :param captcha_path:    验证码图片路径</span></span><br><span class="line"><span class="string">       :param new_captcha_path: 经过预处理后验证码图片保存路径</span></span><br><span class="line"><span class="string">       '''</span></span><br><span class="line">       image = Image.open(yzm_path)</span><br><span class="line">       <span class="comment"># 灰度化</span></span><br><span class="line">       image = image.convert(<span class="string">'L'</span>)</span><br><span class="line">       <span class="comment"># 二值化</span></span><br><span class="line">       table = []</span><br><span class="line">       <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">256</span>):</span><br><span class="line">           <span class="keyword">if</span> i &lt; self.threshold:</span><br><span class="line">               table.append(<span class="number">0</span>)</span><br><span class="line">           <span class="keyword">else</span>:</span><br><span class="line">               table.append(<span class="number">1</span>)</span><br><span class="line">       image = image.point(table, <span class="string">'1'</span>)</span><br><span class="line">       image.save(new_yzm_path)</span><br></pre></td></tr></table></figure>
+<p>经过预处理后的图片如下图所示：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://prwhphxqa.bkt.clouddn.com/blog/20190524/Sn3AoOvHkock.gif" alt="mark" title>
+                </div>
+                <div class="image-caption">mark</div>
+            </figure>
+<h2 id="第三步：-验证码图片切片"><a href="#第三步：-验证码图片切片" class="headerlink" title="第三步： 验证码图片切片"></a>第三步： 验证码图片切片</h2><p>因为每个字符高度不统一，因此切片时除了要将每个字符单独切出来外，还要<strong>将字符四周多余空白行（列）也要去除。</strong> </p>
+<p>这里将会<strong>出现一个问题</strong>，对于字符<code>i</code>、<code>j</code>在某些倾斜角度时，无法保证<code>i</code>、<code>j</code>切片的完整性。这里，我们选择性<strong>放弃<code>i</code>、<code>j</code>首部的点，而只留下尾部</strong>（因为首部的点相对于尾部，不具有辨识度）。</p>
+<p><strong>将全部经过预处理后的验证码图片进行切片操作</strong>。切片方法，请移步到我的另一篇博客<a href="https://www.mrleecn.cn/2019/05/21/image-split/" target="_blank" rel="noopener">验证码高效切片方法（Python）</a>。</p>
+<h2 id="第四步：手动制作原始验证码库"><a href="#第四步：手动制作原始验证码库" class="headerlink" title="第四步：手动制作原始验证码库"></a>第四步：手动制作原始验证码库</h2><p>这一步最为繁琐。将第三步切片后的字符图片进行分类。可以借助<strong>打码平台</strong>帮你完成，也可通过自己手动对字符图片进行分类。<strong>制作原始的验证码库</strong>（我的分类方法：在一个空目录下建立以0-9、a-z命名的36个目录，将对应字符图片放到对应目录中）。</p>
+<p>我的原始验证码库达到<strong>1500张</strong>字符图片。经测试<strong>识别率在70%</strong>。</p>
+<h2 id="第五步：验证码识别"><a href="#第五步：验证码识别" class="headerlink" title="第五步：验证码识别"></a>第五步：验证码识别</h2><p>这一步可以参考<a href="https://blog.csdn.net/weixin_39121325/article/details/84187453" target="_blank" rel="noopener">Python计算图片之间的相似度</a></p>
+<p>以下是我修改后的代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_similarity_degree</span><span class="params">(vector1, vector2)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    计算两图片的相似度</span></span><br><span class="line"><span class="string">    :param vector1: 图片1的向量</span></span><br><span class="line"><span class="string">    :param vector2: 图片2的向量</span></span><br><span class="line"><span class="string">    :return: 相似度</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    <span class="comment"># dot返回的是点积，对二维数组（矩阵）进行计算</span></span><br><span class="line">    res = dot(vector1, vector2)</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_img_vectors</span><span class="params">(image)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    计算图片的余弦距离</span></span><br><span class="line"><span class="string">    :param image: Image图片对象</span></span><br><span class="line"><span class="string">    :return: 图片的向量</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    image = image.resize(compare_img_size, Image.ANTIALIAS)	<span class="comment"># compare_img_size=(30, 30)</span></span><br><span class="line">    vector = []</span><br><span class="line">    <span class="keyword">for</span> pixel_tuple <span class="keyword">in</span> image.getdata():</span><br><span class="line">        vector.append(average(pixel_tuple))</span><br><span class="line">    <span class="comment"># linalg=linear（线性）+algebra（代数），norm则表示范数</span></span><br><span class="line">    <span class="comment"># 求图片的范数</span></span><br><span class="line">    norm = linalg.norm(vector, <span class="number">2</span>)</span><br><span class="line">    <span class="keyword">return</span> vector / norm</span><br></pre></td></tr></table></figure>
+<h2 id="第六步：实现验证码库自动更新"><a href="#第六步：实现验证码库自动更新" class="headerlink" title="第六步：实现验证码库自动更新"></a>第六步：实现验证码库自动更新</h2><p>进行大量的模拟登录（使用自己的验证码库做识别），当<strong>模拟登录成功</strong>且<strong>验证码字符与验证码库内字符切片相似度小于某个值</strong>（我选择的95%）时，将改验证码字符加入到验证码库中。</p>
+<p>关键代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">yzmstore_update</span><span class="params">(self)</span>:</span></span><br><span class="line">      <span class="string">'''</span></span><br><span class="line"><span class="string">      将正确的验证码切片加入库中，以时间戳命名</span></span><br><span class="line"><span class="string">      :param result: 验证码字符串</span></span><br><span class="line"><span class="string">      :return:</span></span><br><span class="line"><span class="string">      '''</span></span><br><span class="line"><span class="comment"># self.yzmstore_waitupdate_img = ['./img_crop/z/split_0.gif', ....]</span></span><br><span class="line">      letters_list = list(i[<span class="number">1</span>].split(<span class="string">'/'</span>)[<span class="number">-2</span>] <span class="keyword">for</span> i <span class="keyword">in</span> self.yzmstore_waitupdate_img)  <span class="comment"># 获取验证码对应字符 ['z']</span></span><br><span class="line">      <span class="keyword">for</span> i <span class="keyword">in</span> range(len(letters_list)):</span><br><span class="line">          new_yzm_dir = <span class="string">'&#123;0&#125;&#123;1&#125;/'</span>.format(self.yzmstore_rootdir, letters_list[i])</span><br><span class="line">          time_stamp = time.time()  <span class="comment"># 当前时间戳</span></span><br><span class="line">          time.sleep(<span class="number">0.1</span>)         <span class="comment"># 等待0.1s避免时间戳一致</span></span><br><span class="line">          new_yzm_name = <span class="string">'&#123;0&#125;split&#123;1&#125;.gif'</span>.format(new_yzm_dir, str(time_stamp).replace(<span class="string">'.'</span>, <span class="string">''</span>))  <span class="comment"># 去掉时间戳中的'.'</span></span><br><span class="line">          old_yzm_name = self.yzmstore_waitupdate_img[i][<span class="number">0</span>]</span><br><span class="line">          shutil.move(old_yzm_name, new_yzm_name)     <span class="comment"># 将待添加的验证码图片移动到验证码库中</span></span><br></pre></td></tr></table></figure>
+<p>经测试，当验证码库达到<strong>5000张</strong>时，<strong>识别率达到94%</strong>。</p>
+<h1 id="细节部分"><a href="#细节部分" class="headerlink" title="细节部分"></a>细节部分</h1><p>由于计算图片向量值很耗时，所以可以<strong>提前将验证码库内字符图片的向量值提前计算好</strong>，进行模拟登录时，只需计算当前验证码的向量值，然后和已经计算好的验证码库的图片的向量进行相似度比较即可（比较速度非常快：<strong>不到0.5s</strong>）。从而减少整个模拟登录的时间。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-05-24T15:33:45.029Z" itemprop="dateUpdated">2019-05-24 23:33:45</time>
+</span><br>
+
+
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2019/05/22/yzm-thinking/" target="_blank" rel="external">http://ghost7890.github.io/2019/05/22/yzm-thinking/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://ghost7890.github.io">
+            <img src="/img/avatar.jpg" alt="西加加先生">
+            西加加先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/爬虫/">爬虫</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/验证码识别/">验证码识别</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://ghost7890.github.io/2019/05/22/yzm-thinking/&title=《字符带旋转的验证码识别思路（Python）》 — 西加加先生'Blog&pic=http://ghost7890.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://ghost7890.github.io/2019/05/22/yzm-thinking/&title=《字符带旋转的验证码识别思路（Python）》 — 西加加先生'Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://ghost7890.github.io/2019/05/22/yzm-thinking/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《字符带旋转的验证码识别思路（Python）》 — 西加加先生'Blog&url=http://ghost7890.github.io/2019/05/22/yzm-thinking/&via=http://ghost7890.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://ghost7890.github.io/2019/05/22/yzm-thinking/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/05/22/numpy/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Numpy笔记</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "3GQHOe6La6D1uDM55jwGO4ot-gzGzoHsz",
+            appKey: "UgaD9ez4RHchPDGCAA7JAzUb",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check" data-wechat="/img/wechat.png" data-alipay="/img/alipay.png">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>西加加先生 &copy; 2015 - 2019</span>
+            <span>
+                
+                <a href="http://www.miitbeian.gov.cn/" target="_blank">湘ICP备17011548号-1</a><br>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://ghost7890.github.io/2019/05/22/yzm-thinking/&title=《字符带旋转的验证码识别思路（Python）》 — 西加加先生'Blog&pic=http://ghost7890.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://ghost7890.github.io/2019/05/22/yzm-thinking/&title=《字符带旋转的验证码识别思路（Python）》 — 西加加先生'Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://ghost7890.github.io/2019/05/22/yzm-thinking/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《字符带旋转的验证码识别思路（Python）》 — 西加加先生'Blog&url=http://ghost7890.github.io/2019/05/22/yzm-thinking/&via=http://ghost7890.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://ghost7890.github.io/2019/05/22/yzm-thinking/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACOElEQVR42u3aUW7DMAwE0dz/0u4BEimzpFPA1PgraFxbTwVYiuTrha/r7Vp9u7p/9Vurd71+ccmQIeOxjGt7rRZKlpv+hH/7gSpDhowDGPvAly4uXsT2ySgoy5AhQ8Y2XeuEabJlMmTIkNFhpGG0ljjKkCFDBj/E8pQxfVrtmTJkyDiHwavu///5J/0NGTJkPIpxhRcJiCSk1tqfy1XJkCFjNIMHOLIUUmKrlefQemTIkHEwgx9oOTst86FkUYYMGUMZacir3b9P+DoH3Q8ZrgwZMoYy+HGUBM19+Z7fH2yoDBkyRjNqpbHaYAQPuHykTIYMGecw0jJZCqsliPFZXIYMGUMZnRGHX6SSxYKdDBkyDmDwY2ethdBpkcZVQxkyZIxjpI1MPjZRC9k8TVy+S4YMGeMY5FZSeuNltU6aGEyLyJAhYxCDJ3+dF/BgnQ5hfOlvyJAhYxzjroemzYDb6vwyZMgYyuABlJTkeGrIm53osC1DhozRjFZ97taCXdoeCP4mMmTIGMroHG5Jglgr8H1ZlQwZMg5g8AQubQbwEY10C4KKoAwZMkYz0vSOB+K7RjRkyJAxm3GFVy0QdwI92jgZMmSMZtTCXK1wf29YrwVrGTJkPJdRO4ju96MYEHHAjf97yJAhYwSj03TkwbFWkkPbJ0OGDBl4ien4RVrCi2c9ZMiQcSSDBMT9c3jTNGgqyJAh4wBGf9yBj4ihzirYVhkyZJzDSMMoTwd5WZ8ngq1GpgwZMp7H+APX5mqYxXh2HwAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

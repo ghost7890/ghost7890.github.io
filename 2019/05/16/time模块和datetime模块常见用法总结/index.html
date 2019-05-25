@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?53891daf9e0316e03eadf2da354a713d"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>time模块和datetime模块常见用法总结 | 西加加先生&#39;Blog | 努力诚可贵，坚持价更高</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Python">
+    <meta name="description" content="time模块1import time 1. 获取当前时间123456&amp;gt;&amp;gt;&amp;gt; localtime = time.localtime()&amp;gt;&amp;gt;&amp;gt; localtime	time.struct_time(tm_year=2019, tm_mon=4, tm_mday=25, tm_hour=16, tm_min=28, tm_sec=27, tm_wday=3, tm_y">
+<meta name="keywords" content="Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="time模块和datetime模块常见用法总结">
+<meta property="og:url" content="http://ghost7890.github.io/2019/05/16/time模块和datetime模块常见用法总结/index.html">
+<meta property="og:site_name" content="西加加先生&#39;Blog">
+<meta property="og:description" content="time模块1import time 1. 获取当前时间123456&amp;gt;&amp;gt;&amp;gt; localtime = time.localtime()&amp;gt;&amp;gt;&amp;gt; localtime	time.struct_time(tm_year=2019, tm_mon=4, tm_mday=25, tm_hour=16, tm_min=28, tm_sec=27, tm_wday=3, tm_y">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-05-24T15:33:45.028Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="time模块和datetime模块常见用法总结">
+<meta name="twitter:description" content="time模块1import time 1. 获取当前时间123456&amp;gt;&amp;gt;&amp;gt; localtime = time.localtime()&amp;gt;&amp;gt;&amp;gt; localtime	time.struct_time(tm_year=2019, tm_mon=4, tm_mday=25, tm_hour=16, tm_min=28, tm_sec=27, tm_wday=3, tm_y">
+    
+        <link rel="alternate" type="application/atom+xml" title="西加加先生&#39;Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.gif">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">西加加先生</h5>
+          <a href="mailto:466987329@qq.com" title="466987329@qq.com" class="mail">466987329@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ghost7890" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books">
+                <i class="icon icon-lg icon-book"></i>
+                我的读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies">
+                <i class="icon icon-lg icon-film"></i>
+                我的电影
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends-link">
+                <i class="icon icon-lg icon-link"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends-apply">
+                <i class="icon icon-lg icon-user-plus"></i>
+                友链申请
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">time模块和datetime模块常见用法总结</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">time模块和datetime模块常见用法总结</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-05-16T07:41:50.000Z" itemprop="datePublished" class="page-time">
+  2019-05-16
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#time模块"><span class="post-toc-number">1.</span> <span class="post-toc-text">time模块</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-获取当前时间"><span class="post-toc-number">1.0.1.</span> <span class="post-toc-text">1. 获取当前时间</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#时间元组格式"><span class="post-toc-number">1.0.1.1.</span> <span class="post-toc-text">时间元组格式</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-分别获取当前年、月、日、今年第几天-等信息"><span class="post-toc-number">1.0.2.</span> <span class="post-toc-text">2. 分别获取当前年、月、日、今年第几天 等信息</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-获取当前时间戳"><span class="post-toc-number">1.0.3.</span> <span class="post-toc-text">3.获取当前时间戳</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-格式化时间（带时间戳）"><span class="post-toc-number">1.0.4.</span> <span class="post-toc-text">4. 格式化时间（带时间戳）</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#python中时间日期格式化符号："><span class="post-toc-number">1.0.4.1.</span> <span class="post-toc-text">python中时间日期格式化符号：</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-推迟调用线程的运行"><span class="post-toc-number">1.0.5.</span> <span class="post-toc-text">5. 推迟调用线程的运行</span></a></li></ol></li></ol><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#datetime模块"><span class="post-toc-number">2.</span> <span class="post-toc-text">datetime模块</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-获取当前时间-1"><span class="post-toc-number">2.0.1.</span> <span class="post-toc-text">1. 获取当前时间</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-将时间戳转换成日期"><span class="post-toc-number">2.0.2.</span> <span class="post-toc-text">2.将时间戳转换成日期</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-时间运算"><span class="post-toc-number">2.0.3.</span> <span class="post-toc-text">3.时间运算</span></a></li></ol></li>
+        </nav>
+    </aside>
+
+
+<article id="post-time模块和datetime模块常见用法总结" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">time模块和datetime模块常见用法总结</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-05-16 15:41:50" datetime="2019-05-16T07:41:50.000Z" itemprop="datePublished">2019-05-16</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="time模块"><a href="#time模块" class="headerlink" title="time模块"></a>time模块</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br></pre></td></tr></table></figure>
+<h4 id="1-获取当前时间"><a href="#1-获取当前时间" class="headerlink" title="1. 获取当前时间"></a>1. 获取当前时间</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>localtime = time.localtime()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>localtime	</span><br><span class="line">time.struct_time(tm_year=<span class="number">2019</span>, tm_mon=<span class="number">4</span>, tm_mday=<span class="number">25</span>, tm_hour=<span class="number">16</span>, tm_min=<span class="number">28</span>, tm_sec=<span class="number">27</span>, tm_wday=<span class="number">3</span>, tm_yday=<span class="number">115</span>, tm_isdst=<span class="number">0</span>)</span><br><span class="line"><span class="comment"># 2019年4月25日 16时28分27秒，本周的第3天（0是周一），本年的第115天，不是夏令时。</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>type(localtime)		<span class="comment"># 时间元组类型</span></span><br><span class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">time</span>.<span class="title">struct_time</span>'&gt;</span></span><br></pre></td></tr></table></figure>
+<h5 id="时间元组格式"><a href="#时间元组格式" class="headerlink" title="时间元组格式"></a>时间元组格式</h5><table>
+<thead>
+<tr>
+<th style="text-align:left">序号</th>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">0</td>
+<td style="text-align:left">tm_year</td>
+<td style="text-align:left">2008</td>
+</tr>
+<tr>
+<td style="text-align:left">1</td>
+<td style="text-align:left">tm_mon</td>
+<td style="text-align:left">1 到 12</td>
+</tr>
+<tr>
+<td style="text-align:left">2</td>
+<td style="text-align:left">tm_mday</td>
+<td style="text-align:left">1 到 31</td>
+</tr>
+<tr>
+<td style="text-align:left">3</td>
+<td style="text-align:left">tm_hour</td>
+<td style="text-align:left">0 到 23</td>
+</tr>
+<tr>
+<td style="text-align:left">4</td>
+<td style="text-align:left">tm_min</td>
+<td style="text-align:left">0 到 59</td>
+</tr>
+<tr>
+<td style="text-align:left">5</td>
+<td style="text-align:left">tm_sec</td>
+<td style="text-align:left">0 到 61 (60或61 是闰秒)</td>
+</tr>
+<tr>
+<td style="text-align:left">6</td>
+<td style="text-align:left">tm_wday</td>
+<td style="text-align:left">0到6 (0是周一)</td>
+</tr>
+<tr>
+<td style="text-align:left">7</td>
+<td style="text-align:left">tm_yday</td>
+<td style="text-align:left">一年中的第几天，1 到 366</td>
+</tr>
+<tr>
+<td style="text-align:left">8</td>
+<td style="text-align:left">tm_isdst</td>
+<td style="text-align:left">是否为夏令时，值有：1(夏令时)、0(不是夏令时)、-1(未知)，默认 -1</td>
+</tr>
+</tbody>
+</table>
+<h4 id="2-分别获取当前年、月、日、今年第几天-等信息"><a href="#2-分别获取当前年、月、日、今年第几天-等信息" class="headerlink" title="2. 分别获取当前年、月、日、今年第几天 等信息"></a>2. 分别获取当前年、月、日、今年第几天 等信息</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>year = localtime[<span class="number">0</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>month = localtime[<span class="number">1</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>day = localtime[<span class="number">2</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>year,month,day</span><br><span class="line">(<span class="number">2019</span>, <span class="number">4</span>, <span class="number">25</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>wday = localtime[<span class="number">6</span>] <span class="comment"># 本周第几天</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>yday = localtime[<span class="number">7</span>] <span class="comment"># 今年第几天</span></span><br><span class="line"><span class="number">115</span></span><br></pre></td></tr></table></figure>
+<h4 id="3-获取当前时间戳"><a href="#3-获取当前时间戳" class="headerlink" title="3.获取当前时间戳"></a>3.获取当前时间戳</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 时间戳是指格林威治时间1970年01月01日00时00分00秒(北京时间1970年01月01日08时00分00秒)起至现在的总秒数</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>time.time() </span><br><span class="line"><span class="number">1556182332.531831</span></span><br></pre></td></tr></table></figure>
+<h4 id="4-格式化时间（带时间戳）"><a href="#4-格式化时间（带时间戳）" class="headerlink" title="4. 格式化时间（带时间戳）"></a>4. 格式化时间（带时间戳）</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>localtime.strftime(<span class="string">'%Y-%m-%d %H:%M:%S'</span>,x)</span><br><span class="line"><span class="string">'2019-04-25 16:28:27'</span></span><br></pre></td></tr></table></figure>
+<h5 id="python中时间日期格式化符号："><a href="#python中时间日期格式化符号：" class="headerlink" title="python中时间日期格式化符号："></a>python中时间日期格式化符号：</h5><ul>
+<li>%y 两位数的年份表示（00-99）</li>
+<li>%Y 四位数的年份表示（000-9999）</li>
+<li>%m 月份（01-12）</li>
+<li>%d 月内中的一天（0-31）</li>
+<li>%H 24小时制小时数（0-23）</li>
+<li>%I 12小时制小时数（01-12）</li>
+<li>%M 分钟数（00=59）</li>
+<li>%S 秒（00-59）</li>
+<li>%a 本地简化星期名称</li>
+<li>%A 本地完整星期名称</li>
+<li>%b 本地简化的月份名称</li>
+<li>%B 本地完整的月份名称</li>
+<li>%c 本地相应的日期表示和时间表示</li>
+<li>%j 年内的一天（001-366）</li>
+<li>%p 本地A.M.或P.M.的等价符</li>
+<li>%U 一年中的星期数（00-53）星期天为星期的开始</li>
+<li>%w 星期（0-6），星期天为星期的开始</li>
+<li>%W 一年中的星期数（00-53）星期一为星期的开始</li>
+<li>%x 本地相应的日期表示</li>
+<li>%X 本地相应的时间表示</li>
+<li>%Z 当前时区的名称</li>
+<li>%% %号本身</li>
+</ul>
+<h4 id="5-推迟调用线程的运行"><a href="#5-推迟调用线程的运行" class="headerlink" title="5. 推迟调用线程的运行"></a>5. 推迟调用线程的运行</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">time.sleep(<span class="number">30</span>) <span class="comment"># 推迟30秒</span></span><br></pre></td></tr></table></figure>
+<h2 id="datetime模块"><a href="#datetime模块" class="headerlink" title="datetime模块"></a>datetime模块</h2><h4 id="1-获取当前时间-1"><a href="#1-获取当前时间-1" class="headerlink" title="1. 获取当前时间"></a>1. 获取当前时间</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(datetime.datetime.now())</span><br><span class="line"><span class="number">2019</span><span class="number">-04</span><span class="number">-25</span> <span class="number">17</span>:<span class="number">11</span>:<span class="number">02.275448</span></span><br></pre></td></tr></table></figure>
+<h4 id="2-将时间戳转换成日期"><a href="#2-将时间戳转换成日期" class="headerlink" title="2.将时间戳转换成日期"></a>2.将时间戳转换成日期</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(datetime.date.fromtimestamp(<span class="number">1556182332.531831</span>))</span><br><span class="line"><span class="number">2019</span><span class="number">-04</span><span class="number">-25</span></span><br></pre></td></tr></table></figure>
+<h4 id="3-时间运算"><a href="#3-时间运算" class="headerlink" title="3.时间运算"></a>3.时间运算</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 当前时间+3天</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>datetime.datetime.now() + datetime.timedelta(+<span class="number">3</span>)</span><br><span class="line">datetime.datetime(<span class="number">2019</span>, <span class="number">4</span>, <span class="number">28</span>, <span class="number">17</span>, <span class="number">14</span>, <span class="number">13</span>, <span class="number">969413</span>)</span><br><span class="line"><span class="comment"># 当前时间-3天</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>datetime.datetime.now() + datetime.timedelta(<span class="number">-3</span>)</span><br><span class="line">datetime.datetime(<span class="number">2019</span>, <span class="number">4</span>, <span class="number">22</span>, <span class="number">17</span>, <span class="number">15</span>, <span class="number">11</span>, <span class="number">753718</span>)</span><br><span class="line"><span class="comment"># 当前时间+3小时</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>datetime.datetime.now() + datetime.timedelta(hours=<span class="number">3</span>)</span><br><span class="line">datetime.datetime(<span class="number">2019</span>, <span class="number">4</span>, <span class="number">25</span>, <span class="number">20</span>, <span class="number">15</span>, <span class="number">42</span>, <span class="number">442473</span>)</span><br><span class="line"><span class="comment"># 当前时间+30分钟</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>datetime.datetime.now() + datetime.timedelta(minutes=<span class="number">30</span>)</span><br><span class="line">datetime.datetime(<span class="number">2019</span>, <span class="number">4</span>, <span class="number">25</span>, <span class="number">17</span>, <span class="number">47</span>, <span class="number">2</span>, <span class="number">610058</span>)</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-05-24T15:33:45.028Z" itemprop="dateUpdated">2019-05-24 23:33:45</time>
+</span><br>
+
+
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2019/05/16/time模块和datetime模块常见用法总结/" target="_blank" rel="external">http://ghost7890.github.io/2019/05/16/time模块和datetime模块常见用法总结/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://ghost7890.github.io">
+            <img src="/img/avatar.jpg" alt="西加加先生">
+            西加加先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://ghost7890.github.io/2019/05/16/time模块和datetime模块常见用法总结/&title=《time模块和datetime模块常见用法总结》 — 西加加先生'Blog&pic=http://ghost7890.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://ghost7890.github.io/2019/05/16/time模块和datetime模块常见用法总结/&title=《time模块和datetime模块常见用法总结》 — 西加加先生'Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://ghost7890.github.io/2019/05/16/time模块和datetime模块常见用法总结/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《time模块和datetime模块常见用法总结》 — 西加加先生'Blog&url=http://ghost7890.github.io/2019/05/16/time模块和datetime模块常见用法总结/&via=http://ghost7890.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://ghost7890.github.io/2019/05/16/time模块和datetime模块常见用法总结/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/05/17/git使用二/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Git使用（二）</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/05/15/git使用一/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Git使用（一）</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "3GQHOe6La6D1uDM55jwGO4ot-gzGzoHsz",
+            appKey: "UgaD9ez4RHchPDGCAA7JAzUb",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check" data-wechat="/img/wechat.png" data-alipay="/img/alipay.png">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>西加加先生 &copy; 2015 - 2019</span>
+            <span>
+                
+                <a href="http://www.miitbeian.gov.cn/" target="_blank">湘ICP备17011548号-1</a><br>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://ghost7890.github.io/2019/05/16/time模块和datetime模块常见用法总结/&title=《time模块和datetime模块常见用法总结》 — 西加加先生'Blog&pic=http://ghost7890.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://ghost7890.github.io/2019/05/16/time模块和datetime模块常见用法总结/&title=《time模块和datetime模块常见用法总结》 — 西加加先生'Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://ghost7890.github.io/2019/05/16/time模块和datetime模块常见用法总结/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《time模块和datetime模块常见用法总结》 — 西加加先生'Blog&url=http://ghost7890.github.io/2019/05/16/time模块和datetime模块常见用法总结/&via=http://ghost7890.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://ghost7890.github.io/2019/05/16/time模块和datetime模块常见用法总结/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACr0lEQVR42u3aS3IbMQwFQN//0s7WVYkm7wGkpUXPSqXPDJsLAgLw9RVf3z+un+/8/frVr15dya+en3LgwsPDw1ss/fnWz++033y16Oc752vGw8PDu817fnC7uPaIzzeuXQ8eHh7eJ/Dyo3y2ZfskHg8PD+/zebMw8Jx8Jyk+Hh4e3nt5m9vlhYy8zJFs9+FaCx4eHl7XdfqapcLven2lv4eHh4e37qo/H7jtEX8v/Ly8Jx4eHt4FXn7gzhLWNnXOyxbFOvHw8PAu8GZLTA73tuC7Dzx18o2Hh4dX8pLmff5p/v1krGqWWK8AeHh4eHFvKDl82wCQYJKlJ3f4TyjCw8PDO8rLj9f8kUnxt02s26CFh4eHd4+36b/n6XUebNrU+cDoFR4eHl7Jmx3Kp0JLm3C3K8HDw8O7wds0umbF3Bw2S9/rYi4eHh5eyZtl3PthqXzj2k9fxj08PDy8Q7x2cTdKtElAakl4eHh4t3k3YHnYaNtd7WABHh4e3g3evpjbljPaUu9sNAEPDw/vBm9/NLdBoq4uL7YSDw8P7wavbeqfSnk3m/j8Gg8PD+/3eacaYEmoKA73+Cl4eHh4t3ntg2chYdbyb1NtPDw8vHfx2qN5tqw2dU5Iu4oFHh4eXtVRigq4bYLbFhTa8YI6jOHh4eEd5c2a+s+BJGmMbUa78pXj4eHh3eO1KfIGsBkjyDcRDw8P7zZv33BqyxmzAsSw4oKHh4d3iPddXsOxp0VNtb3/PxpgeHh4eEd5p2LLLO3OyxxJMt2WmPHw8PA2vFkwmI0LnBoUKP4A4OHh4V3jzQqmeQrbNsmOXXh4eHgfw2t79HlQ2Qwi4OHh4X0+L38/f0r+ThSW8PDw8K7xkmJBUsxtD+587CAPSHh4eHi3ebN/9G05dbNlw4EAPDw8vPO8PysA7gMJNdQwAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

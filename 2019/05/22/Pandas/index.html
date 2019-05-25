@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?53891daf9e0316e03eadf2da354a713d"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>Pandas中 Series、DataFrame | 西加加先生&#39;Blog | 努力诚可贵，坚持价更高</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Python,Pandas,数据处理">
+    <meta name="description" content="Series是一个定长的字典序列。两个基本属性：index 和values 建立Series第一种方法12345678910111213141516from pandas import Series, DataFramex1 = Series([1, 2, 3, 4])x2 = Series(data=[1, 2, 3, 4], index=[&amp;apos;a&amp;apos;, &amp;apos;b&amp;apos">
+<meta name="keywords" content="Python,Pandas,数据处理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pandas中 Series、DataFrame">
+<meta property="og:url" content="http://ghost7890.github.io/2019/05/22/Pandas/index.html">
+<meta property="og:site_name" content="西加加先生&#39;Blog">
+<meta property="og:description" content="Series是一个定长的字典序列。两个基本属性：index 和values 建立Series第一种方法12345678910111213141516from pandas import Series, DataFramex1 = Series([1, 2, 3, 4])x2 = Series(data=[1, 2, 3, 4], index=[&amp;apos;a&amp;apos;, &amp;apos;b&amp;apos">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-05-24T15:33:45.025Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Pandas中 Series、DataFrame">
+<meta name="twitter:description" content="Series是一个定长的字典序列。两个基本属性：index 和values 建立Series第一种方法12345678910111213141516from pandas import Series, DataFramex1 = Series([1, 2, 3, 4])x2 = Series(data=[1, 2, 3, 4], index=[&amp;apos;a&amp;apos;, &amp;apos;b&amp;apos">
+    
+        <link rel="alternate" type="application/atom+xml" title="西加加先生&#39;Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.gif">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">西加加先生</h5>
+          <a href="mailto:466987329@qq.com" title="466987329@qq.com" class="mail">466987329@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ghost7890" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books">
+                <i class="icon icon-lg icon-book"></i>
+                我的读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies">
+                <i class="icon icon-lg icon-film"></i>
+                我的电影
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends-link">
+                <i class="icon icon-lg icon-link"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends-apply">
+                <i class="icon icon-lg icon-user-plus"></i>
+                友链申请
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Pandas中 Series、DataFrame</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Pandas中 Series、DataFrame</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-05-22T06:10:17.000Z" itemprop="datePublished" class="page-time">
+  2019-05-22
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Series"><span class="post-toc-number">1.</span> <span class="post-toc-text">Series</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#建立Series"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">建立Series</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#DataFrame"><span class="post-toc-number">2.</span> <span class="post-toc-text">DataFrame</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#建立DataFrame"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">建立DataFrame</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#数据导入和导出"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">数据导入和导出</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#数据清洗"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">数据清洗</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#去除不必要的行或列"><span class="post-toc-number">2.3.1.</span> <span class="post-toc-text">去除不必要的行或列</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#重命名columns，让列名更容易识别"><span class="post-toc-number">2.3.2.</span> <span class="post-toc-text">重命名columns，让列名更容易识别</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#去除重复值"><span class="post-toc-number">2.3.3.</span> <span class="post-toc-text">去除重复值</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#格式问题"><span class="post-toc-number">2.3.4.</span> <span class="post-toc-text">格式问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#修改数据格式"><span class="post-toc-number">2.3.4.1.</span> <span class="post-toc-text">修改数据格式</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#数据间的空格"><span class="post-toc-number">2.3.4.2.</span> <span class="post-toc-text">数据间的空格</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#大小写转换"><span class="post-toc-number">2.3.4.3.</span> <span class="post-toc-text">大小写转换</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#查找空值"><span class="post-toc-number">2.3.4.4.</span> <span class="post-toc-text">查找空值</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#apply"><span class="post-toc-number">2.3.5.</span> <span class="post-toc-text">apply()</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#数据统计"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">数据统计</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#数据表合并"><span class="post-toc-number">2.4.1.</span> <span class="post-toc-text">数据表合并</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#指定列连接"><span class="post-toc-number">2.4.2.</span> <span class="post-toc-text">指定列连接</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#内连接"><span class="post-toc-number">2.4.3.</span> <span class="post-toc-text">内连接</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#左连接"><span class="post-toc-number">2.4.4.</span> <span class="post-toc-text">左连接</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#右连接"><span class="post-toc-number">2.4.5.</span> <span class="post-toc-text">右连接</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#外连接"><span class="post-toc-number">2.4.6.</span> <span class="post-toc-text">外连接</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-Pandas" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Pandas中 Series、DataFrame</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-05-22 14:10:17" datetime="2019-05-22T06:10:17.000Z" itemprop="datePublished">2019-05-22</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="Series"><a href="#Series" class="headerlink" title="Series"></a>Series</h1><p><strong>是一个定长的字典序列。</strong><br>两个基本属性：<strong>index</strong> 和<strong>values</strong></p>
+<h2 id="建立Series"><a href="#建立Series" class="headerlink" title="建立Series"></a>建立Series</h2><p>第一种方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">from pandas import Series, DataFrame</span><br><span class="line">x1 = Series([1, 2, 3, 4])</span><br><span class="line">x2 = Series(data=[1, 2, 3, 4], index=[&apos;a&apos;, &apos;b&apos;, &apos;c&apos;, &apos;d&apos;])</span><br><span class="line">print(x1)</span><br><span class="line">print(x2)</span><br><span class="line"></span><br><span class="line">0    1</span><br><span class="line">1    2</span><br><span class="line">2    3</span><br><span class="line">3    4</span><br><span class="line">dtype: int64</span><br><span class="line">a    1</span><br><span class="line">b    2</span><br><span class="line">c    3</span><br><span class="line">d    4</span><br><span class="line">dtype: int64</span><br></pre></td></tr></table></figure></p>
+<p>第二种方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">d = &#123;&apos;a&apos;:1, &apos;b&apos;:2, &apos;c&apos;:3, &apos;d&apos;:4&#125;</span><br><span class="line">x3 = Series(d)</span><br><span class="line">print(x3)</span><br><span class="line"></span><br><span class="line">a    1</span><br><span class="line">b    2</span><br><span class="line">c    3</span><br><span class="line">d    4</span><br><span class="line">dtype: int64</span><br></pre></td></tr></table></figure></p>
+<h1 id="DataFrame"><a href="#DataFrame" class="headerlink" title="DataFrame"></a>DataFrame</h1><p><strong>类似于数据库表</strong>包括<strong>行索引</strong>和<strong>列索引</strong></p>
+<h2 id="建立DataFrame"><a href="#建立DataFrame" class="headerlink" title="建立DataFrame"></a>建立DataFrame</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">import pandas as pd</span><br><span class="line">from pandas import Series, DataFrame</span><br><span class="line">data = &#123;&apos;Chinese&apos;: [66, 95, 93, 90, 80],</span><br><span class="line">        &apos;English&apos;: [65, 85, 92, 88, 90],</span><br><span class="line">        &apos;Math&apos;: [30, 98, 96, 77, 90]&#125;</span><br><span class="line">df1 = DataFrame(data)</span><br><span class="line">df2 = DataFrame(data, index=[&apos;ZhangFei&apos;, &apos;GuanYu&apos;, &apos;ZhaoYun&apos;, &apos;HuangZhong&apos;, &apos;DianWei&apos;], columns=[&apos;English&apos;, &apos;Math&apos;, &apos;Chinese&apos;])</span><br><span class="line">print(df1)</span><br><span class="line">print(df2)</span><br><span class="line"></span><br><span class="line">   Chinese  English  Math</span><br><span class="line">0       66       65    30</span><br><span class="line">1       95       85    98</span><br><span class="line">2       93       92    96</span><br><span class="line">3       90       88    77</span><br><span class="line">4       80       90    90</span><br><span class="line"></span><br><span class="line">            English  Math  Chinese</span><br><span class="line">ZhangFei         65    30       66</span><br><span class="line">GuanYu           85    98       95</span><br><span class="line">ZhaoYun          92    96       93</span><br><span class="line">HuangZhong       88    77       90</span><br><span class="line">DianWei          90    90       80</span><br></pre></td></tr></table></figure>
+<h2 id="数据导入和导出"><a href="#数据导入和导出" class="headerlink" title="数据导入和导出"></a>数据导入和导出</h2><p>Pandas支持直接从xlsx,csv等文件中导入数据，也可以导出到xlsx,csv等文件中。（可能少包，根据提示安装即可）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import pandas as pd</span><br><span class="line">from pandas import Series, DataFrame</span><br><span class="line">score = DataFrame(pd.read_excel(&apos;data.xlsx&apos;))       # 导入</span><br><span class="line">score.to_excel(&apos;data1.xlsx&apos;)                        # 导出</span><br><span class="line">print score</span><br></pre></td></tr></table></figure></p>
+<h2 id="数据清洗"><a href="#数据清洗" class="headerlink" title="数据清洗"></a>数据清洗</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">data = &#123;&apos;Chinese&apos;: [66, 95, 93, 90,80],&apos;English&apos;: [65, 85, 92, 88, 90],&apos;Math&apos;: [30, 98, 96, 77, 90]&#125;</span><br><span class="line">df2 = DataFrame(data, index=[&apos;ZhangFei&apos;, &apos;GuanYu&apos;, &apos;ZhaoYun&apos;, &apos;HuangZhong&apos;, &apos;DianWei&apos;], columns=[&apos;English&apos;, &apos;Math&apos;, &apos;Chinese&apos;])</span><br></pre></td></tr></table></figure>
+<h3 id="去除不必要的行或列"><a href="#去除不必要的行或列" class="headerlink" title="去除不必要的行或列"></a>去除不必要的行或列</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df2 = df2.drop(columns=[&apos;Chinese&apos;])</span><br></pre></td></tr></table></figure>
+<h3 id="重命名columns，让列名更容易识别"><a href="#重命名columns，让列名更容易识别" class="headerlink" title="重命名columns，让列名更容易识别"></a>重命名columns，让列名更容易识别</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df2.rename(columns=&#123;&apos;Chinese&apos;: &apos;YuWen&apos;, &apos;English&apos;: &apos;Yingyu&apos;&#125;, inplace = True)</span><br></pre></td></tr></table></figure>
+<h3 id="去除重复值"><a href="#去除重复值" class="headerlink" title="去除重复值"></a>去除重复值</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df = df.drop_duplicates() # 去除重复行</span><br></pre></td></tr></table></figure>
+<h3 id="格式问题"><a href="#格式问题" class="headerlink" title="格式问题"></a>格式问题</h3><h4 id="修改数据格式"><a href="#修改数据格式" class="headerlink" title="修改数据格式"></a>修改数据格式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">df2[&apos;Chinese&apos;] = df2[&apos;Chinese&apos;].astype(&apos;str&apos;) </span><br><span class="line">df2[&apos;Chinese&apos;] = df2[&apos;Chinese&apos;].astype(np.int64)</span><br></pre></td></tr></table></figure>
+<h4 id="数据间的空格"><a href="#数据间的空格" class="headerlink" title="数据间的空格"></a>数据间的空格</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 删除左右两边空格</span><br><span class="line">df2[&apos;Chinese&apos;]=df2[&apos;Chinese&apos;].map(str.strip)</span><br><span class="line"># 删除左边空格</span><br><span class="line">df2[&apos;Chinese&apos;]=df2[&apos;Chinese&apos;].map(str.lstrip)</span><br><span class="line"># 删除右边空格</span><br><span class="line">df2[&apos;Chinese&apos;]=df2[&apos;Chinese&apos;].map(str.rstrip)</span><br></pre></td></tr></table></figure>
+<h4 id="大小写转换"><a href="#大小写转换" class="headerlink" title="大小写转换"></a>大小写转换</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 全部大写</span><br><span class="line">df2.columns = df2.columns.str.upper()</span><br><span class="line"># 全部小写</span><br><span class="line">df2.columns = df2.columns.str.lower()</span><br><span class="line"># 首字母大写</span><br><span class="line">df2.columns = df2.columns.str.title()</span><br></pre></td></tr></table></figure>
+<h4 id="查找空值"><a href="#查找空值" class="headerlink" title="查找空值"></a>查找空值</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 查看那个地方存在空值</span><br><span class="line">df.isnull()</span><br><span class="line"># 查看哪列存在空值</span><br><span class="line">df.isnull().any()</span><br></pre></td></tr></table></figure>
+<h3 id="apply"><a href="#apply" class="headerlink" title="apply()"></a>apply()</h3><p>目前未用到</p>
+<h2 id="数据统计"><a href="#数据统计" class="headerlink" title="数据统计"></a>数据统计</h2><p>Pandas 和 NumPy 一样，都有常用的统计函数，如果遇到空值 NaN，会自动排除。<br>常见统计函数：</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>count()</td>
+<td>统计个数，空值、NaN不计算</td>
+</tr>
+<tr>
+<td>describe()</td>
+<td>一次性输出多个统计指标，包括：count、mean、std、min、max等</td>
+</tr>
+<tr>
+<td>min()</td>
+<td>最小值</td>
+</tr>
+<tr>
+<td>max()</td>
+<td>最大值</td>
+</tr>
+<tr>
+<td>sum()</td>
+<td>总和</td>
+</tr>
+<tr>
+<td>mean()</td>
+<td>平均值</td>
+</tr>
+<tr>
+<td>median()</td>
+<td>中位数</td>
+</tr>
+<tr>
+<td>var()</td>
+<td>方差</td>
+</tr>
+<tr>
+<td>std()</td>
+<td>标准差</td>
+</tr>
+<tr>
+<td>argmin()</td>
+<td>统计最小值的索引位置</td>
+</tr>
+<tr>
+<td>argmax()</td>
+<td>统计最大值的索引位置</td>
+</tr>
+<tr>
+<td>idxmin()</td>
+<td>统计最小值的索引值</td>
+</tr>
+<tr>
+<td>idxmax()</td>
+<td>统计最大值的索引值</td>
+</tr>
+</tbody>
+</table>
+<h3 id="数据表合并"><a href="#数据表合并" class="headerlink" title="数据表合并"></a>数据表合并</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">df1 = DataFrame(&#123;&apos;name&apos;:[&apos;ZhangFei&apos;, &apos;GuanYu&apos;, &apos;a&apos;, &apos;b&apos;, &apos;c&apos;], &apos;data1&apos;:range(5)&#125;)</span><br><span class="line">df2 = DataFrame(&#123;&apos;name&apos;:[&apos;ZhangFei&apos;, &apos;GuanYu&apos;, &apos;A&apos;, &apos;B&apos;, &apos;C&apos;], &apos;data2&apos;:range(5)&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="指定列连接"><a href="#指定列连接" class="headerlink" title="指定列连接"></a>指定列连接</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df3 = pd.merge(df1, df2, on=&apos;name&apos;)</span><br></pre></td></tr></table></figure>
+<h3 id="内连接"><a href="#内连接" class="headerlink" title="内连接"></a>内连接</h3><p>merge的默认合并情况。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df3 = pd.merge(df1, df2, how=&apos;inner&apos;)</span><br></pre></td></tr></table></figure></p>
+<h3 id="左连接"><a href="#左连接" class="headerlink" title="左连接"></a>左连接</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df3 = pd.merge(df1, df2, how=&apos;left&apos;)</span><br></pre></td></tr></table></figure>
+<h3 id="右连接"><a href="#右连接" class="headerlink" title="右连接"></a>右连接</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df3 = pd.merge(df1, df2, how=&apos;right&apos;)</span><br></pre></td></tr></table></figure>
+<h3 id="外连接"><a href="#外连接" class="headerlink" title="外连接"></a>外连接</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df3 = pd.merge(df1, df2, how=&apos;outer&apos;)</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-05-24T15:33:45.025Z" itemprop="dateUpdated">2019-05-24 23:33:45</time>
+</span><br>
+
+
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2019/05/22/Pandas/" target="_blank" rel="external">http://ghost7890.github.io/2019/05/22/Pandas/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://ghost7890.github.io">
+            <img src="/img/avatar.jpg" alt="西加加先生">
+            西加加先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Pandas/">Pandas</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据处理/">数据处理</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://ghost7890.github.io/2019/05/22/Pandas/&title=《Pandas中 Series、DataFrame》 — 西加加先生'Blog&pic=http://ghost7890.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://ghost7890.github.io/2019/05/22/Pandas/&title=《Pandas中 Series、DataFrame》 — 西加加先生'Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://ghost7890.github.io/2019/05/22/Pandas/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Pandas中 Series、DataFrame》 — 西加加先生'Blog&url=http://ghost7890.github.io/2019/05/22/Pandas/&via=http://ghost7890.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://ghost7890.github.io/2019/05/22/Pandas/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/05/22/numpy/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Numpy笔记</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/05/21/image-split/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">验证码高效切片方法（Python）</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "3GQHOe6La6D1uDM55jwGO4ot-gzGzoHsz",
+            appKey: "UgaD9ez4RHchPDGCAA7JAzUb",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check" data-wechat="/img/wechat.png" data-alipay="/img/alipay.png">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>西加加先生 &copy; 2015 - 2019</span>
+            <span>
+                
+                <a href="http://www.miitbeian.gov.cn/" target="_blank">湘ICP备17011548号-1</a><br>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://ghost7890.github.io/2019/05/22/Pandas/&title=《Pandas中 Series、DataFrame》 — 西加加先生'Blog&pic=http://ghost7890.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://ghost7890.github.io/2019/05/22/Pandas/&title=《Pandas中 Series、DataFrame》 — 西加加先生'Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://ghost7890.github.io/2019/05/22/Pandas/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Pandas中 Series、DataFrame》 — 西加加先生'Blog&url=http://ghost7890.github.io/2019/05/22/Pandas/&via=http://ghost7890.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://ghost7890.github.io/2019/05/22/Pandas/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACKElEQVR42u3aQY7CMAwFUO5/aWY7EtPyfxLQNH1ZIVSCHwsTx3484vX8tV7fP3r9uo4+m7y/YGFgYFyW8TxdR8+c73CEb/dPYsPAwLgP4zzxjT1TBHHKjpIyBgYGxlCI+YHy/IiJgYGBsZaRVJdjhTEGBgZGkjqTr5/Z7Uu1OAYGxgUZ+a37919/pL+BgYFxKcazXMl1f56gx8rjP6LCwMDYmpEnuDyU9opt7NiHgYFxH0abOmeeyce/8mT9GPsHwMDAuBQjub6fqY/ba7WkkfCGh4GBsTUjv1xL0uiqA2LSFsXAwLgPI9liZjCiDStvamJgYOzNaMvRseJ2bLRiQS2OgYGxKaNNrO2QRPszRRd2GBgYWzOSUNpA2xTcNgmiTiwGBsZ2jLbUfEyssVZBHiEGBsbejPbqbaxMbRP01M+HgYGxEaO9OJspXJM0OjhsgYGBsTVjVZNybQpukzUGBsYdGDMjX23Qqy7gMDAw7slYlWTnf6bB78LAwNiU0Q6h5sVnPqKRF8aHT2JgYNyGkcPaw2LbhKiPjxgYGLdhLDhjBml0vs1ZzHFgYGBcnPEs19igxljJWiRxDAyMrRmf6AyOpeD24u/jDU4MDIx/xpgZyZoZOZ1JuPW/BwYGxhaM4gq+DC45LM7sj4GBgTFPSm7Gkm95EwMGBgZGcPjLmwpjO7w5kmJgYNyAkY87jIXV7ly3WjEwMLZmtIe88+3mByxaDAYGxtaMH6oDS6nbOId9AAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

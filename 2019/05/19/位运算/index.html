@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?53891daf9e0316e03eadf2da354a713d"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>位运算技巧总结（python版） | 西加加先生&#39;Blog | 努力诚可贵，坚持价更高</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Python,编程技巧">
+    <meta name="description" content="1.  不用临时变量交换两个数异或运算  两个相同的数异或为0 即n ^ n = 0； 任何数与0异或为它本身，即n ^ 0 = n。 支持交换律、结合律  123a = a ^ b	# （1）b = a ^ b	# （2）a = a ^ b	# （3） 解释如下： 把（1）中的 a 带入（2）中，则有 b = a ^ b = (a ^ b) ^ b = a ^ (b ^ b) = a ^ 0 =">
+<meta name="keywords" content="Python,编程技巧">
+<meta property="og:type" content="article">
+<meta property="og:title" content="位运算技巧总结（python版）">
+<meta property="og:url" content="http://ghost7890.github.io/2019/05/19/位运算/index.html">
+<meta property="og:site_name" content="西加加先生&#39;Blog">
+<meta property="og:description" content="1.  不用临时变量交换两个数异或运算  两个相同的数异或为0 即n ^ n = 0； 任何数与0异或为它本身，即n ^ 0 = n。 支持交换律、结合律  123a = a ^ b	# （1）b = a ^ b	# （2）a = a ^ b	# （3） 解释如下： 把（1）中的 a 带入（2）中，则有 b = a ^ b = (a ^ b) ^ b = a ^ (b ^ b) = a ^ 0 =">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-05-24T15:33:45.029Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="位运算技巧总结（python版）">
+<meta name="twitter:description" content="1.  不用临时变量交换两个数异或运算  两个相同的数异或为0 即n ^ n = 0； 任何数与0异或为它本身，即n ^ 0 = n。 支持交换律、结合律  123a = a ^ b	# （1）b = a ^ b	# （2）a = a ^ b	# （3） 解释如下： 把（1）中的 a 带入（2）中，则有 b = a ^ b = (a ^ b) ^ b = a ^ (b ^ b) = a ^ 0 =">
+    
+        <link rel="alternate" type="application/atom+xml" title="西加加先生&#39;Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.gif">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">西加加先生</h5>
+          <a href="mailto:466987329@qq.com" title="466987329@qq.com" class="mail">466987329@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ghost7890" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books">
+                <i class="icon icon-lg icon-book"></i>
+                我的读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies">
+                <i class="icon icon-lg icon-film"></i>
+                我的电影
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends-link">
+                <i class="icon icon-lg icon-link"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends-apply">
+                <i class="icon icon-lg icon-user-plus"></i>
+                友链申请
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">位运算技巧总结（python版）</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">位运算技巧总结（python版）</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-05-19T01:44:54.000Z" itemprop="datePublished" class="page-time">
+  2019-05-19
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-不用临时变量交换两个数"><span class="post-toc-number">1.</span> <span class="post-toc-text">1.  不用临时变量交换两个数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-判断一个数的奇偶性"><span class="post-toc-number">2.</span> <span class="post-toc-text">2. 判断一个数的奇偶性</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-乘2-除2"><span class="post-toc-number">3.</span> <span class="post-toc-text">3. 乘2/除2</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-取两个数中的最大值"><span class="post-toc-number">4.</span> <span class="post-toc-text">4.  取两个数中的最大值</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-取两个数中的最小值"><span class="post-toc-number">5.</span> <span class="post-toc-text">5.  取两个数中的最小值</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-取绝对值"><span class="post-toc-number">6.</span> <span class="post-toc-text">6.  取绝对值</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-找出只出现一次的数字"><span class="post-toc-number">7.</span> <span class="post-toc-text">7.  找出只出现一次的数字</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-位运算" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">位运算技巧总结（python版）</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-05-19 09:44:54" datetime="2019-05-19T01:44:54.000Z" itemprop="datePublished">2019-05-19</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h3 id="1-不用临时变量交换两个数"><a href="#1-不用临时变量交换两个数" class="headerlink" title="1.  不用临时变量交换两个数"></a>1.  不用临时变量交换两个数</h3><p><strong>异或运算</strong></p>
+<ul>
+<li>两个相同的数<strong>异或</strong>为0 即n ^ n = 0；</li>
+<li>任何数与0异或为它本身，即n ^ 0 = n。</li>
+<li>支持<strong>交换律、结合律</strong></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = a ^ b	<span class="comment"># （1）</span></span><br><span class="line">b = a ^ b	<span class="comment"># （2）</span></span><br><span class="line">a = a ^ b	<span class="comment"># （3）</span></span><br></pre></td></tr></table></figure>
+<p>解释如下：</p>
+<p>把（1）中的 <code>a</code> 带入（2）中，则有</p>
+<p><code>b = a ^ b = (a ^ b) ^ b = a ^ (b ^ b) = a ^ 0 = a</code></p>
+<p>同理将（1）、（2）的结果带入（3）中，则有</p>
+<p><code>a = a ^ b = (a ^ b) ^ a = (a ^ a) ^ b = 0 ^ b = b</code> </p>
+<h3 id="2-判断一个数的奇偶性"><a href="#2-判断一个数的奇偶性" class="headerlink" title="2. 判断一个数的奇偶性"></a>2. 判断一个数的奇偶性</h3><p><strong>与运算</strong></p>
+<ul>
+<li>相同为0，不同为1</li>
+</ul>
+<p>判断一个数n是偶数还是奇数，只需要判断n的二进制最后一位是1还是0。是0表示是偶数，是1表示是奇数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if n &amp; 1 == 1: # n为奇数</span><br></pre></td></tr></table></figure>
+<h3 id="3-乘2-除2"><a href="#3-乘2-除2" class="headerlink" title="3. 乘2/除2"></a>3. 乘2/除2</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">n &lt;&lt; <span class="number">1</span>	<span class="comment"># 左移一位，表示乘2</span></span><br><span class="line">n &gt;&gt; <span class="number">1</span> 	<span class="comment"># 右移一位，表示除2</span></span><br></pre></td></tr></table></figure>
+<h3 id="4-取两个数中的最大值"><a href="#4-取两个数中的最大值" class="headerlink" title="4.  取两个数中的最大值"></a>4.  取两个数中的最大值</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">max</span><span class="params">(a, b)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> b &amp; ((a-b) &gt;&gt; <span class="number">31</span>) | a &amp; (~(a-b) &gt;&gt; <span class="number">31</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>解释如下：</strong></p>
+<ol>
+<li><code>b &amp; ((a-b) &gt;&gt; 31)</code>其中<code>(a-b) &gt;&gt; 31</code> 表示取<code>(a-b)</code>的符号位。</li>
+</ol>
+<p>当<code>b &lt;= a</code>时，符号位为0，<code>b &amp; 0 = 0</code></p>
+<p>当<code>b &gt; a</code>时，符号位为-1。<code>b &amp; -1 = b</code></p>
+<p>即当<code>b &gt; a</code>时结果为b，否则结果为0。</p>
+<ol start="2">
+<li><code>a &amp; (~(a-b) &gt;&gt; 31)</code>其中<code>(~(a-b) &gt;&gt; 31)</code> 表示对<code>(a-b)</code>的符号位<strong>取反</strong>。</li>
+</ol>
+<p>当<code>a &gt;= b</code>时，取反结果为-1，<code>a &amp; -1 = a</code></p>
+<p>当<code>a &lt; b</code>时，取反结果为0，<code>a &amp; 0 = 0</code></p>
+<p>即当<code>a &gt;= b</code>时结果为a，否则结果为0。</p>
+<ol start="3">
+<li>最后对前两步结果进行<code>或</code>运算，因为前两步的结果中一定有一个为0，另一个非0（即最大值）。所以经过<code>或</code>运算后结果非0（即为最大值）。</li>
+</ol>
+<h3 id="5-取两个数中的最小值"><a href="#5-取两个数中的最小值" class="headerlink" title="5.  取两个数中的最小值"></a>5.  取两个数中的最小值</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">max</span><span class="params">(a, b)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> a &amp; ((a-b) &gt;&gt; <span class="number">31</span>) | b &amp; (~(a-b) &gt;&gt; <span class="number">31</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="6-取绝对值"><a href="#6-取绝对值" class="headerlink" title="6.  取绝对值"></a>6.  取绝对值</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">abs</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> (n ^ (n &gt;&gt; <span class="number">31</span>) - (n &gt;&gt; <span class="number">31</span>))</span><br></pre></td></tr></table></figure>
+<h3 id="7-找出只出现一次的数字"><a href="#7-找出只出现一次的数字" class="headerlink" title="7.  找出只出现一次的数字"></a>7.  找出只出现一次的数字</h3><blockquote>
+<p>在一组整型数据中，只有一个数字出现了一次，其余数字都出现了两次。找出那个只出现一次的数字。</p>
+</blockquote>
+<p>由异或运算的特性可知：<strong>两个相同数字进行异或结果为0；一个数和0异或结果为它本身；且异或支持交换律和结合律</strong>。所以只需要对全部的数字进行异或运算，结果就是只出现一次的数字。如<code>l = [1,2,1,0,0]</code></p>
+<p><code>1 ^ 2 ^ 1 ^ 0 ^ 0 = (1 ^ 1) ^ (0 ^ 0) ^ 2 = 0 ^ 0 ^ 2 = 2</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_only</span><span class="params">(l)</span>:</span></span><br><span class="line">    tmp = l[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, len(l)<span class="number">-1</span>):</span><br><span class="line">        tmp ^= l[i]</span><br><span class="line">    <span class="keyword">return</span> tmp</span><br><span class="line"></span><br><span class="line">l = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">4</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-05-24T15:33:45.029Z" itemprop="dateUpdated">2019-05-24 23:33:45</time>
+</span><br>
+
+
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2019/05/19/位运算/" target="_blank" rel="external">http://ghost7890.github.io/2019/05/19/位运算/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://ghost7890.github.io">
+            <img src="/img/avatar.jpg" alt="西加加先生">
+            西加加先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/编程技巧/">编程技巧</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://ghost7890.github.io/2019/05/19/位运算/&title=《位运算技巧总结（python版）》 — 西加加先生'Blog&pic=http://ghost7890.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://ghost7890.github.io/2019/05/19/位运算/&title=《位运算技巧总结（python版）》 — 西加加先生'Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://ghost7890.github.io/2019/05/19/位运算/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《位运算技巧总结（python版）》 — 西加加先生'Blog&url=http://ghost7890.github.io/2019/05/19/位运算/&via=http://ghost7890.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://ghost7890.github.io/2019/05/19/位运算/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/05/21/image-split/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">验证码高效切片方法（Python）</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/05/17/git使用二/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Git使用（二）</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "3GQHOe6La6D1uDM55jwGO4ot-gzGzoHsz",
+            appKey: "UgaD9ez4RHchPDGCAA7JAzUb",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check" data-wechat="/img/wechat.png" data-alipay="/img/alipay.png">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>西加加先生 &copy; 2015 - 2019</span>
+            <span>
+                
+                <a href="http://www.miitbeian.gov.cn/" target="_blank">湘ICP备17011548号-1</a><br>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://ghost7890.github.io/2019/05/19/位运算/&title=《位运算技巧总结（python版）》 — 西加加先生'Blog&pic=http://ghost7890.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://ghost7890.github.io/2019/05/19/位运算/&title=《位运算技巧总结（python版）》 — 西加加先生'Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://ghost7890.github.io/2019/05/19/位运算/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《位运算技巧总结（python版）》 — 西加加先生'Blog&url=http://ghost7890.github.io/2019/05/19/位运算/&via=http://ghost7890.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://ghost7890.github.io/2019/05/19/位运算/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACNklEQVR42u3aS27DMAxFUe9/0y7QUYuk8n2kU8DU1ShIglhHA0b8HAde5/ci7/x8//X16yLPum3JkCHjsYxzudZbJItsjjz34ghkyJCxAWMd+PjPrQNxCg6CsgwZMmSUvkOCLL9cypAhQwbfIn/MOlldh3UZMmTIqCWxvByWJsD9K6kMGTJmM9LGwH++/mB/Q4YMGQ9hnOHqP540L+NdyZAhYzSDtA/vSj776e7FQciQIWMo467mJRkFIwE3bTn8+t+QIUPGUEYtXBJkeu0jv3wRoGXIkDGUUWtGfm44o1g9kyFDxgaM2rAFv7rVDog0OIMangwZMh7LIMUsPgyRvsN/M20wyJAhYx6Dh7lakK21DdKkV4YMGfswaq3K2tbT8QtUNZQhQ8Y4Rq0ZWUtZCa/4qQwZMkYzOsWytGDHjyM9OBkyZOzAqDUXOxe7Tlnt4ohlyJAxlMFLWqQExgcm0vGvoKchQ4aMQQxuDU6lMVSRtije5OIyZMgYx0iHwEjr8ba5D3y5lCFDxmxG2oBMhzBqjUx+9jJkyNiNkcZpsrm02VBLpGXIkDGbQYbAgsCHt0Iul2RMDX1JhgwZD2ec4eqPRBAeP4iLqqEMGTJGMGphLm0JpGMTNaQMGTJmM9KRiFqovWt+7U+kDBkyNmDUEtq0bdD/B5AhQ4YMfrFbJ5M8UHbaEjJkyJCRPqDTPKgNZMiQIWM3RprE8u7h0V4oxZUhQ8ZoRr8xULzM4dJbrZAnQ4aMEYwvcqwzCBuFio4AAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>
