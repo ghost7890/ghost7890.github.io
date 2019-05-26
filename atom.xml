@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mrleecn.cn/"/>
-  <updated>2019-05-24T15:33:45.029Z</updated>
+  <updated>2019-05-25T16:39:01.808Z</updated>
   <id>https://mrleecn.cn/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>【软技能】从非同凡响开始（一）</title>
+    <link href="https://mrleecn.cn/2019/05/26/softskills1/"/>
+    <id>https://mrleecn.cn/2019/05/26/softskills1/</id>
+    <published>2019-05-25T16:18:10.000Z</published>
+    <updated>2019-05-25T16:39:01.808Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>《软技能 代码之外的生存指南》读书笔记——职业篇（一）</p></blockquote><h1 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h1><p>本文是<strong>《软技能 代码之外的生存指南》</strong>读书笔记的<strong>第一篇</strong>，通过记录读书笔记的方式，来复盘书中的一些自己有所感悟的内容。</p><p>本文笔记范围为书中的<strong>第2、3、4章</strong>。</p><h1 id="从非同凡响开始：绝不要做他人都在做的事"><a href="#从非同凡响开始：绝不要做他人都在做的事" class="headerlink" title="从非同凡响开始：绝不要做他人都在做的事"></a>从非同凡响开始：绝不要做他人都在做的事</h1><h1 id="思考未来：你的目标是什么"><a href="#思考未来：你的目标是什么" class="headerlink" title="思考未来：你的目标是什么"></a>思考未来：你的目标是什么</h1><h1 id="人际交往能力：远比你想象的重要"><a href="#人际交往能力：远比你想象的重要" class="headerlink" title="人际交往能力：远比你想象的重要"></a>人际交往能力：远比你想象的重要</h1>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;《软技能 代码之外的生存指南》读书笔记——职业篇（一）&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;说明&quot;&gt;&lt;a href=&quot;#说明&quot; class=&quot;headerlink&quot; title=&quot;说明&quot;&gt;&lt;/a&gt;说明&lt;/h1&gt;&lt;p&gt;本文是&lt;stro
+      
+    
+    </summary>
+    
+    
+      <category term="软技能" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E6%8A%80%E8%83%BD/"/>
+    
+      <category term="读书笔记" scheme="https://mrleecn.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
   
   <entry>
     <title>字符带旋转的验证码识别思路（Python）</title>
@@ -267,9 +295,9 @@
     </summary>
     
     
-      <category term="读书笔记" scheme="https://mrleecn.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
-    
       <category term="软技能" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E6%8A%80%E8%83%BD/"/>
+    
+      <category term="读书笔记" scheme="https://mrleecn.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
@@ -294,9 +322,9 @@
     </summary>
     
     
-      <category term="读书笔记" scheme="https://mrleecn.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
-    
       <category term="软技能" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E6%8A%80%E8%83%BD/"/>
+    
+      <category term="读书笔记" scheme="https://mrleecn.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
