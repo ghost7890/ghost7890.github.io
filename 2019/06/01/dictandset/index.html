@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'true', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+<!-- End Google Analytics -->
+
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?53891daf9e0316e03eadf2da354a713d"></script>
+<!-- End Baidu Tongji -->
+
+
+
+<!-- Baidu Push -->
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<!-- End Baidu Push -->
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="true">
+    
+    
+    
+    
+    <title>dictandset | 西加加先生&#39;Blog | 努力诚可贵，坚持价更高</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Python,极客时间">
+    <meta name="description" content="字典与集合 本文为极客时间 Python核心技术与实战 专栏的学习笔记  字典在 Python3.7+，字典被确定为有序（注意：在 3.6 中，字典有序是一个 implementation detail，在 3.7 才正式成为语言特性，因此 3.6 中无法 100% 确保其有序性），而 3.6 之前是无序的，其长度大小可变，元素可以任意地删减和改变。 相比列表和元组，字典性能更优，可以在常数时间复">
+<meta name="keywords" content="Python,极客时间">
+<meta property="og:type" content="article">
+<meta property="og:title" content="dictandset">
+<meta property="og:url" content="https://mrleecn.cn/2019/06/01/dictandset/index.html">
+<meta property="og:site_name" content="西加加先生&#39;Blog">
+<meta property="og:description" content="字典与集合 本文为极客时间 Python核心技术与实战 专栏的学习笔记  字典在 Python3.7+，字典被确定为有序（注意：在 3.6 中，字典有序是一个 implementation detail，在 3.7 才正式成为语言特性，因此 3.6 中无法 100% 确保其有序性），而 3.6 之前是无序的，其长度大小可变，元素可以任意地删减和改变。 相比列表和元组，字典性能更优，可以在常数时间复">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-01T01:59:03.240Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="dictandset">
+<meta name="twitter:description" content="字典与集合 本文为极客时间 Python核心技术与实战 专栏的学习笔记  字典在 Python3.7+，字典被确定为有序（注意：在 3.6 中，字典有序是一个 implementation detail，在 3.7 才正式成为语言特性，因此 3.6 中无法 100% 确保其有序性），而 3.6 之前是无序的，其长度大小可变，元素可以任意地删减和改变。 相比列表和元组，字典性能更优，可以在常数时间复">
+    
+        <link rel="alternate" type="application/atom+xml" title="西加加先生&#39;Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.gif">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-140803241-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-140803241-1');
+</script>
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">西加加先生</h5>
+          <a href="mailto:466987329@qq.com" title="466987329@qq.com" class="mail">466987329@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ghost7890" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books">
+                <i class="icon icon-lg icon-book"></i>
+                我的读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies">
+                <i class="icon icon-lg icon-film"></i>
+                我的电影
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends-link">
+                <i class="icon icon-lg icon-link"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends-apply">
+                <i class="icon icon-lg icon-user-plus"></i>
+                友链申请
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">dictandset</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">dictandset</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-06-01T01:57:55.000Z" itemprop="datePublished" class="page-time">
+  2019-06-01
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#字典与集合"><span class="post-toc-number">1.</span> <span class="post-toc-text">字典与集合</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#字典"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">字典</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#常用创建方法"><span class="post-toc-number">1.1.1.</span> <span class="post-toc-text">常用创建方法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#索引"><span class="post-toc-number">1.1.2.</span> <span class="post-toc-text">索引</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#添加"><span class="post-toc-number">1.1.3.</span> <span class="post-toc-text">添加</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#删除"><span class="post-toc-number">1.1.4.</span> <span class="post-toc-text">删除</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#排序"><span class="post-toc-number">1.1.5.</span> <span class="post-toc-text">排序</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#性能分析"><span class="post-toc-number">1.1.6.</span> <span class="post-toc-text">性能分析</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#集合"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">集合</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#常用创建方法-1"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">常用创建方法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#索引-1"><span class="post-toc-number">1.2.2.</span> <span class="post-toc-text">索引</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#添加-1"><span class="post-toc-number">1.2.3.</span> <span class="post-toc-text">添加</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#删除-1"><span class="post-toc-number">1.2.4.</span> <span class="post-toc-text">删除</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#排序-1"><span class="post-toc-number">1.2.5.</span> <span class="post-toc-text">排序</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#集合运算"><span class="post-toc-number">1.2.6.</span> <span class="post-toc-text">集合运算</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#性能分析-1"><span class="post-toc-number">1.2.7.</span> <span class="post-toc-text">性能分析</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#查找效率"><span class="post-toc-number">1.2.7.1.</span> <span class="post-toc-text">查找效率</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#交集、并集、差集运算"><span class="post-toc-number">1.2.7.2.</span> <span class="post-toc-text">交集、并集、差集运算</span></a></li></ol></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-dictandset" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">dictandset</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-06-01 09:57:55" datetime="2019-06-01T01:57:55.000Z" itemprop="datePublished">2019-06-01</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="字典与集合"><a href="#字典与集合" class="headerlink" title="字典与集合"></a>字典与集合</h1><blockquote>
+<p>本文为极客时间 Python核心技术与实战 专栏的学习笔记</p>
+</blockquote>
+<h2 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h2><p>在 Python3.7+，字典被确定为有序（注意：在 3.6 中，字典有序是一个 implementation detail，在 3.7 才正式成为语言特性，因此 3.6 中无法 100% 确保其有序性），而 3.6 之前是无序的，其长度大小可变，元素可以任意地删减和改变。</p>
+<p>相比列表和元组，字典性能更优，可以在常数时间复杂度<strong>O(1)</strong>内完成查找、添加、删除操作。</p>
+<h3 id="常用创建方法"><a href="#常用创建方法" class="headerlink" title="常用创建方法"></a>常用创建方法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>d1 = &#123;<span class="string">'name'</span>: <span class="string">'Json'</span>, <span class="string">'age'</span>: <span class="number">20</span>, <span class="string">'gender'</span>: <span class="string">'male'</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d2 = dict( &#123;<span class="string">'name'</span>: <span class="string">'Json'</span>, <span class="string">'age'</span>: <span class="number">20</span>, <span class="string">'gender'</span>: <span class="string">'male'</span>&#125;)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d3 = dict([(<span class="string">'name'</span>, <span class="string">'Json'</span>),(<span class="string">'age'</span>, <span class="number">20</span>),(<span class="string">'gender'</span>,<span class="string">'male'</span>)])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d4 = dict(name=<span class="string">'Json'</span>, age=<span class="number">20</span>, gender=<span class="string">'male'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d1 == d2 == d3 == d4</span><br><span class="line"><span class="literal">True</span></span><br></pre></td></tr></table></figure>
+<h3 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h3><p>使用<code>dict[key]</code>格式索引，如果不存在，会抛出<code>KeyError</code>异常。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>d1[<span class="string">'name'</span>]</span><br><span class="line"><span class="string">'Json'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d1[<span class="string">'location'</span>]</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">KeyError: <span class="string">'location'</span></span><br></pre></td></tr></table></figure>
+<p>使用<code>get(key, default)</code>方法不会抛出异常，此外当该键不存在时，可以<strong>指定返回的默认值</strong>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>d1.get(<span class="string">'name'</span>)</span><br><span class="line"><span class="string">'Json'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d1.get(<span class="string">'location'</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d1.get(<span class="string">'location'</span>, <span class="literal">None</span>)</span><br><span class="line"><span class="literal">None</span></span><br></pre></td></tr></table></figure>
+<p>判断某元素是否是字典的键：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">'name'</span> <span class="keyword">in</span> d1		<span class="comment"># 同d1.keys()等价</span></span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">'name'</span> <span class="keyword">in</span> d1.keys()		</span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">'Json'</span> <span class="keyword">in</span> d1		</span><br><span class="line"><span class="literal">False</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">'Json'</span> <span class="keyword">in</span> d1.values()</span><br><span class="line"><span class="literal">True</span></span><br></pre></td></tr></table></figure>
+<h3 id="添加"><a href="#添加" class="headerlink" title="添加"></a>添加</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>d = &#123;<span class="string">'name'</span>: <span class="string">'jason'</span>, <span class="string">'age'</span>: <span class="number">20</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d[<span class="string">'gender'</span>] = <span class="string">'male'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d</span><br><span class="line">&#123;<span class="string">'name'</span>: <span class="string">'jason'</span>, <span class="string">'age'</span>: <span class="number">20</span>, <span class="string">'gender'</span>: <span class="string">'male'</span>&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>d.pop(<span class="string">'gender'</span>)</span><br><span class="line"><span class="string">'male'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d</span><br><span class="line">&#123;<span class="string">'name'</span>: <span class="string">'jason'</span>, <span class="string">'age'</span>: <span class="number">20</span>&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h3><p><strong>根据键排序</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>d = &#123;<span class="string">'b'</span>: <span class="number">1</span>, <span class="string">'v'</span>: <span class="number">20</span>, <span class="string">'a'</span>: <span class="number">17</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d_sorted_by_key = sorted(d.items(), key=<span class="keyword">lambda</span> x: x[<span class="number">0</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d_sorted_by_key</span><br><span class="line">[(<span class="string">'a'</span>, <span class="number">17</span>), (<span class="string">'b'</span>, <span class="number">1</span>), (<span class="string">'v'</span>, <span class="number">20</span>)]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d</span><br><span class="line">&#123;<span class="string">'b'</span>: <span class="number">1</span>, <span class="string">'v'</span>: <span class="number">20</span>, <span class="string">'a'</span>: <span class="number">17</span>&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>根据值排序</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>d_sorted_by_value = sorted(d.items(), key = <span class="keyword">lambda</span> x: x[<span class="number">1</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d_sorted_by_value</span><br><span class="line">[(<span class="string">'b'</span>, <span class="number">1</span>), (<span class="string">'a'</span>, <span class="number">17</span>), (<span class="string">'v'</span>, <span class="number">20</span>)]</span><br></pre></td></tr></table></figure>
+<h3 id="性能分析"><a href="#性能分析" class="headerlink" title="性能分析"></a>性能分析</h3><p>举例：有1000万件产品，产品信息包括：产品ID、价格。现在需求是：给定某件产品的ID，找出其价格：</p>
+<p><strong>1.用列表来存储数据</strong></p>
+<p>存储结构如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">products = [</span><br><span class="line">    (<span class="number">143121312</span>, <span class="number">100</span>), </span><br><span class="line">    (<span class="number">432314553</span>, <span class="number">30</span>),</span><br><span class="line">    (<span class="number">32421912367</span>, <span class="number">150</span>) </span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>那么查找需要遍历整个列表，时间复杂度为<strong>O(n)</strong>。即使先对列表排序，然后二分查找，也会需要<strong>O(logn)</strong>的时间复杂度，并且排序还需要<strong>O(nlogn)</strong>的时间。</p>
+<p><strong>2. 用字典存储数据</strong></p>
+<p>存储结构如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">products = &#123;</span><br><span class="line">	<span class="string">'143121312'</span>: <span class="number">100</span>,</span><br><span class="line">	<span class="string">'432314553'</span>: <span class="number">30</span>,</span><br><span class="line">	<span class="string">'32421912367'</span>: <span class="number">150</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因为字典内部结构是一张哈希表，所以可以在<strong>O(1)</strong>的时间复杂度内完成查找。</p>
+<p><strong>3. 效率对比</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> numpy</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_product_price_list</span><span class="params">(products, product_id)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> id, price <span class="keyword">in</span> products:</span><br><span class="line">        <span class="keyword">if</span> id == product_id:</span><br><span class="line">            <span class="keyword">return</span> price</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_product_price_dict</span><span class="params">(products, product_id)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> id <span class="keyword">in</span> products.keys():</span><br><span class="line">        <span class="keyword">if</span> id == product_id:</span><br><span class="line">            <span class="keyword">return</span> products_dict[id]</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">r = numpy.random.randint(<span class="number">0</span>,<span class="number">10000000</span>,<span class="number">10000000</span>)       <span class="comment"># 生成10000000个随机数</span></span><br><span class="line">id = [str(x) <span class="keyword">for</span> x <span class="keyword">in</span> r]</span><br><span class="line">price = [x <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">20000000</span>, <span class="number">30000000</span>)]</span><br><span class="line"></span><br><span class="line">products_list = list(zip(id, price))</span><br><span class="line">products_dict = dict(zip(id, price))</span><br><span class="line"><span class="comment"># 添加新元素</span></span><br><span class="line">products_list.append((<span class="string">'111111111'</span>, <span class="number">300</span>))	<span class="comment"># 追加到列表末尾</span></span><br><span class="line">products_dict[<span class="string">'111111111'</span>] = <span class="number">300</span></span><br><span class="line"></span><br><span class="line">start_using_dict = time.perf_counter()</span><br><span class="line">find_product_price_dict(products_dict, <span class="string">'111111111'</span>)</span><br><span class="line">end_using_dict = time.perf_counter()</span><br><span class="line">print(<span class="string">'time elapse using dict: &#123;&#125;'</span>.format(end_using_dict - start_using_dict))</span><br><span class="line"></span><br><span class="line">start_using_list = time.perf_counter()</span><br><span class="line">find_product_price_list(products_dict, <span class="string">'111111111'</span>)</span><br><span class="line">end_using_list = time.perf_counter()</span><br><span class="line"></span><br><span class="line">print(<span class="string">'time elapse using list: &#123;&#125;'</span>.format(end_using_list - start_using_list))</span><br><span class="line"></span><br><span class="line"><span class="comment"># ===========运行结果============</span></span><br><span class="line">time elapse using dict: <span class="number">0.1983588489999999</span></span><br><span class="line">time elapse using list: <span class="number">0.41368435999999953</span></span><br></pre></td></tr></table></figure>
+<h2 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h2><p>而集合和字典基本相同，唯一的区别，就是集合没有键和值的配对，是一系列无序的、唯一的元素组合。</p>
+<h3 id="常用创建方法-1"><a href="#常用创建方法-1" class="headerlink" title="常用创建方法"></a>常用创建方法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>s1 = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>s2 = set([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>s1 == s2</span><br><span class="line"><span class="literal">True</span></span><br></pre></td></tr></table></figure>
+<h3 id="索引-1"><a href="#索引-1" class="headerlink" title="索引"></a>索引</h3><p><strong>集合并不支持索引操作，因为集合本质上是一个哈希表，和列表不一样</strong>。</p>
+<p>进行如下操作，Python会抛出<code>TypeError</code>异常。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>s1[<span class="number">0</span>]</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">TypeError: <span class="string">'set'</span> object <span class="keyword">is</span> <span class="keyword">not</span> subscriptable</span><br></pre></td></tr></table></figure>
+<p>只能判断某元素是否在集合中：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">1</span> <span class="keyword">in</span> s1</span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">10</span> <span class="keyword">in</span> s1</span><br><span class="line"><span class="literal">False</span></span><br></pre></td></tr></table></figure>
+<h3 id="添加-1"><a href="#添加-1" class="headerlink" title="添加"></a>添加</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>s = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>s.add(<span class="number">4</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>s</span><br><span class="line">&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="删除-1"><a href="#删除-1" class="headerlink" title="删除"></a>删除</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>s.remove(<span class="number">4</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>s</span><br><span class="line">&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>注意：由于集合是无序的，所以<strong>无法确定<code>pop()</code>方法会删除哪个元素</strong>，所以谨慎使用。一般删除操作采用<code>remove()</code>即可。</p>
+<h3 id="排序-1"><a href="#排序-1" class="headerlink" title="排序"></a>排序</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>s  = &#123;<span class="number">2</span>,<span class="number">4</span>,<span class="number">546</span>,<span class="number">34</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>sorted(s)</span><br><span class="line">[<span class="number">2</span>, <span class="number">4</span>, <span class="number">34</span>, <span class="number">546</span>]</span><br></pre></td></tr></table></figure>
+<h3 id="集合运算"><a href="#集合运算" class="headerlink" title="集合运算"></a>集合运算</h3><p>常用集合运算</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><strong>语法</strong></th>
+<th style="text-align:left"><strong>操作</strong></th>
+<th style="text-align:left"><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">set(list1) \</td>
+<td style="text-align:left">set(list2)</td>
+<td style="text-align:left">union</td>
+<td>包含 list1 和 list2 所有数据的新集合</td>
+</tr>
+<tr>
+<td style="text-align:left">set(list1) &amp; set(list2)</td>
+<td style="text-align:left">intersection</td>
+<td style="text-align:left">包含 list1 和 list2 中共同元素的新集合</td>
+</tr>
+<tr>
+<td style="text-align:left">set(list1) - set(list2)</td>
+<td style="text-align:left">difference</td>
+<td style="text-align:left">在 list1 中出现但不在 list2 中出现的元素的集合</td>
+</tr>
+</tbody>
+</table>
+<h3 id="性能分析-1"><a href="#性能分析-1" class="headerlink" title="性能分析"></a>性能分析</h3><p>还是以上面那个例子为例，现在要求计算出有多少种价格。为了节省时间，我们把产品数量降低到10万。</p>
+<h4 id="查找效率"><a href="#查找效率" class="headerlink" title="查找效率"></a>查找效率</h4><p><strong>1. 用列表存储数据</strong></p>
+<p>需要两层循环。那么，在最差情况下，需要 <strong>O(n^2)</strong> 的时间复杂度。</p>
+<p><strong>2. 用集合存储数据</strong></p>
+<p>由于集合是高度优化的哈希表，里面元素不能重复，并且其添加和查找操作只需 O(1) 的复杂度，那么，总的时间复杂度就只有 <strong>O(n)</strong>。</p>
+<p><strong>3. 效率对比</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> numpy</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_unique_price_set</span><span class="params">(products)</span>:</span></span><br><span class="line">    unique_price_set = set()</span><br><span class="line">    <span class="keyword">for</span> _, price <span class="keyword">in</span> products:</span><br><span class="line">        unique_price_set.add(price)</span><br><span class="line">    <span class="keyword">return</span> len(unique_price_set)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_unique_price_list</span><span class="params">(products)</span>:</span></span><br><span class="line">    unique_price_list = []</span><br><span class="line">    <span class="keyword">for</span> _, price <span class="keyword">in</span> products: <span class="comment"># A</span></span><br><span class="line">        <span class="keyword">if</span> price <span class="keyword">not</span> <span class="keyword">in</span> unique_price_list: <span class="comment">#B</span></span><br><span class="line">            unique_price_list.append(price)</span><br><span class="line">    <span class="keyword">return</span> len(unique_price_list)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">r = numpy.random.randint(<span class="number">0</span>,<span class="number">1000000</span>,<span class="number">100000</span>)       <span class="comment"># 生成100000个随机数</span></span><br><span class="line">id = [str(x) <span class="keyword">for</span> x <span class="keyword">in</span> r]</span><br><span class="line">price = [x <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">200000</span>, <span class="number">300000</span>)]</span><br><span class="line"></span><br><span class="line">products = list(zip(id, price))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">start_using_set = time.perf_counter()</span><br><span class="line">find_unique_price_set(products)</span><br><span class="line">end_using_set = time.perf_counter()</span><br><span class="line">print(<span class="string">'time elapse using set: &#123;&#125;'</span>.format(end_using_set - start_using_set))</span><br><span class="line"></span><br><span class="line">start_using_list = time.perf_counter()</span><br><span class="line">find_unique_price_list(products)</span><br><span class="line">end_using_list = time.perf_counter()</span><br><span class="line">print(<span class="string">'time elapse using list: &#123;&#125;'</span>.format(end_using_list - start_using_list))</span><br><span class="line"></span><br><span class="line"><span class="comment"># ===========运行结果============</span></span><br><span class="line">time elapse using set: <span class="number">0.00985934799999999</span></span><br><span class="line">time elapse using list: <span class="number">65.528253501</span></span><br></pre></td></tr></table></figure>
+<p>可以看出，仅10万数据，差距就已经很明显了。</p>
+<h4 id="交集、并集、差集运算"><a href="#交集、并集、差集运算" class="headerlink" title="交集、并集、差集运算"></a>交集、并集、差集运算</h4><p>以求交集为例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">list_a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">13</span>, <span class="number">34</span>, <span class="number">53</span>, <span class="number">42</span>, <span class="number">44</span>]</span><br><span class="line">list_b = [<span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">9</span>, <span class="number">23</span>]</span><br><span class="line"></span><br><span class="line">intersection = []</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列表做交集</span></span><br><span class="line">start_using_list = time.perf_counter()</span><br><span class="line"><span class="keyword">for</span> a <span class="keyword">in</span> list_a:</span><br><span class="line">    <span class="keyword">for</span> b <span class="keyword">in</span> list_b:</span><br><span class="line">        <span class="keyword">if</span> a == b:</span><br><span class="line">            intersection.append(a)</span><br><span class="line">end_using_list = time.perf_counter()</span><br><span class="line"></span><br><span class="line">print(intersection)</span><br><span class="line">print(<span class="string">'time: &#123;&#125;'</span>.format(end_using_list - start_using_list))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 集合做交集</span></span><br><span class="line">start_using_list = time.perf_counter()</span><br><span class="line">intersection = list(set(list_a) &amp; set(list_b))</span><br><span class="line">end_using_list = time.perf_counter()</span><br><span class="line"></span><br><span class="line">print(intersection)</span><br><span class="line">print(<span class="string">'time: &#123;&#125;'</span>.format(end_using_list - start_using_list))</span><br><span class="line"></span><br><span class="line"><span class="comment"># ===========运行结果============</span></span><br><span class="line">[<span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">9</span>]</span><br><span class="line">time: <span class="number">9.622000000000797e-06</span></span><br><span class="line">[<span class="number">9</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>]</span><br><span class="line">time: <span class="number">4.169000000001782e-06</span></span><br></pre></td></tr></table></figure>
+<p>因为篇幅有限。字典和集合的工作原理，请看下篇博客。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-06-01T01:59:03.240Z" itemprop="dateUpdated">2019-06-01 09:59:03</time>
+</span><br>
+
+
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2019/06/01/dictandset/" target="_blank" rel="external">https://mrleecn.cn/2019/06/01/dictandset/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://mrleecn.cn">
+            <img src="/img/avatar.jpg" alt="西加加先生">
+            西加加先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/极客时间/">极客时间</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://mrleecn.cn/2019/06/01/dictandset/&title=《dictandset》 — 西加加先生'Blog&pic=https://mrleecn.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://mrleecn.cn/2019/06/01/dictandset/&title=《dictandset》 — 西加加先生'Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://mrleecn.cn/2019/06/01/dictandset/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《dictandset》 — 西加加先生'Blog&url=https://mrleecn.cn/2019/06/01/dictandset/&via=https://mrleecn.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://mrleecn.cn/2019/06/01/dictandset/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/05/30/listandtuple/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">对Python中列表及元组运行机制的理解</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "3GQHOe6La6D1uDM55jwGO4ot-gzGzoHsz",
+            appKey: "UgaD9ez4RHchPDGCAA7JAzUb",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check" data-wechat="/img/wechat.png" data-alipay="/img/alipay.png">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>西加加先生 &copy; 2015 - 2019</span>
+            <span>
+                
+                <a href="http://www.miitbeian.gov.cn/" target="_blank">湘ICP备17011548号-1</a><br>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://mrleecn.cn/2019/06/01/dictandset/&title=《dictandset》 — 西加加先生'Blog&pic=https://mrleecn.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://mrleecn.cn/2019/06/01/dictandset/&title=《dictandset》 — 西加加先生'Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://mrleecn.cn/2019/06/01/dictandset/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《dictandset》 — 西加加先生'Blog&url=https://mrleecn.cn/2019/06/01/dictandset/&via=https://mrleecn.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://mrleecn.cn/2019/06/01/dictandset/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABx0lEQVR42u3aOW7DMBAFUN//0krrIqL+DJcIwWNl2DL5qIKYhZ9PPK6vMf717snvb8azLRi4uLjT3Gs47p65m2e8yfHnZNu4uLgnuePlxwfTeEv560heAS4u7ju5+aGWBDq4uLj/iZscXnkqhYuL+07uTAhSfbIXBuHi4p7k5lXKfZ+31HdxcXFb3Ks4qstfSwcuLu4Zbn6gjMsc1ebK1Lq4uLjHucklid7B1yuaPFRxcHFxN3CroUy1dJKXP6ICCi4u7hFub9JC26N4USMKhnBxcf+Im/y5V/qcOdRwcXHPcHuXKvJQZkvyg4uLe4SbQxP0jpLrL7kaLi7uZm41RUmmrqY30Yq4uLhHuHkIkh9eazdWCHRwcXGXcmcSmzwAqgZDD0/i4uJu5lavUMyUSnvzR5cwcHFxN3B7hc5e+jTVqsHFxT3OzQORXtO02ogt/IyLi7uIexVHufkRhy/RxnBxcY9wq4dLdYG8lZJvHhcX9ww3P7x6Ldi8oRK9Glxc3IPc/KBZ1YLdmKvh4uK+jNtLlgqNGVxc3Bdzq6HMTO61IMTBxcVtcXvXI/Lma/XqxkOTFRcXdzN3pvHZu3LRa8Pg4uIe4f4AIOHiMZ2KjmYAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>
