@@ -175,9 +175,9 @@
     
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
-      <category term="数据处理" scheme="https://mrleecn.cn/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/"/>
-    
       <category term="Numpy" scheme="https://mrleecn.cn/tags/Numpy/"/>
+    
+      <category term="数据处理" scheme="https://mrleecn.cn/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/"/>
     
   </entry>
   
@@ -202,9 +202,9 @@
     
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
-      <category term="Pandas" scheme="https://mrleecn.cn/tags/Pandas/"/>
-    
       <category term="数据处理" scheme="https://mrleecn.cn/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/"/>
+    
+      <category term="Pandas" scheme="https://mrleecn.cn/tags/Pandas/"/>
     
   </entry>
   
