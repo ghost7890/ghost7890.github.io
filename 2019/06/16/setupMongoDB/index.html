@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'true', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+<!-- End Google Analytics -->
+
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?53891daf9e0316e03eadf2da354a713d"></script>
+<!-- End Baidu Tongji -->
+
+
+
+<!-- Baidu Push -->
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<!-- End Baidu Push -->
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="true">
+    
+    
+    
+    
+    <title>win10 1809 安装MongoDB4 流程及遇到的错误 | 西加加先生&#39;Blog | 努力诚可贵，坚持价更高</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="软件安装,MongoDB">
+    <meta name="description" content="1. 下载安装MongoDB，下载地址                                                                                             mark">
+<meta name="keywords" content="软件安装,MongoDB">
+<meta property="og:type" content="article">
+<meta property="og:title" content="win10 1809 安装MongoDB4 流程及遇到的错误">
+<meta property="og:url" content="https://mrleecn.cn/2019/06/16/setupMongoDB/index.html">
+<meta property="og:site_name" content="西加加先生&#39;Blog">
+<meta property="og:description" content="1. 下载安装MongoDB，下载地址                                                                                             mark">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://prwhphxqa.bkt.clouddn.com/blog/20190615/LlGO36leIc0B.png?imageslim">
+<meta property="og:image" content="http://prwhphxqa.bkt.clouddn.com/blog/20190615/roteXBh6i3h2.png?imageslim">
+<meta property="og:image" content="http://prwhphxqa.bkt.clouddn.com/blog/20190615/En6YoGEQl8nC.png?imageslim">
+<meta property="og:image" content="http://prwhphxqa.bkt.clouddn.com/blog/20190615/jN5kD7e6iBA7.png?imageslim">
+<meta property="og:image" content="http://prwhphxqa.bkt.clouddn.com/blog/20190616/TOsLVURykuns.png?imageslim">
+<meta property="og:image" content="http://prwhphxqa.bkt.clouddn.com/blog/20190615/v9zP5wjGkVrs.png?imageslim">
+<meta property="og:image" content="http://prwhphxqa.bkt.clouddn.com/blog/20190615/kp8qgOQXoylD.png?imageslim">
+<meta property="og:image" content="http://prwhphxqa.bkt.clouddn.com/blog/20190615/YuB5cgdrlPDy.png?imageslim">
+<meta property="og:image" content="http://prwhphxqa.bkt.clouddn.com/blog/20190615/hpumPzwIPavc.png?imageslim">
+<meta property="og:image" content="http://prwhphxqa.bkt.clouddn.com/blog/20190615/QDKiES0QKfBM.png?imageslim">
+<meta property="og:image" content="http://prwhphxqa.bkt.clouddn.com/blog/20190615/yu6KCgRWrM4d.png?imageslim">
+<meta property="og:image" content="http://prwhphxqa.bkt.clouddn.com/blog/20190615/QDKiES0QKfBM.png?imageslim">
+<meta property="og:image" content="http://prwhphxqa.bkt.clouddn.com/blog/20190615/OBgaTBuD0aCr.png?imageslim">
+<meta property="og:image" content="http://prwhphxqa.bkt.clouddn.com/blog/20190615/YuB5cgdrlPDy.png?imageslim">
+<meta property="og:updated_time" content="2019-06-16T02:07:14.389Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="win10 1809 安装MongoDB4 流程及遇到的错误">
+<meta name="twitter:description" content="1. 下载安装MongoDB，下载地址                                                                                             mark">
+<meta name="twitter:image" content="http://prwhphxqa.bkt.clouddn.com/blog/20190615/LlGO36leIc0B.png?imageslim">
+    
+        <link rel="alternate" type="application/atom+xml" title="西加加先生&#39;Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.gif">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-140803241-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-140803241-1');
+</script>
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">西加加先生</h5>
+          <a href="mailto:466987329@qq.com" title="466987329@qq.com" class="mail">466987329@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ghost7890" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books">
+                <i class="icon icon-lg icon-book"></i>
+                我的读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies">
+                <i class="icon icon-lg icon-film"></i>
+                我的电影
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends-link">
+                <i class="icon icon-lg icon-link"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends-apply">
+                <i class="icon icon-lg icon-user-plus"></i>
+                友链申请
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">win10 1809 安装MongoDB4 流程及遇到的错误</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">win10 1809 安装MongoDB4 流程及遇到的错误</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-06-16T01:55:15.000Z" itemprop="datePublished" class="page-time">
+  2019-06-16
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-下载安装MongoDB，下载地址"><span class="post-toc-number">1.</span> <span class="post-toc-text">1. 下载安装MongoDB，下载地址</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-修改配置"><span class="post-toc-number">2.</span> <span class="post-toc-text">2. 修改配置</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-指定存放数据日志的目录"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">1. 指定存放数据日志的目录</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-启动MongoDB"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">2. 启动MongoDB</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-配置本地Windows服务"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">3. 配置本地Windows服务</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-开机自启"><span class="post-toc-number">3.</span> <span class="post-toc-text">3. 开机自启</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4、常见问题及解决方法"><span class="post-toc-number">4.</span> <span class="post-toc-text">4、常见问题及解决方法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1、使用net-start-MongoDB命令报错——服务没有响应控制功能"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">1、使用net start MongoDB命令报错——服务没有响应控制功能</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#问题原因：MongoDB服务没启动，配置文件错误"><span class="post-toc-number">4.1.1.</span> <span class="post-toc-text">问题原因：MongoDB服务没启动，配置文件错误</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-setupMongoDB" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">win10 1809 安装MongoDB4 流程及遇到的错误</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-06-16 09:55:15" datetime="2019-06-16T01:55:15.000Z" itemprop="datePublished">2019-06-16</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="1-下载安装MongoDB，下载地址"><a href="#1-下载安装MongoDB，下载地址" class="headerlink" title="1. 下载安装MongoDB，下载地址"></a>1. 下载安装MongoDB，<a href="https://www.mongodb.com/download-center/community" target="_blank" rel="noopener">下载地址</a></h2><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://prwhphxqa.bkt.clouddn.com/blog/20190615/LlGO36leIc0B.png?imageslim" alt="mark" title>
+                </div>
+                <div class="image-caption">mark</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://prwhphxqa.bkt.clouddn.com/blog/20190615/roteXBh6i3h2.png?imageslim" alt="mark" title>
+                </div>
+                <div class="image-caption">mark</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://prwhphxqa.bkt.clouddn.com/blog/20190615/En6YoGEQl8nC.png?imageslim" alt="mark" title>
+                </div>
+                <div class="image-caption">mark</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://prwhphxqa.bkt.clouddn.com/blog/20190615/jN5kD7e6iBA7.png?imageslim" alt="mark" title>
+                </div>
+                <div class="image-caption">mark</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://prwhphxqa.bkt.clouddn.com/blog/20190616/TOsLVURykuns.png?imageslim" alt="mark" title>
+                </div>
+                <div class="image-caption">mark</div>
+            </figure>
+<p>此处先忽略，问题后面解决。</p>
+<p>到此，MongoDB算是安装完成了。</p>
+<h2 id="2-修改配置"><a href="#2-修改配置" class="headerlink" title="2. 修改配置"></a>2. 修改配置</h2><p>下面这是安装完成的目录结构：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://prwhphxqa.bkt.clouddn.com/blog/20190615/v9zP5wjGkVrs.png?imageslim" alt="mark" title>
+                </div>
+                <div class="image-caption">mark</div>
+            </figure>
+<h3 id="1-指定存放数据日志的目录"><a href="#1-指定存放数据日志的目录" class="headerlink" title="1. 指定存放数据日志的目录"></a>1. 指定存放数据日志的目录</h3><p>可以采用上图中的data、log分别存储数据和日志。此处我选择自己指定目录。</p>
+<p><strong>数据目录： D:\MongoDB\data\db（需要自己建立）</strong></p>
+<p><strong>日志文件：D:\MongoDB\log\mongo.log</strong></p>
+<h3 id="2-启动MongoDB"><a href="#2-启动MongoDB" class="headerlink" title="2. 启动MongoDB"></a>2. 启动MongoDB</h3><p>以管理员身份进入到<code>D:\MongoDB\bin\</code>目录，启动MongoDB：<code>.\mongod --dbpath D:\MongoDB\data\db</code>，然后在浏览器中输入<code>127.0.0.1:27017</code>查看状态。出现下图表示MongoDB启动成功。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://prwhphxqa.bkt.clouddn.com/blog/20190615/kp8qgOQXoylD.png?imageslim" alt="mark" title>
+                </div>
+                <div class="image-caption">mark</div>
+            </figure>
+<h3 id="3-配置本地Windows服务"><a href="#3-配置本地Windows服务" class="headerlink" title="3. 配置本地Windows服务"></a>3. 配置本地Windows服务</h3><ol>
+<li><strong>修改<code>D:\MongoDB\bin\mongod.cfg</code>文件</strong>（推荐使用Notepad编辑）</li>
+</ol>
+<p>需要修改的地方有：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://prwhphxqa.bkt.clouddn.com/blog/20190615/YuB5cgdrlPDy.png?imageslim" alt="mark" title>
+                </div>
+                <div class="image-caption">mark</div>
+            </figure>
+<ol start="2">
+<li><strong>开启MongoDB服务</strong></li>
+</ol>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://prwhphxqa.bkt.clouddn.com/blog/20190615/hpumPzwIPavc.png?imageslim" alt="mark" title>
+                </div>
+                <div class="image-caption">mark</div>
+            </figure>
+<p>在服务中找到MongoDB</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://prwhphxqa.bkt.clouddn.com/blog/20190615/QDKiES0QKfBM.png?imageslim" alt="mark" title>
+                </div>
+                <div class="image-caption">mark</div>
+            </figure>
+<p>右键<strong>启动该服务</strong>。</p>
+<h2 id="3-开机自启"><a href="#3-开机自启" class="headerlink" title="3. 开机自启"></a>3. 开机自启</h2><p>还是启动管理员shell，输入<code>net start MongoDB</code></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://prwhphxqa.bkt.clouddn.com/blog/20190615/yu6KCgRWrM4d.png?imageslim" alt="mark" title>
+                </div>
+                <div class="image-caption">mark</div>
+            </figure>
+<h2 id="4、常见问题及解决方法"><a href="#4、常见问题及解决方法" class="headerlink" title="4、常见问题及解决方法"></a>4、常见问题及解决方法</h2><h3 id="1、使用net-start-MongoDB命令报错——服务没有响应控制功能"><a href="#1、使用net-start-MongoDB命令报错——服务没有响应控制功能" class="headerlink" title="1、使用net start MongoDB命令报错——服务没有响应控制功能"></a>1、使用net start MongoDB命令报错——服务没有响应控制功能</h3><h4 id="问题原因：MongoDB服务没启动，配置文件错误"><a href="#问题原因：MongoDB服务没启动，配置文件错误" class="headerlink" title="问题原因：MongoDB服务没启动，配置文件错误"></a>问题原因：MongoDB服务没启动，配置文件错误</h4><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://prwhphxqa.bkt.clouddn.com/blog/20190615/QDKiES0QKfBM.png?imageslim" alt="mark" title>
+                </div>
+                <div class="image-caption">mark</div>
+            </figure>
+<p>右键查看属性</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://prwhphxqa.bkt.clouddn.com/blog/20190615/OBgaTBuD0aCr.png?imageslim" alt="mark" title>
+                </div>
+                <div class="image-caption">mark</div>
+            </figure>
+<p>我们可以看到MongoDB默认的配置文件<code>D:\MongoDB\bin\mongod.cfg</code>，打开配置文件，<strong>注释掉最后一行的mp:</strong>，重启启动服务即可解决问题。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://prwhphxqa.bkt.clouddn.com/blog/20190615/YuB5cgdrlPDy.png?imageslim" alt="mark" title>
+                </div>
+                <div class="image-caption">mark</div>
+            </figure>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-06-16T02:07:14.389Z" itemprop="dateUpdated">2019-06-16 10:07:14</time>
+</span><br>
+
+
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2019/06/16/setupMongoDB/" target="_blank" rel="external">https://mrleecn.cn/2019/06/16/setupMongoDB/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://mrleecn.cn">
+            <img src="/img/avatar.jpg" alt="西加加先生">
+            西加加先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MongoDB/">MongoDB</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/软件安装/">软件安装</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://mrleecn.cn/2019/06/16/setupMongoDB/&title=《win10 1809 安装MongoDB4 流程及遇到的错误》 — 西加加先生'Blog&pic=https://mrleecn.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://mrleecn.cn/2019/06/16/setupMongoDB/&title=《win10 1809 安装MongoDB4 流程及遇到的错误》 — 西加加先生'Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://mrleecn.cn/2019/06/16/setupMongoDB/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《win10 1809 安装MongoDB4 流程及遇到的错误》 — 西加加先生'Blog&url=https://mrleecn.cn/2019/06/16/setupMongoDB/&via=https://mrleecn.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://mrleecn.cn/2019/06/16/setupMongoDB/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/06/01/dictandset/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">字典与集合</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "3GQHOe6La6D1uDM55jwGO4ot-gzGzoHsz",
+            appKey: "UgaD9ez4RHchPDGCAA7JAzUb",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check" data-wechat="/img/wechat.png" data-alipay="/img/alipay.png">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>西加加先生 &copy; 2015 - 2019</span>
+            <span>
+                
+                <a href="http://www.miitbeian.gov.cn/" target="_blank">湘ICP备17011548号-1</a><br>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://mrleecn.cn/2019/06/16/setupMongoDB/&title=《win10 1809 安装MongoDB4 流程及遇到的错误》 — 西加加先生'Blog&pic=https://mrleecn.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://mrleecn.cn/2019/06/16/setupMongoDB/&title=《win10 1809 安装MongoDB4 流程及遇到的错误》 — 西加加先生'Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://mrleecn.cn/2019/06/16/setupMongoDB/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《win10 1809 安装MongoDB4 流程及遇到的错误》 — 西加加先生'Blog&url=https://mrleecn.cn/2019/06/16/setupMongoDB/&via=https://mrleecn.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://mrleecn.cn/2019/06/16/setupMongoDB/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACKUlEQVR42u3aQY6DMAwF0N7/0syWWdB+O+lokrysEEXAo5Ll2H694nXdVnLmad2vfDq+n5m8MDAwlmXkD376tUdN7py8GwYGxjmMpwj2/ji/Pv8E1WdhYGBgJIwkXFbPYGBgYMxiJNvODyndfwi4GBgYizDmFsh6iWCeVmJgYJzGyKvuf3/8lf4GBgbGUoyruEYCdPJyV2thYGDszcgDXJ7MVe+Zn3/fLsXAwDiNkTcjk1ZB9T69j4KBgbErI79Rr3yfpH291uavMxgYGFszqq8+UoCrtiLyO2BgYOzNqA5+9RK4fNiiOQKCgYFxAKM3+lDdAH+xqYCBgbE1o1fET9qZvSSyOmbR7G9gYGAsyxgfp8iRvZS0vBfHwMDYgpEAqoX790Gz2oSY9j9gYGAszugV7vPzvWGO8rAFBgbGpoxqmay3+awOkPXG1zAwMHZl9ELqSEkuaVGUy20YGBhbM5ICWdK8nJUaNoctMDAwDmAkQS0Zs8jvM2sL/eo9HgMDY0FGnvbNenCVFO3FMTAwDmAUWobBr19pVc760hgYGBsx8tJbEnB7aWJh+4qBgbEp4yquarGsV5IrPxcDA2NrxnixrNoAyMNxeROLgYGxNWMkyI60DfJEs9nBwMDA2I5RDXy9LW71HfKWKgYGBkYvu8zHy5IrP3wUDAwMjIFGYzWtTMLxtICLgYGxFKNXrB8PuIUXxcDAOJhRrWWNbEdHRjF6RT0MDIzFGT8ruyLgij7MAQAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>
