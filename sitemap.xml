@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://mrleecn.cn/2019/06/22/qiniutuchuang/</loc>
+    
+    <lastmod>2019-06-22T09:10:56.587Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://mrleecn.cn/2019/06/16/setupMongoDB/</loc>
     
     <lastmod>2019-06-22T03:37:31.459Z</lastmod>
@@ -86,21 +93,21 @@
   </url>
   
   <url>
-    <loc>https://mrleecn.cn/2019/05/19/%E4%BD%8D%E8%BF%90%E7%AE%97/</loc>
-    
-    <lastmod>2019-05-24T15:33:45.029Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://mrleecn.cn/friends-link/index.html</loc>
-    
-    <lastmod>2019-05-24T15:33:45.029Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://mrleecn.cn/tags/index.html</loc>
+    
+    <lastmod>2019-05-24T15:33:45.029Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://mrleecn.cn/friends-apply/index.html</loc>
+    
+    <lastmod>2019-05-24T15:33:45.029Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://mrleecn.cn/2019/05/19/%E4%BD%8D%E8%BF%90%E7%AE%97/</loc>
     
     <lastmod>2019-05-24T15:33:45.029Z</lastmod>
     
@@ -114,7 +121,7 @@
   </url>
   
   <url>
-    <loc>https://mrleecn.cn/friends-apply/index.html</loc>
+    <loc>https://mrleecn.cn/friends-link/index.html</loc>
     
     <lastmod>2019-05-24T15:33:45.029Z</lastmod>
     

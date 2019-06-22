@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'true', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+<!-- End Google Analytics -->
+
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?53891daf9e0316e03eadf2da354a713d"></script>
+<!-- End Baidu Tongji -->
+
+
+
+<!-- Baidu Push -->
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<!-- End Baidu Push -->
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="true">
+    
+    
+    
+    
+    <title>记一次七牛图床测试域名到期后的折腾过程 | 西加加先生&#39;Blog | 努力诚可贵，坚持价更高</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="博客">
+    <meta name="description" content="背景上个月开始在Github Page上搭建博客，并绑定了自己的域名。  为了在博客中插入图片，选择了七牛图床来存储需要插入的图片。七牛图床提供测试域名，方便用户快速上手。但是测试域名有效期只有30天，30天过后测试域名被收回，原来博客中的图片将无法显示。测试域名即将到期，七牛云一直发邮件提醒，但都直接无视而过。直到今天。。。。 登上博客发现所有的图片都无法显示。这才想起了七牛云一直的邮件提醒，紧">
+<meta name="keywords" content="博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记一次七牛图床测试域名到期后的折腾过程">
+<meta property="og:url" content="https://mrleecn.cn/2019/06/22/qiniutuchuang/index.html">
+<meta property="og:site_name" content="西加加先生&#39;Blog">
+<meta property="og:description" content="背景上个月开始在Github Page上搭建博客，并绑定了自己的域名。  为了在博客中插入图片，选择了七牛图床来存储需要插入的图片。七牛图床提供测试域名，方便用户快速上手。但是测试域名有效期只有30天，30天过后测试域名被收回，原来博客中的图片将无法显示。测试域名即将到期，七牛云一直发邮件提醒，但都直接无视而过。直到今天。。。。 登上博客发现所有的图片都无法显示。这才想起了七牛云一直的邮件提醒，紧">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://abc.mrleecn.cn/blog/20190622/swElgptwEf1C.png?imageslim">
+<meta property="og:image" content="http://abc.mrleecn.cn/blog/20190622/54IdRGfYrL61.png?imageslim">
+<meta property="og:image" content="http://abc.mrleecn.cn/blog/20190622/ACwbVqsAj9tV.png?imageslim">
+<meta property="og:image" content="http://abc.mrleecn.cn/blog/20190622/De8GmrRow7c6.png?imageslim">
+<meta property="og:updated_time" content="2019-06-22T09:10:56.587Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="记一次七牛图床测试域名到期后的折腾过程">
+<meta name="twitter:description" content="背景上个月开始在Github Page上搭建博客，并绑定了自己的域名。  为了在博客中插入图片，选择了七牛图床来存储需要插入的图片。七牛图床提供测试域名，方便用户快速上手。但是测试域名有效期只有30天，30天过后测试域名被收回，原来博客中的图片将无法显示。测试域名即将到期，七牛云一直发邮件提醒，但都直接无视而过。直到今天。。。。 登上博客发现所有的图片都无法显示。这才想起了七牛云一直的邮件提醒，紧">
+<meta name="twitter:image" content="http://abc.mrleecn.cn/blog/20190622/swElgptwEf1C.png?imageslim">
+    
+        <link rel="alternate" type="application/atom+xml" title="西加加先生&#39;Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.gif">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-140803241-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-140803241-1');
+</script>
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">西加加先生</h5>
+          <a href="mailto:466987329@qq.com" title="466987329@qq.com" class="mail">466987329@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ghost7890" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books">
+                <i class="icon icon-lg icon-book"></i>
+                我的读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies">
+                <i class="icon icon-lg icon-film"></i>
+                我的电影
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends-link">
+                <i class="icon icon-lg icon-link"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends-apply">
+                <i class="icon icon-lg icon-user-plus"></i>
+                友链申请
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">记一次七牛图床测试域名到期后的折腾过程</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">记一次七牛图床测试域名到期后的折腾过程</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-06-22T03:38:14.000Z" itemprop="datePublished" class="page-time">
+  2019-06-22
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#背景"><span class="post-toc-number">1.</span> <span class="post-toc-text">背景</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#折腾流程"><span class="post-toc-number">2.</span> <span class="post-toc-text">折腾流程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-选择二级域名，并重新绑定"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">1.选择二级域名，并重新绑定</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-根据要求，域名解析"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">2.根据要求，域名解析</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-修改博客中对应图片的外链地址"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">3.修改博客中对应图片的外链地址</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-qiniutuchuang" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">记一次七牛图床测试域名到期后的折腾过程</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-06-22 11:38:14" datetime="2019-06-22T03:38:14.000Z" itemprop="datePublished">2019-06-22</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>上个月开始在<code>Github Page</code>上搭建博客，并<strong>绑定了自己的域名</strong>。  为了在博客中插入图片，选择了七牛图床来存储需要插入的图片。七牛图床<strong>提供测试域名</strong>，方便用户快速上手。但是测试域名<strong>有效期只有30天</strong>，30天过后测试域名被收回，原来博客中的图片将无法显示。测试域名即将到期，七牛云一直发邮件提醒，但都直接无视而过。直到今天。。。。</p>
+<p>登上博客发现所有的图片都无法显示。这才想起了七牛云一直的邮件提醒，紧接着就开始了一系列的折腾。</p>
+<h1 id="折腾流程"><a href="#折腾流程" class="headerlink" title="折腾流程"></a>折腾流程</h1><p>登录七牛云，发现如需继续使用七牛图床，需要绑定<strong>一个完成备案的域名</strong>，还需要<strong>将域名解析到</strong></p>
+<p><strong>指定的域名记录上</strong>。</p>
+<p>绑定一个完成备案的域名没问题呀，本身博客的域名就已经完成了备案，这个好说。</p>
+<p>紧接着还要将域名解析到指定的域名记录。这下就麻烦了。。。因为，我的博客采用双站同步的方式，<code>www.mrleecn.cn</code>域名已经解析到了<code>腾讯开发者平台</code>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://abc.mrleecn.cn/blog/20190622/swElgptwEf1C.png?imageslim" alt="mark" title>
+                </div>
+                <div class="image-caption">mark</div>
+            </figure>
+<p>在<strong>我的认知中，一个域名只能绑定一个主机</strong>。这下怎么办，难道还要为了图床，重新买一个域名然后再备案吗？显然不会因为一个图床在买一个域名的。那么只能继续查资料解决这个问题了。</p>
+<p>发现<strong>可以不需要重新购买域名</strong>，只需要<strong>将原来域名的二级域名解析到它指定的域名记录上即可</strong>。</p>
+<h2 id="1-选择二级域名，并重新绑定"><a href="#1-选择二级域名，并重新绑定" class="headerlink" title="1.选择二级域名，并重新绑定"></a>1.选择二级域名，并重新绑定</h2><p>我选择<code>abc.mrleecn.cn</code>（可随意指定，只需要域名解析时统一就好）作为我的二级域名。</p>
+<p>于是将所选的二级域名重新绑定到七牛的图床上。如下：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://abc.mrleecn.cn/blog/20190622/54IdRGfYrL61.png?imageslim" alt="mark" title>
+                </div>
+                <div class="image-caption">mark</div>
+            </figure>
+<p>绑定完成需要等待10分钟左右来生效。稍等一会，待生效后再进行下一步操作。</p>
+<h2 id="2-根据要求，域名解析"><a href="#2-根据要求，域名解析" class="headerlink" title="2.根据要求，域名解析"></a>2.根据要求，域名解析</h2><p>根据<a href="https://developer.qiniu.com/fusion/kb/1322/how-to-configure-cname-domain-name" target="_blank" rel="noopener">七牛云帮助文档</a>，找到我们刚才绑定的二级域名域名对应的<code>CNAME</code>值。</p>
+<p>然后打开我们的<code>域名厂商</code>的网站进行域名解析，以腾讯云为例：添加一条如下的解析记录：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://abc.mrleecn.cn/blog/20190622/ACwbVqsAj9tV.png?imageslim" alt="mark" title>
+                </div>
+                <div class="image-caption">mark</div>
+            </figure>
+<h2 id="3-修改博客中对应图片的外链地址"><a href="#3-修改博客中对应图片的外链地址" class="headerlink" title="3.修改博客中对应图片的外链地址"></a>3.修改博客中对应图片的外链地址</h2><p>修改原来图片外链地址，将原域名中的临时域名部分，修改为新的二级域名。如下图所示：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://abc.mrleecn.cn/blog/20190622/De8GmrRow7c6.png?imageslim" alt="mark" title>
+                </div>
+                <div class="image-caption">mark</div>
+            </figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-06-22T09:10:56.587Z" itemprop="dateUpdated">2019-06-22 17:10:56</time>
+</span><br>
+
+
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2019/06/22/qiniutuchuang/" target="_blank" rel="external">https://mrleecn.cn/2019/06/22/qiniutuchuang/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://mrleecn.cn">
+            <img src="/img/avatar.jpg" alt="西加加先生">
+            西加加先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/博客/">博客</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://mrleecn.cn/2019/06/22/qiniutuchuang/&title=《记一次七牛图床测试域名到期后的折腾过程》 — 西加加先生'Blog&pic=https://mrleecn.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://mrleecn.cn/2019/06/22/qiniutuchuang/&title=《记一次七牛图床测试域名到期后的折腾过程》 — 西加加先生'Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://mrleecn.cn/2019/06/22/qiniutuchuang/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《记一次七牛图床测试域名到期后的折腾过程》 — 西加加先生'Blog&url=https://mrleecn.cn/2019/06/22/qiniutuchuang/&via=https://mrleecn.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://mrleecn.cn/2019/06/22/qiniutuchuang/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/06/16/setupMongoDB/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">win10 1809 安装MongoDB4 流程及遇到的错误</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "3GQHOe6La6D1uDM55jwGO4ot-gzGzoHsz",
+            appKey: "UgaD9ez4RHchPDGCAA7JAzUb",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check" data-wechat="/img/wechat.png" data-alipay="/img/alipay.png">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>西加加先生 &copy; 2015 - 2019</span>
+            <span>
+                
+                <a href="http://www.miitbeian.gov.cn/" target="_blank">湘ICP备17011548号-1</a><br>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://mrleecn.cn/2019/06/22/qiniutuchuang/&title=《记一次七牛图床测试域名到期后的折腾过程》 — 西加加先生'Blog&pic=https://mrleecn.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://mrleecn.cn/2019/06/22/qiniutuchuang/&title=《记一次七牛图床测试域名到期后的折腾过程》 — 西加加先生'Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://mrleecn.cn/2019/06/22/qiniutuchuang/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《记一次七牛图床测试域名到期后的折腾过程》 — 西加加先生'Blog&url=https://mrleecn.cn/2019/06/22/qiniutuchuang/&via=https://mrleecn.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://mrleecn.cn/2019/06/22/qiniutuchuang/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACKElEQVR42u3awa7DIAxE0f7/T9NtF4XOjEklzGVVpXmBk0p+GPv1kseYjM9vZ3e693xe2TxgwIBxLGMsx2wCZbL10l3Y7B4YMGDcw1AWkcU9/ZXpLwsGDBgwFIY75Xrbt95EwoABA0b2aP2vsiswYMCAkSWxCj57HX/NxWHAgHEgo76U5z4/Ut+AAQPGUYxhDj2hzcLliAYMGDB6M9xipA5wA7e76YQBA8Y9DDf8udu77AlKwvzld4ABA0ZThjJ9tvTsilskmP7fgAEDRjuGnky67CwNdpszYMCA0ZtRKgcKiW52pdRmAQMGjHYMt6mr0gChhF039MOAAeMGhu6rFyDd0KxQpcIADBgwWjA2HMpHS6wUNb+UMGHAgHENQ196/VRPCcp2twgMGDDaMSobQf2I323jqAd9GDBgdGW4CW1l6ZUQv63WAQMGjKMY66/dIFg5wsvKBjBgwOjN2NWomm343LD+IxeHAQNGU4YeENeY7ED/iaYxGDBgdGXoj3ODYyWJtcsPMGDAuIChLHEdcNevQ0lW9YD+ox4LAwaM1gy9bKk3qlaO5IzgDgMGjKaMYQ699Og+QQm103lhwIDRmuGGuQzspseVhgwYMGB0ZbghUi9kZkVHffsIAwaM2xj6QZt+fK8kt9uQMGDAgCEvJTtic8P09NANBgwYMMxEVIe5AX1DwIUBA8aBjKxtwj0yq5dFYcCAcScja3FwE9fsHrdUAAMGjHaMNzQGk2FaIxz3AAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

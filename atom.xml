@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mrleecn.cn/"/>
-  <updated>2019-06-22T03:37:31.459Z</updated>
+  <updated>2019-06-22T09:10:56.587Z</updated>
   <id>https://mrleecn.cn/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>记一次七牛图床测试域名到期后的折腾过程</title>
+    <link href="https://mrleecn.cn/2019/06/22/qiniutuchuang/"/>
+    <id>https://mrleecn.cn/2019/06/22/qiniutuchuang/</id>
+    <published>2019-06-22T03:38:14.000Z</published>
+    <updated>2019-06-22T09:10:56.587Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>上个月开始在<code>Github Page</code>上搭建博客，并<strong>绑定了自己的域名</strong>。  为了在博客中插入图片，选择了七牛图床来存储需要插入的图片。七牛图床<strong>提供测试域名</strong>，方便用户快速上手。但是测试域名<strong>有效期只有30天</strong>，30天过后测试域名被收回，原来博客中的图片将无法显示。测试域名即将到期，七牛云一直发邮件提醒，但都直接无视而过。直到今天。。。。</p><p>登上博客发现所有的图片都无法显示。这才想起了七牛云一直的邮件提醒，紧接着就开始了一系列的折腾。</p><h1 id="折腾流程"><a href="#折腾流程" class="headerlink" title="折腾流程"></a>折腾流程</h1><p>登录七牛云，发现如需继续使用七牛图床，需要绑定<strong>一个完成备案的域名</strong>，还需要<strong>将域名解析到</strong></p><p><strong>指定的域名记录上</strong>。</p><p>绑定一个完成备案的域名没问题呀，本身博客的域名就已经完成了备案，这个好说。</p><p>紧接着还要将域名解析到指定的域名记录。这下就麻烦了。。。因为，我的博客采用双站同步的方式，<code>www.mrleecn.cn</code>域名已经解析到了<code>腾讯开发者平台</code>。</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="http://abc.mrleecn.cn/blog/20190622/swElgptwEf1C.png?imageslim" alt="mark" title>                </div>                <div class="image-caption">mark</div>            </figure><p>在<strong>我的认知中，一个域名只能绑定一个主机</strong>。这下怎么办，难道还要为了图床，重新买一个域名然后再备案吗？显然不会因为一个图床在买一个域名的。那么只能继续查资料解决这个问题了。</p><p>发现<strong>可以不需要重新购买域名</strong>，只需要<strong>将原来域名的二级域名解析到它指定的域名记录上即可</strong>。</p><h2 id="1-选择二级域名，并重新绑定"><a href="#1-选择二级域名，并重新绑定" class="headerlink" title="1.选择二级域名，并重新绑定"></a>1.选择二级域名，并重新绑定</h2><p>我选择<code>abc.mrleecn.cn</code>（可随意指定，只需要域名解析时统一就好）作为我的二级域名。</p><p>于是将所选的二级域名重新绑定到七牛的图床上。如下：</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="http://abc.mrleecn.cn/blog/20190622/54IdRGfYrL61.png?imageslim" alt="mark" title>                </div>                <div class="image-caption">mark</div>            </figure><p>绑定完成需要等待10分钟左右来生效。稍等一会，待生效后再进行下一步操作。</p><h2 id="2-根据要求，域名解析"><a href="#2-根据要求，域名解析" class="headerlink" title="2.根据要求，域名解析"></a>2.根据要求，域名解析</h2><p>根据<a href="https://developer.qiniu.com/fusion/kb/1322/how-to-configure-cname-domain-name" target="_blank" rel="noopener">七牛云帮助文档</a>，找到我们刚才绑定的二级域名域名对应的<code>CNAME</code>值。</p><p>然后打开我们的<code>域名厂商</code>的网站进行域名解析，以腾讯云为例：添加一条如下的解析记录：</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="http://abc.mrleecn.cn/blog/20190622/ACwbVqsAj9tV.png?imageslim" alt="mark" title>                </div>                <div class="image-caption">mark</div>            </figure><h2 id="3-修改博客中对应图片的外链地址"><a href="#3-修改博客中对应图片的外链地址" class="headerlink" title="3.修改博客中对应图片的外链地址"></a>3.修改博客中对应图片的外链地址</h2><p>修改原来图片外链地址，将原域名中的临时域名部分，修改为新的二级域名。如下图所示：</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="http://abc.mrleecn.cn/blog/20190622/De8GmrRow7c6.png?imageslim" alt="mark" title>                </div>                <div class="image-caption">mark</div>            </figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h1&gt;&lt;p&gt;上个月开始在&lt;code&gt;Github Page&lt;/code&gt;上搭建博客，并&lt;strong&gt;绑定了自己的域名&lt;/strong&gt;。  为了在博客
+      
+    
+    </summary>
+    
+    
+      <category term="博客" scheme="https://mrleecn.cn/tags/%E5%8D%9A%E5%AE%A2/"/>
+    
+  </entry>
   
   <entry>
     <title>win10 1809 安装MongoDB4 流程及遇到的错误</title>
