@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mrleecn.cn/"/>
-  <updated>2019-06-22T09:10:56.587Z</updated>
+  <updated>2019-07-08T12:22:05.048Z</updated>
   <id>https://mrleecn.cn/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>验证码小坑记（一）：验证码在新的页面打开是乱码</title>
+    <link href="https://mrleecn.cn/2019/07/08/spider-problem1/"/>
+    <id>https://mrleecn.cn/2019/07/08/spider-problem1/</id>
+    <published>2019-07-08T12:17:05.000Z</published>
+    <updated>2019-07-08T12:22:05.048Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在最近的爬虫项目中遇到了一个原来没遇到的问题。在登陆页面中验证码能正常显示，把验证码链接在新的标签页中打开就变成了乱码。如下图：</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="http://abc.mrleecn.cn/blog/20190708/cKkI3NmAPG9k.png?imageslim" alt="登录页面的正常情况" title>                </div>                <div class="image-caption">登录页面的正常情况</div>            </figure><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="http://abc.mrleecn.cn/blog/20190708/rD6gdRgFWJCJ.png?imageslim" alt="新标签页中图片的显示情况" title>                </div>                <div class="image-caption">新标签页中图片的显示情况</div>            </figure><h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><h3 id="1-抓验证码的响应数据包"><a href="#1-抓验证码的响应数据包" class="headerlink" title="1. 抓验证码的响应数据包"></a>1. 抓验证码的响应数据包</h3><p>打开开发者工具，抓验证码的包，发现返回的类型是<code>text/html</code>。</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="http://abc.mrleecn.cn/blog/20190708/hIHdExq6ibLU.png?imageslim" alt="mark" title>                </div>                <div class="image-caption">mark</div>            </figure><p>它的preview如下：</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="http://abc.mrleecn.cn/blog/20190708/kJMAsh9gPx4m.png?imageslim" alt="mark" title>                </div>                <div class="image-caption">mark</div>            </figure><p>可以看到显示乱码。</p><h3 id="2-对比其他能正常打开的验证码响应数据包"><a href="#2-对比其他能正常打开的验证码响应数据包" class="headerlink" title="2. 对比其他能正常打开的验证码响应数据包"></a>2. 对比其他能正常打开的验证码响应数据包</h3><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="http://abc.mrleecn.cn/blog/20190708/WQMnmgwPsokz.png?imageslim" alt="mark" title>                </div>                <div class="image-caption">mark</div>            </figure><p>从上图可以看到，可以正常打开图片的响应数据包的<code>Content—Type</code>是<strong>image/jpg</strong>。而显示错的<code>Content—Type</code>是<strong>text/html</strong>。这仅有的差别，就是问题的症结所在。</p><h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>浏览器在获取到这种<code>Content-Type</code>是<strong>text/html</strong>的文件时会自动调用html的解析器对文件进行相应的处理。因为该文件类型实际并不是文本类型，却按照文本类型去处理。所以验证码图片会显示乱码。</p><h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>那么，这种情况下，我们如何获取到正确的验证码图片呢？</p><p>其实，和正常下载验证码图片的方式一样。记得保存为图片格式就好。</p><p><strong>此处又一小坑</strong>：</p><p>当发现下载下来的图片还是无法打开时，请记得在请求图片链接时带上<code>User-Agent</code>。</p><p>以上，就是最近遇到的小坑。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h2&gt;&lt;p&gt;在最近的爬虫项目中遇到了一个原来没遇到的问题。在登陆页面中验证码能正常显示，把验证码链接在新的标签页中打开就变成了乱码。如下图：&lt;/p&gt;
+&lt;
+      
+    
+    </summary>
+    
+    
+      <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
+    
+      <category term="爬虫" scheme="https://mrleecn.cn/tags/%E7%88%AC%E8%99%AB/"/>
+    
+      <category term="验证码识别" scheme="https://mrleecn.cn/tags/%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/"/>
+    
+  </entry>
   
   <entry>
     <title>记一次七牛图床测试域名到期后的折腾过程</title>
@@ -141,9 +169,9 @@
     </summary>
     
     
-      <category term="软技能" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E6%8A%80%E8%83%BD/"/>
-    
       <category term="读书笔记" scheme="https://mrleecn.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+      <category term="软技能" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E6%8A%80%E8%83%BD/"/>
     
   </entry>
   
@@ -169,9 +197,9 @@
     </summary>
     
     
-      <category term="软技能" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E6%8A%80%E8%83%BD/"/>
-    
       <category term="读书笔记" scheme="https://mrleecn.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+      <category term="软技能" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E6%8A%80%E8%83%BD/"/>
     
   </entry>
   
@@ -427,9 +455,9 @@
     </summary>
     
     
-      <category term="软技能" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E6%8A%80%E8%83%BD/"/>
-    
       <category term="读书笔记" scheme="https://mrleecn.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+      <category term="软技能" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E6%8A%80%E8%83%BD/"/>
     
   </entry>
   
@@ -454,9 +482,9 @@
     </summary>
     
     
-      <category term="软技能" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E6%8A%80%E8%83%BD/"/>
-    
       <category term="读书笔记" scheme="https://mrleecn.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+      <category term="软技能" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E6%8A%80%E8%83%BD/"/>
     
   </entry>
   
