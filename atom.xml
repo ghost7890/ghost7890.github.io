@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mrleecn.cn/"/>
-  <updated>2019-07-08T12:22:05.048Z</updated>
+  <updated>2019-07-10T13:55:25.458Z</updated>
   <id>https://mrleecn.cn/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>爬虫-清除字符串中的\xa0</title>
+    <link href="https://mrleecn.cn/2019/07/10/stringxa0/"/>
+    <id>https://mrleecn.cn/2019/07/10/stringxa0/</id>
+    <published>2019-07-10T13:54:42.000Z</published>
+    <updated>2019-07-10T13:55:25.458Z</updated>
+    
+    <content type="html"><![CDATA[<p>爬取到的字符串为：<code>s = &#39;性\xa0\xa0\xa0\xa0别&#39;</code>，要去掉中间的<code>\xa0</code>。</p><h2 id="1-xa0为何物"><a href="#1-xa0为何物" class="headerlink" title="1. \xa0为何物"></a>1. \xa0为何物</h2><p>\xa0 是不间断空白符 <code>&amp;nbsp;</code></p><h2 id="2-尝试"><a href="#2-尝试" class="headerlink" title="2. 尝试"></a>2. 尝试</h2><ul><li><strong>s.replace(‘ ‘, ‘’)</strong>        ——失败</li><li><strong>s.strip()</strong>                    ——失败</li><li><strong>s.replace(u’\xa0’, u’’)</strong>        ——失败</li></ul><h2 id="3-解决方法"><a href="#3-解决方法" class="headerlink" title="3. 解决方法"></a>3. 解决方法</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">s = <span class="string">'性\xa0\xa0\xa0\xa0别'</span></span><br><span class="line">sex = <span class="string">''</span>.join(s.split())</span><br><span class="line"></span><br><span class="line"><span class="comment">## 输出</span></span><br><span class="line">性别</span><br></pre></td></tr></table></figure><h2 id="4-总结"><a href="#4-总结" class="headerlink" title="4. 总结"></a>4. 总结</h2><p><code>&#39;&#39;.join(s.split())</code><strong>不仅适用于有<code>\xa0</code>的字符串，也适用于正常的字符。</strong></p><p>因此，可以总结出格式化字符串的方法。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">format_string</span><span class="params">(s)</span>:</span></span><br><span class="line"><span class="string">'''格式化字符串</span></span><br><span class="line"><span class="string">可处理常见的字符串问题</span></span><br><span class="line"><span class="string">如：</span></span><br><span class="line"><span class="string">1. 带'：'和':''</span></span><br><span class="line"><span class="string">2. 字符串任何地方带多余空格</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="keyword">return</span> <span class="string">''</span>.join(s.strip().replace(<span class="string">'：'</span>, <span class="string">''</span>).replace(<span class="string">':'</span>, <span class="string">''</span>).split())</span><br></pre></td></tr></table></figure><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 示例</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>s = <span class="string">u'ab\xa0c: \t\n'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>s</span><br><span class="line"><span class="string">'ab\xa0c: \t\n'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(s)</span><br><span class="line">ab c: </span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>format_string(s)</span><br><span class="line"><span class="string">'abc'</span></span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;爬取到的字符串为：&lt;code&gt;s = &amp;#39;性\xa0\xa0\xa0\xa0别&amp;#39;&lt;/code&gt;，要去掉中间的&lt;code&gt;\xa0&lt;/code&gt;。&lt;/p&gt;
+&lt;h2 id=&quot;1-xa0为何物&quot;&gt;&lt;a href=&quot;#1-xa0为何物&quot; class=&quot;headerli
+      
+    
+    </summary>
+    
+    
+      <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
+    
+      <category term="爬虫" scheme="https://mrleecn.cn/tags/%E7%88%AC%E8%99%AB/"/>
+    
+  </entry>
   
   <entry>
     <title>验证码小坑记（一）：验证码在新的页面打开是乱码</title>
@@ -169,9 +195,35 @@
     </summary>
     
     
+      <category term="软技能" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E6%8A%80%E8%83%BD/"/>
+    
       <category term="读书笔记" scheme="https://mrleecn.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     
+  </entry>
+  
+  <entry>
+    <title>【软技能】学会自我营销（三）</title>
+    <link href="https://mrleecn.cn/2019/05/27/softskills3/"/>
+    <id>https://mrleecn.cn/2019/05/27/softskills3/</id>
+    <published>2019-05-27T14:10:10.000Z</published>
+    <updated>2019-07-08T15:19:36.974Z</updated>
+    
+    <content type="html"><![CDATA[<p>本文笔记范围为书中的<strong>第19章</strong>。</p><h1 id="什么是自我营销"><a href="#什么是自我营销" class="headerlink" title="什么是自我营销"></a>什么是自我营销</h1><p><strong>“自我营销”</strong>就是把希望得到你提供的产品或服务的人和你自己连接起来。</p><p>成功的自我营销的关键在于：<strong>为他人提供所需的价值</strong>。</p><p>其实，你每时每刻都在营销自己。当你试图说服他人接受你的想法时，本质上，就是在把自己的想法推销给他人。</p><p><strong>1. 自我营销重要吗？</strong></p><p>非常重要。在生活中经常看到酒吧的驻唱歌手的演唱水平丝毫不亚于原唱的艺术家们。但他们却一直默默无闻。仅仅拥有才华时不够的，伟大的音乐家和超级巨星之间的差距在于自我营销。</p><p><strong>自我营销越好，你的才华才能表现的淋漓尽致。</strong></p><p><strong>2.我不是专家，没什么可营销的</strong></p><p>不是专家并不影响你的自我营销。发掘你的闪光点，你一定懂得世界上90%的人不懂的事情。即便是“菜鸟”、“业余爱好者”的身份也有其优势所在——<strong>很多人喜欢向只比自己稍微优秀一点的人学习</strong>，因为这些人是可望而又可及的。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;本文笔记范围为书中的&lt;strong&gt;第19章&lt;/strong&gt;。&lt;/p&gt;
+&lt;h1 id=&quot;什么是自我营销&quot;&gt;&lt;a href=&quot;#什么是自我营销&quot; class=&quot;headerlink&quot; title=&quot;什么是自我营销&quot;&gt;&lt;/a&gt;什么是自我营销&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;“自
+      
+    
+    </summary>
+    
+    
       <category term="软技能" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E6%8A%80%E8%83%BD/"/>
+    
+      <category term="读书笔记" scheme="https://mrleecn.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
@@ -197,9 +249,9 @@
     </summary>
     
     
-      <category term="读书笔记" scheme="https://mrleecn.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
-    
       <category term="软技能" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E6%8A%80%E8%83%BD/"/>
+    
+      <category term="读书笔记" scheme="https://mrleecn.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
@@ -455,9 +507,9 @@
     </summary>
     
     
-      <category term="读书笔记" scheme="https://mrleecn.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
-    
       <category term="软技能" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E6%8A%80%E8%83%BD/"/>
+    
+      <category term="读书笔记" scheme="https://mrleecn.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
@@ -482,9 +534,9 @@
     </summary>
     
     
-      <category term="读书笔记" scheme="https://mrleecn.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
-    
       <category term="软技能" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E6%8A%80%E8%83%BD/"/>
+    
+      <category term="读书笔记" scheme="https://mrleecn.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
