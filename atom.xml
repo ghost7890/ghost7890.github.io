@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mrleecn.cn/"/>
-  <updated>2019-07-10T15:51:48.928Z</updated>
+  <updated>2019-08-01T15:15:32.647Z</updated>
   <id>https://mrleecn.cn/</id>
   
   <author>
@@ -15,6 +15,89 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Centos7 安装tesseract -ocr报错处理</title>
+    <link href="https://mrleecn.cn/2019/08/01/Centos-tesseract/"/>
+    <id>https://mrleecn.cn/2019/08/01/Centos-tesseract/</id>
+    <published>2019-08-01T15:13:09.000Z</published>
+    <updated>2019-08-01T15:15:32.647Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><ul><li><p>CentOS7.4</p></li><li><p>Python3.7</p></li><li><p>leptonica-1.72</p></li><li><p>tesseract-3.04</p><p>编译安装</p></li></ul><h2 id="报错"><a href="#报错" class="headerlink" title="报错"></a>报错</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">raise</span> TesseractError(proc.returncode, get_errors(error_string))</span><br><span class="line">pytesseract.pytesseract.TesseractError: (<span class="number">1</span>, <span class="string">'Tesseract Open Source OCR Engine v3.04.02dev with Leptonica Error in pixReadMemPng: function not present Error in pixReadMem: png: no pix returned Error during processing.'</span>)</span><br></pre></td></tr></table></figure><h2 id="问题原因及解决方式"><a href="#问题原因及解决方式" class="headerlink" title="问题原因及解决方式"></a>问题原因及解决方式</h2><p>缺少依赖包。</p><ol><li>安装依赖包</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y libjpeg-devel libpng-devel libgif-devel</span><br></pre></td></tr></table></figure><ol start="2"><li><p>重新编译leptonica</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1.进入leptonica目录</span></span><br><span class="line">略</span><br><span class="line"><span class="comment"># 2.编译安装</span></span><br><span class="line">./configure </span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure></li></ol><p>问题解决。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;环境&quot;&gt;&lt;a href=&quot;#环境&quot; class=&quot;headerlink&quot; title=&quot;环境&quot;&gt;&lt;/a&gt;环境&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;CentOS7.4&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Python3.7&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;leptoni
+      
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
+    
+      <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Pyhon爬虫Post上传文件的两种方法</title>
+    <link href="https://mrleecn.cn/2019/07/21/postfile/"/>
+    <id>https://mrleecn.cn/2019/07/21/postfile/</id>
+    <published>2019-07-21T09:44:09.000Z</published>
+    <updated>2019-07-21T15:24:45.386Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="使用第三方库"><a href="#使用第三方库" class="headerlink" title="使用第三方库"></a>使用第三方库</h1><p>使用<code>from requests_toolbelt.multipart.encoder import MultipartEncoder</code>。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> requests_toolbelt.multipart.encoder <span class="keyword">import</span> MultipartEncoder</span><br><span class="line"></span><br><span class="line">m = MultipartEncoder(</span><br><span class="line">    fields=&#123;<span class="string">'field0'</span>: <span class="string">'value'</span>, <span class="string">'field1'</span>: <span class="string">'value'</span>,</span><br><span class="line">            <span class="string">'field2'</span>: (<span class="string">'filename'</span>, open(<span class="string">'file.py'</span>, <span class="string">'rb'</span>), <span class="string">'text/plain'</span>)&#125;</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">r = requests.post(<span class="string">'http://httpbin.org/post'</span>, data=m,</span><br><span class="line">                  headers=&#123;<span class="string">'Content-Type'</span>: m.content_type&#125;)</span><br></pre></td></tr></table></figure><p>其中<code>field0</code>和<code>field1</code>是上传文件时所带的参数。<code>field2</code>为上传的文件的字段名，<code>filename</code>为临时文件名， <code>pen(&#39;file.py&#39;, &#39;rb&#39;)</code>为上传文件的二进制数据。<code>text/plain</code>为上传文件格式。</p><h1 id="不使用第三方库"><a href="#不使用第三方库" class="headerlink" title="不使用第三方库"></a>不使用第三方库</h1><p>模拟上传文件的二进制流。</p><p>格式如下：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--------------------------<span class="number">-7e11719201</span>b4</span><br></pre></td></tr></table></figure><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">post_data = params</span><br><span class="line">boundary = <span class="string">'----------%s'</span> % hex(int(time.time() * <span class="number">1000</span>))</span><br><span class="line"><span class="comment"># boundary = '---------------------------7e11719201b4'</span></span><br><span class="line">tmp_data = []</span><br><span class="line"></span><br><span class="line">tmp_data.append(<span class="string">'--%s'</span> % boundary)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 处理params参数部分</span></span><br><span class="line"><span class="keyword">for</span> f <span class="keyword">in</span> post_data.keys():</span><br><span class="line">    tmp_data.append(<span class="string">'Content-Disposition: form-data; name="%s"\r\n'</span> % f)</span><br><span class="line">    <span class="keyword">if</span> isinstance(post_data.get(f), str):</span><br><span class="line">        tmp_data.append(post_data.get(f))</span><br><span class="line">    <span class="keyword">elif</span> isinstance(post_data.get(f), int):</span><br><span class="line">        tmp_data.append(str(post_data.get(f)))</span><br><span class="line">    <span class="keyword">elif</span> isinstance(post_data.get(f), dict):</span><br><span class="line">        tmp_data.append(json.dumps(post_data.get(f)))</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        tmp_data.append(<span class="string">''</span>)</span><br><span class="line">    tmp_data.append(<span class="string">'--%s'</span> % boundary)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据filetype生成临时文件名</span></span><br><span class="line">tmp_name = getContentType(contenttype=filetype)</span><br><span class="line">filename = str(uuid.uuid1()) + <span class="string">"."</span> + tmp_name</span><br><span class="line"></span><br><span class="line">tmp_data.append(<span class="string">'Content-Disposition: form-data; name="%s"; filename="%s"'</span> % (filefieldname, filename))</span><br><span class="line">tmp_data.append(<span class="string">'Content-Type: %s\r\n'</span> % filetype)</span><br><span class="line"></span><br><span class="line"><span class="comment"># print '\r\n'.join(tmp_data)</span></span><br><span class="line"></span><br><span class="line">tmp_data.append(filebody)</span><br><span class="line">tmp_data.append(<span class="string">'--%s--\r\n'</span> % boundary)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将post_data转换成bytes类型</span></span><br><span class="line">t_list = []</span><br><span class="line">b_index = <span class="number">-1</span></span><br><span class="line"><span class="keyword">for</span> tmp_ <span class="keyword">in</span> tmp_data:</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> isinstance(tmp_, bytes):</span><br><span class="line">        t_list.append(tmp_)</span><br><span class="line">        b_index += <span class="number">1</span></span><br><span class="line">post_data = <span class="string">'\r\n'</span>.join(tmp_data[:b_index]).encode(<span class="string">'utf8'</span>) + <span class="string">'\r\n'</span>.encode(<span class="string">'utf8'</span>) + tmp_data[b_index] + <span class="string">'\r\n'</span>.encode(<span class="string">'utf8'</span>) + <span class="string">'\r\n'</span>.join(tmp_data[b_index+<span class="number">1</span>:]).encode(<span class="string">'utf8'</span>)</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;使用第三方库&quot;&gt;&lt;a href=&quot;#使用第三方库&quot; class=&quot;headerlink&quot; title=&quot;使用第三方库&quot;&gt;&lt;/a&gt;使用第三方库&lt;/h1&gt;&lt;p&gt;使用&lt;code&gt;from requests_toolbelt.multipart.encoder impor
+      
+    
+    </summary>
+    
+    
+      <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
+    
+      <category term="爬虫" scheme="https://mrleecn.cn/tags/%E7%88%AC%E8%99%AB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【软技能】提高生产力（四）</title>
+    <link href="https://mrleecn.cn/2019/07/17/softskills4/"/>
+    <id>https://mrleecn.cn/2019/07/17/softskills4/</id>
+    <published>2019-07-17T12:37:15.000Z</published>
+    <updated>2019-07-25T14:27:41.241Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>本文笔记范围为书中的<strong>第36、37、38章</strong>。</p></blockquote><h1 id="提高专注度"><a href="#提高专注度" class="headerlink" title="提高专注度"></a>提高专注度</h1><p>专注不是一个“即插即用”的开关，它有着自己的冲量。</p><p>在开始一项任务前，确保你已经做好一切可以让自己免受干扰的措施，不管是内部干扰还是外部干扰。</p><p>当你准备好开工时，要用自己的意志力将注意力保持在手头的任务上。起初这种专注是被迫的，但是随着冲量的建立，推动你进入专注状态。你的目标时熬过10分钟，如果你能撑过10分钟，那么你就有足够的冲量继续保持专注。在这种情况下，即便是轻微的干扰也不大可能打破你的专注。<strong>简言之，刚开始强迫自己保持10分钟的专注状态，之后就很容易保持专注状态。</strong></p><h1 id="生产力提高计划"><a href="#生产力提高计划" class="headerlink" title="生产力提高计划"></a>生产力提高计划</h1><ol><li><p><strong>任务拆分</strong></p><p>将手头项目拆分成一个个可以在2小时内完成的小任务，再去完成小任务。</p></li><li><p><strong>从大到小制定计划</strong></p><p>定计划的顺序是：<code>年度计划-&gt;季度计划-&gt;月计划-&gt;周计划-&gt;日计划</code></p></li></ol><h1 id="番茄工作法"><a href="#番茄工作法" class="headerlink" title="番茄工作法"></a>番茄工作法</h1><h3 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h3><p>你规划出打算一天内完成的工作，然后设置一个时长为25分钟的定时器。去完成计划中的一项任务。在这25分钟内，你只专注于这一项任务。屏蔽掉一切干扰项。在25分钟结束后，设置一个5分分钟的定时器，休息一下。而这30分钟，称为一个<code>“番茄钟”</code>。</p><h3 id="困扰"><a href="#困扰" class="headerlink" title="困扰"></a>困扰</h3><p>可能你长期一直被这个问题所困扰：<strong>总为自己没有做更多的事情而感到内疚。</strong>这与一天完成了多少工作无关，就好像永远不能放松似的。总觉得自己应该继续做事，以至于坐下来玩游戏时也都无法享受其中，觉得那是在浪费时间。</p><p>这个问题的根源在于：你无法准确地评估每天自己到底完成了多少任务，也没为自己每天到底要完成多少任务设定明确的目标。你试图为自己列出一份每日任务清单来解决这一问题，这看似是个好主意。可当你某些任务没有在规定时间内完成，你将备受打击。即使自己竭尽全力可还是觉得自己很失败。</p><h3 id="有效利用番茄钟"><a href="#有效利用番茄钟" class="headerlink" title="有效利用番茄钟"></a>有效利用番茄钟</h3><p><strong>我们不一定能够控制完成一项任务到底需要多长时间。但我们可以控制自己在这一天中愿意为某项任务花多少时间</strong></p><p>搞清楚自己每周内能完成多少个番茄钟，每周又需要完成多少任务。从而为任务设置优先级。通过计算自己完成的番茄钟的数量，可以确切的知道自己一周完成了多少任务，也就不会觉得自己没完成足够的任务。如果你没能完成给自己设定的任务，但却用完了足够数量的番茄钟。那么问题就不在于工作量是否饱和。而在于给某项任务的优先级是否正确。</p><p>每周你只有这么多番茄钟可以分配的时候，你就会小心使用这些番茄钟。使用番茄钟之前，你可能会幻想者自己可以在一周内完成超出自己实际能力范围的许多工作，高估自己。但是，开始使用番茄工作法后，就能准确的知道自己一周工作了多长时间，也知道自己完成了多少个番茄钟。</p><p>这样你的生活就大有变化，当你完成了当天的任务后，就可以尽情的享受自由时光。即使玩游戏，也不会觉得愧疚。因为你已经努力工作了一整天。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;本文笔记范围为书中的&lt;strong&gt;第36、37、38章&lt;/strong&gt;。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;提高专注度&quot;&gt;&lt;a href=&quot;#提高专注度&quot; class=&quot;headerlink&quot; title=&quot;提高专注度&quot;&gt;&lt;/
+      
+    
+    </summary>
+    
+    
+      <category term="软技能" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E6%8A%80%E8%83%BD/"/>
+    
+      <category term="读书笔记" scheme="https://mrleecn.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
   
   <entry>
     <title>【软技能】学会自我营销（三）</title>

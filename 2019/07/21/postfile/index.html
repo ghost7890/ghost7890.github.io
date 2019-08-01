@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'true', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+<!-- End Google Analytics -->
+
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?53891daf9e0316e03eadf2da354a713d"></script>
+<!-- End Baidu Tongji -->
+
+
+
+<!-- Baidu Push -->
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<!-- End Baidu Push -->
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="true">
+    
+    
+    
+    
+    <title>Pyhon爬虫Post上传文件的两种方法 | 西加加先生&#39;Blog | 努力诚可贵，坚持价更高</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Python,爬虫">
+    <meta name="description" content="使用第三方库使用from requests_toolbelt.multipart.encoder import MultipartEncoder。 12345678910import requestsfrom requests_toolbelt.multipart.encoder import MultipartEncoderm = MultipartEncoder(    fields=&amp;#12">
+<meta name="keywords" content="Python,爬虫">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pyhon爬虫Post上传文件的两种方法">
+<meta property="og:url" content="https://mrleecn.cn/2019/07/21/postfile/index.html">
+<meta property="og:site_name" content="西加加先生&#39;Blog">
+<meta property="og:description" content="使用第三方库使用from requests_toolbelt.multipart.encoder import MultipartEncoder。 12345678910import requestsfrom requests_toolbelt.multipart.encoder import MultipartEncoderm = MultipartEncoder(    fields=&amp;#12">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-07-21T15:24:45.386Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Pyhon爬虫Post上传文件的两种方法">
+<meta name="twitter:description" content="使用第三方库使用from requests_toolbelt.multipart.encoder import MultipartEncoder。 12345678910import requestsfrom requests_toolbelt.multipart.encoder import MultipartEncoderm = MultipartEncoder(    fields=&amp;#12">
+    
+        <link rel="alternate" type="application/atom+xml" title="西加加先生&#39;Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.gif">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-140803241-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-140803241-1');
+</script>
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">西加加先生</h5>
+          <a href="mailto:466987329@qq.com" title="466987329@qq.com" class="mail">466987329@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ghost7890" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books">
+                <i class="icon icon-lg icon-book"></i>
+                我的读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies">
+                <i class="icon icon-lg icon-film"></i>
+                我的电影
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends-link">
+                <i class="icon icon-lg icon-link"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends-apply">
+                <i class="icon icon-lg icon-user-plus"></i>
+                友链申请
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Pyhon爬虫Post上传文件的两种方法</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Pyhon爬虫Post上传文件的两种方法</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-07-21T09:44:09.000Z" itemprop="datePublished" class="page-time">
+  2019-07-21
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#使用第三方库"><span class="post-toc-number">1.</span> <span class="post-toc-text">使用第三方库</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#不使用第三方库"><span class="post-toc-number">2.</span> <span class="post-toc-text">不使用第三方库</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-postfile" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Pyhon爬虫Post上传文件的两种方法</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-07-21 17:44:09" datetime="2019-07-21T09:44:09.000Z" itemprop="datePublished">2019-07-21</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="使用第三方库"><a href="#使用第三方库" class="headerlink" title="使用第三方库"></a>使用第三方库</h1><p>使用<code>from requests_toolbelt.multipart.encoder import MultipartEncoder</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> requests_toolbelt.multipart.encoder <span class="keyword">import</span> MultipartEncoder</span><br><span class="line"></span><br><span class="line">m = MultipartEncoder(</span><br><span class="line">    fields=&#123;<span class="string">'field0'</span>: <span class="string">'value'</span>, <span class="string">'field1'</span>: <span class="string">'value'</span>,</span><br><span class="line">            <span class="string">'field2'</span>: (<span class="string">'filename'</span>, open(<span class="string">'file.py'</span>, <span class="string">'rb'</span>), <span class="string">'text/plain'</span>)&#125;</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">r = requests.post(<span class="string">'http://httpbin.org/post'</span>, data=m,</span><br><span class="line">                  headers=&#123;<span class="string">'Content-Type'</span>: m.content_type&#125;)</span><br></pre></td></tr></table></figure>
+<p>其中<code>field0</code>和<code>field1</code>是上传文件时所带的参数。<code>field2</code>为上传的文件的字段名，<code>filename</code>为临时文件名， <code>pen(&#39;file.py&#39;, &#39;rb&#39;)</code>为上传文件的二进制数据。<code>text/plain</code>为上传文件格式。</p>
+<h1 id="不使用第三方库"><a href="#不使用第三方库" class="headerlink" title="不使用第三方库"></a>不使用第三方库</h1><p>模拟上传文件的二进制流。</p>
+<p>格式如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--------------------------<span class="number">-7e11719201</span>b4</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">post_data = params</span><br><span class="line">boundary = <span class="string">'----------%s'</span> % hex(int(time.time() * <span class="number">1000</span>))</span><br><span class="line"><span class="comment"># boundary = '---------------------------7e11719201b4'</span></span><br><span class="line">tmp_data = []</span><br><span class="line"></span><br><span class="line">tmp_data.append(<span class="string">'--%s'</span> % boundary)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 处理params参数部分</span></span><br><span class="line"><span class="keyword">for</span> f <span class="keyword">in</span> post_data.keys():</span><br><span class="line">    tmp_data.append(<span class="string">'Content-Disposition: form-data; name="%s"\r\n'</span> % f)</span><br><span class="line">    <span class="keyword">if</span> isinstance(post_data.get(f), str):</span><br><span class="line">        tmp_data.append(post_data.get(f))</span><br><span class="line">    <span class="keyword">elif</span> isinstance(post_data.get(f), int):</span><br><span class="line">        tmp_data.append(str(post_data.get(f)))</span><br><span class="line">    <span class="keyword">elif</span> isinstance(post_data.get(f), dict):</span><br><span class="line">        tmp_data.append(json.dumps(post_data.get(f)))</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        tmp_data.append(<span class="string">''</span>)</span><br><span class="line">    tmp_data.append(<span class="string">'--%s'</span> % boundary)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据filetype生成临时文件名</span></span><br><span class="line">tmp_name = getContentType(contenttype=filetype)</span><br><span class="line">filename = str(uuid.uuid1()) + <span class="string">"."</span> + tmp_name</span><br><span class="line"></span><br><span class="line">tmp_data.append(<span class="string">'Content-Disposition: form-data; name="%s"; filename="%s"'</span> % (filefieldname, filename))</span><br><span class="line">tmp_data.append(<span class="string">'Content-Type: %s\r\n'</span> % filetype)</span><br><span class="line"></span><br><span class="line"><span class="comment"># print '\r\n'.join(tmp_data)</span></span><br><span class="line"></span><br><span class="line">tmp_data.append(filebody)</span><br><span class="line">tmp_data.append(<span class="string">'--%s--\r\n'</span> % boundary)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将post_data转换成bytes类型</span></span><br><span class="line">t_list = []</span><br><span class="line">b_index = <span class="number">-1</span></span><br><span class="line"><span class="keyword">for</span> tmp_ <span class="keyword">in</span> tmp_data:</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> isinstance(tmp_, bytes):</span><br><span class="line">        t_list.append(tmp_)</span><br><span class="line">        b_index += <span class="number">1</span></span><br><span class="line">post_data = <span class="string">'\r\n'</span>.join(tmp_data[:b_index]).encode(<span class="string">'utf8'</span>) + <span class="string">'\r\n'</span>.encode(<span class="string">'utf8'</span>) + tmp_data[b_index] + <span class="string">'\r\n'</span>.encode(<span class="string">'utf8'</span>) + <span class="string">'\r\n'</span>.join(tmp_data[b_index+<span class="number">1</span>:]).encode(<span class="string">'utf8'</span>)</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-07-21T15:24:45.386Z" itemprop="dateUpdated">2019-07-21 23:24:45</time>
+</span><br>
+
+
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2019/07/21/postfile/" target="_blank" rel="external">https://mrleecn.cn/2019/07/21/postfile/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://mrleecn.cn">
+            <img src="/img/avatar.jpg" alt="西加加先生">
+            西加加先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/爬虫/">爬虫</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://mrleecn.cn/2019/07/21/postfile/&title=《Pyhon爬虫Post上传文件的两种方法》 — 西加加先生'Blog&pic=https://mrleecn.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://mrleecn.cn/2019/07/21/postfile/&title=《Pyhon爬虫Post上传文件的两种方法》 — 西加加先生'Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://mrleecn.cn/2019/07/21/postfile/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Pyhon爬虫Post上传文件的两种方法》 — 西加加先生'Blog&url=https://mrleecn.cn/2019/07/21/postfile/&via=https://mrleecn.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://mrleecn.cn/2019/07/21/postfile/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/08/01/Centos-tesseract/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Centos7 安装tesseract -ocr报错处理</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/07/17/softskills4/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">【软技能】提高生产力（四）</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "3GQHOe6La6D1uDM55jwGO4ot-gzGzoHsz",
+            appKey: "UgaD9ez4RHchPDGCAA7JAzUb",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check" data-wechat="/img/wechat.png" data-alipay="/img/alipay.png">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>西加加先生 &copy; 2015 - 2019</span>
+            <span>
+                
+                <a href="http://www.miitbeian.gov.cn/" target="_blank">湘ICP备17011548号-1</a><br>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://mrleecn.cn/2019/07/21/postfile/&title=《Pyhon爬虫Post上传文件的两种方法》 — 西加加先生'Blog&pic=https://mrleecn.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://mrleecn.cn/2019/07/21/postfile/&title=《Pyhon爬虫Post上传文件的两种方法》 — 西加加先生'Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://mrleecn.cn/2019/07/21/postfile/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Pyhon爬虫Post上传文件的两种方法》 — 西加加先生'Blog&url=https://mrleecn.cn/2019/07/21/postfile/&via=https://mrleecn.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://mrleecn.cn/2019/07/21/postfile/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABx0lEQVR42u3awa7CMAwEQP7/p3nSu0LK2i5pkaanCqJkerHiTR6P+Hn+P6/vq5GvY15nOJ5n9ODi4o65z8NnRVwtf8w9nj+ZBxcXdyc3KV6rD8hH5mOWv+Pi4t6MmxS16kYHFxf317n58hM6Li7ufbh5c9IrbckW5+ReDRcXd8CdBKZnvW/Kd3FxccenEnkAmh+Q5MXrzeq4uLhbuNUNSrLRSVqdXsyKi4u7h9trUfJ9SG+eQgnDxcXdws2vX+QBRxKbRkUQFxd3Ize/kpWHmNVWKqLj4uJu5OYHovkyk1hkuS4uLu4W7qToVEtblX5yjcTFxY258wsW1VYHFxf3V7jz2LR3xaocyuDi4l7KrRagXlSaRLG4uLh34+abnvw9D2c/HKXg4uJ+jTtpVKoHLXmz9GFOXFzcL3OrU+RtT/XyVnSpCxcXdyM3j0d70erk0AUXF/cqbv5Ucfn2JfoMXFzcLdzeVYnedaukOOb/4uLifpvbizJ70UZeyHBxce/ArV7b6jU21THLfBcXF/c23HN7k6SQvVkXFxf3ltw8Tp2fAOPi4l7L7R245qFqfg3rtF4NFxd3wO0FpnkZqgYf1Q/DxcU9lfsHp+IlCwhEK4gAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>
