@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'true', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+<!-- End Google Analytics -->
+
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?53891daf9e0316e03eadf2da354a713d"></script>
+<!-- End Baidu Tongji -->
+
+
+
+<!-- Baidu Push -->
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<!-- End Baidu Push -->
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="true">
+    
+    
+    
+    
+    <title>【docker】CentOS7.4+Python2.7+selenium+Firefox+tesseract的搭建 | 西加加先生&#39;Blog | 努力诚可贵，坚持价更高</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Linux,软件安装,Python,Docker">
+    <meta name="description" content="当前Docker容器配置：  Centos7.4 python2.7.5  目标Docker容器配置：  Centos7.4 python2.7.5 selenium 3.141.0 geckodriver 0.15 firefox 56.0.2 Pillow 6.1.0 pytesseract 0.2.7  安装依赖环境1yum install -y zlib-devel bzip2-devel">
+<meta name="keywords" content="Linux,软件安装,Python,Docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【docker】CentOS7.4+Python2.7+selenium+Firefox+tesseract的搭建">
+<meta property="og:url" content="https://mrleecn.cn/2019/08/04/centos74py27/index.html">
+<meta property="og:site_name" content="西加加先生&#39;Blog">
+<meta property="og:description" content="当前Docker容器配置：  Centos7.4 python2.7.5  目标Docker容器配置：  Centos7.4 python2.7.5 selenium 3.141.0 geckodriver 0.15 firefox 56.0.2 Pillow 6.1.0 pytesseract 0.2.7  安装依赖环境1yum install -y zlib-devel bzip2-devel">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-08-10T09:31:02.982Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【docker】CentOS7.4+Python2.7+selenium+Firefox+tesseract的搭建">
+<meta name="twitter:description" content="当前Docker容器配置：  Centos7.4 python2.7.5  目标Docker容器配置：  Centos7.4 python2.7.5 selenium 3.141.0 geckodriver 0.15 firefox 56.0.2 Pillow 6.1.0 pytesseract 0.2.7  安装依赖环境1yum install -y zlib-devel bzip2-devel">
+    
+        <link rel="alternate" type="application/atom+xml" title="西加加先生&#39;Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.gif">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-140803241-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-140803241-1');
+</script>
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">西加加先生</h5>
+          <a href="mailto:466987329@qq.com" title="466987329@qq.com" class="mail">466987329@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ghost7890" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books">
+                <i class="icon icon-lg icon-book"></i>
+                我的读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies">
+                <i class="icon icon-lg icon-film"></i>
+                我的电影
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends-link">
+                <i class="icon icon-lg icon-link"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends-apply">
+                <i class="icon icon-lg icon-user-plus"></i>
+                友链申请
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">【docker】CentOS7.4+Python2.7+selenium+Firefox+tesseract的搭建</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">【docker】CentOS7.4+Python2.7+selenium+Firefox+tesseract的搭建</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-08-04T09:11:17.000Z" itemprop="datePublished" class="page-time">
+  2019-08-04
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#安装依赖环境"><span class="post-toc-number">1.</span> <span class="post-toc-text">安装依赖环境</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#创建目录存放安装包"><span class="post-toc-number">2.</span> <span class="post-toc-text">创建目录存放安装包</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#安装pip"><span class="post-toc-number">3.</span> <span class="post-toc-text">安装pip</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#根据需求安装所需包"><span class="post-toc-number">4.</span> <span class="post-toc-text">根据需求安装所需包</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#安装tesseract"><span class="post-toc-number">5.</span> <span class="post-toc-text">安装tesseract</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#安装selenium-Firefox-Xvfb"><span class="post-toc-number">6.</span> <span class="post-toc-text">安装selenium+Firefox+Xvfb</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-centos74py27" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">【docker】CentOS7.4+Python2.7+selenium+Firefox+tesseract的搭建</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-08-04 17:11:17" datetime="2019-08-04T09:11:17.000Z" itemprop="datePublished">2019-08-04</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p><strong>当前Docker容器配置：</strong></p>
+<ul>
+<li>Centos7.4</li>
+<li>python2.7.5</li>
+</ul>
+<p><strong>目标Docker容器配置：</strong></p>
+<ul>
+<li>Centos7.4</li>
+<li>python2.7.5</li>
+<li>selenium 3.141.0</li>
+<li>geckodriver 0.15</li>
+<li>firefox 56.0.2</li>
+<li>Pillow 6.1.0</li>
+<li>pytesseract 0.2.7</li>
+</ul>
+<h2 id="安装依赖环境"><a href="#安装依赖环境" class="headerlink" title="安装依赖环境"></a>安装依赖环境</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel libffi-devel gcc make wget git unzip gcc gcc-c++ libjpeg-devel libpng-devel libgif-devel</span><br></pre></td></tr></table></figure>
+<h2 id="创建目录存放安装包"><a href="#创建目录存放安装包" class="headerlink" title="创建目录存放安装包"></a>创建目录存放安装包</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir /usr/<span class="built_in">local</span>/download </span><br><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/download</span><br></pre></td></tr></table></figure>
+<h2 id="安装pip"><a href="#安装pip" class="headerlink" title="安装pip"></a>安装pip</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate https://bootstrap.pypa.io/get-pip.py</span><br><span class="line">python get-pip.py</span><br><span class="line">mv /usr/bin/pip /usr/bin/pip_bak</span><br><span class="line">ln -s /usr/<span class="built_in">local</span>/bin/pip /usr/bin/pip</span><br></pre></td></tr></table></figure>
+<h2 id="根据需求安装所需包"><a href="#根据需求安装所需包" class="headerlink" title="根据需求安装所需包"></a>根据需求安装所需包</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pip install requests</span><br><span class="line">pip install Pillow</span><br><span class="line">pip install httplib2</span><br><span class="line">pip install excel</span><br></pre></td></tr></table></figure>
+<h2 id="安装tesseract"><a href="#安装tesseract" class="headerlink" title="安装tesseract"></a>安装tesseract</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装leptonica</span></span><br><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/download/</span><br><span class="line">wget http://www.leptonica.org/<span class="built_in">source</span>/leptonica-1.72.tar.gz</span><br><span class="line">tar xvzf leptonica-1.72.tar.gz</span><br><span class="line"><span class="built_in">cd</span> leptonica-1.72/</span><br><span class="line">./configure</span><br><span class="line">make &amp;&amp; make install</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装tesseract-3.04</span></span><br><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/download/</span><br><span class="line">wget https://github.com/tesseract-ocr/tesseract/archive/3.04.zip</span><br><span class="line">unzip 3.04.zip &amp;&amp; <span class="built_in">cd</span> tesseract-3.04/</span><br><span class="line">./configure</span><br><span class="line">make &amp;&amp; make install</span><br><span class="line"><span class="comment"># 手动更新动态链接库</span></span><br><span class="line">ldconfig</span><br><span class="line">pip install pytesseract</span><br><span class="line"><span class="comment"># 安装语言包</span></span><br><span class="line">在https://github.com/tesseract-ocr/tessdata 下载对应语言的模型文件</span><br><span class="line">由于目前只需要识别手机号码和英文，只下载一个eng.traineddata文件即可，</span><br><span class="line">将模型文件移动到/usr/<span class="built_in">local</span>/share/tessdata</span><br><span class="line">然后即可进行识别</span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例</span></span><br><span class="line">import pytesseract</span><br><span class="line">from PIL import Image</span><br><span class="line"></span><br><span class="line">image = Image.open(<span class="string">'bb.png'</span>)</span><br><span class="line">code = pytesseract.image_to_string(image)</span><br><span class="line"><span class="built_in">print</span>(code)</span><br></pre></td></tr></table></figure>
+<h2 id="安装selenium-Firefox-Xvfb"><a href="#安装selenium-Firefox-Xvfb" class="headerlink" title="安装selenium+Firefox+Xvfb"></a>安装selenium+Firefox+Xvfb</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">yum install -y Xvfb gtk3 gtk3-devel libXfont xorg-x11-fonts* libgtk-3.so.0 bzip2 </span><br><span class="line">pip install xvfbwrapper selenium pyvirtualdisplay</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装浏览器</span></span><br><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/download/</span><br><span class="line">wget https://ftp.mozilla.org/pub/firefox/releases/56.0.2/linux-x86_64/en-US/firefox-56.0.2.tar.bz2</span><br><span class="line">tar xjvf firefox-56.0.2.tar.bz2</span><br><span class="line">rm -f /usr/bin/firefox</span><br><span class="line">ln -s /usr/<span class="built_in">local</span>/download/firefox/firefox /usr/bin/firefox</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装geckodriver</span></span><br><span class="line">wget https://github.com/mozilla/geckodriver/releases/download/v0.15.0/geckodriver-v0.15.0-linux64.tar.gz</span><br><span class="line">tar xvzf geckodriver-*.tar.gz</span><br><span class="line">rm -f /usr/bin/geckodriver</span><br><span class="line">ln -s /usr/<span class="built_in">local</span>/download/geckodriver /usr/bin/geckodriver	<span class="comment"># 软链接必须用绝对路径</span></span><br></pre></td></tr></table></figure>
+<p>测试用例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">from</span> pyvirtualdisplay <span class="keyword">import</span> Display</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.firefox.firefox_binary <span class="keyword">import</span> FirefoxBinary</span><br><span class="line">display = Display(visible=<span class="number">0</span>, size=(<span class="number">800</span>,<span class="number">600</span>))</span><br><span class="line">display.start()</span><br><span class="line">binary = FirefoxBinary(<span class="string">'/usr/bin/firefox'</span>)</span><br><span class="line">driver = webdriver.Firefox(firefox_binary=binary)</span><br><span class="line">driver.get(<span class="string">'https://www.baidu.com'</span>)</span><br><span class="line">print(driver.title.encode(<span class="string">'utf8'</span>))</span><br><span class="line">driver.quit()</span><br><span class="line">display.stop()</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-08-10T09:31:02.982Z" itemprop="dateUpdated">2019-08-10 17:31:02</time>
+</span><br>
+
+
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2019/08/04/centos74py27/" target="_blank" rel="external">https://mrleecn.cn/2019/08/04/centos74py27/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://mrleecn.cn">
+            <img src="/img/avatar.jpg" alt="西加加先生">
+            西加加先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker/">Docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/软件安装/">软件安装</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://mrleecn.cn/2019/08/04/centos74py27/&title=《【docker】CentOS7.4+Python2.7+selenium+Firefox+tesseract的搭建》 — 西加加先生'Blog&pic=https://mrleecn.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://mrleecn.cn/2019/08/04/centos74py27/&title=《【docker】CentOS7.4+Python2.7+selenium+Firefox+tesseract的搭建》 — 西加加先生'Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://mrleecn.cn/2019/08/04/centos74py27/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【docker】CentOS7.4+Python2.7+selenium+Firefox+tesseract的搭建》 — 西加加先生'Blog&url=https://mrleecn.cn/2019/08/04/centos74py27/&via=https://mrleecn.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://mrleecn.cn/2019/08/04/centos74py27/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/08/05/centos68py27/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">【docker】CentOS6.8+Python2.7+selenium+Firefox的搭建</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/08/03/centos74py37/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">【docker】CentOS7.4+Python3.7+selenium+Firefox+tesseract的搭建</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "3GQHOe6La6D1uDM55jwGO4ot-gzGzoHsz",
+            appKey: "UgaD9ez4RHchPDGCAA7JAzUb",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check" data-wechat="/img/wechat.png" data-alipay="/img/alipay.png">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>西加加先生 &copy; 2015 - 2019</span>
+            <span>
+                
+                <a href="http://www.miitbeian.gov.cn/" target="_blank">湘ICP备17011548号-1</a><br>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://mrleecn.cn/2019/08/04/centos74py27/&title=《【docker】CentOS7.4+Python2.7+selenium+Firefox+tesseract的搭建》 — 西加加先生'Blog&pic=https://mrleecn.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://mrleecn.cn/2019/08/04/centos74py27/&title=《【docker】CentOS7.4+Python2.7+selenium+Firefox+tesseract的搭建》 — 西加加先生'Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://mrleecn.cn/2019/08/04/centos74py27/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【docker】CentOS7.4+Python2.7+selenium+Firefox+tesseract的搭建》 — 西加加先生'Blog&url=https://mrleecn.cn/2019/08/04/centos74py27/&via=https://mrleecn.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://mrleecn.cn/2019/08/04/centos74py27/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACLklEQVR42u3aS46jQBAFQN//0h5pViP1GL2XBS25Kli1aAwEi1T+Xq/4eP89fp759/w7OH7e7dMdXk8cGBgYX8toH3zNSJDXL51/GgwMjNMY10E2D5qfHp98uOTOH89jYGBgXAbBlSCLgYGB8UTAvS4yr69J7oOBgYGxUsQmCV/eB0s+wSO1OAYGxhcy2sHAb/794HwDAwPjSxjv8sgDa/7cdhjwn7fCwMDYmnHd1m+TvHwY2Y4fonCMgYGxNWMlUcuHl7PRQp0sYmBgHMDI221tgyx/ofbDYWBg7M2YvXpedubDy+T+GBgYZzLaZllLnS1YLKWJGBgYmzLqFnz8sHZFY1b0YmBg7M1oF63y69dXwYoEFAMD4wBGO3S8a18rKVCTgI6BgbE3I0/C8mWIthnXtuEwMDBOYyQN9/UUsC2M65U1DAyMrRntAGB2ZZv8tcMDDAyMvRmzZn27ZjEblxZFNQYGxgGMtphs23D3jjOjIhYDA2MjRjKezBv6K6PKG8IuBgbGpox8uHhXKtmOP6PKGwMD4wDGrHC9679tiRvNYDEwMDZi5LeelaPPpYkYGBjnMN7lcVtTLEgB89UNDAyMvRl3lZTtNsdsOWM2LsXAwNiD0QbZPOtc+VX9vTEwMA5g5IPDGbVNGdswjYGBgTErRK+baytrsksBFwMD4zBGslqxskxW/AoDA+MARpL2zUJku3gxK30xMDD2ZqwUkHnjfhZ2Z6tjGBgYGzH+AP/eslBgTfoiAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>
