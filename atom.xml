@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mrleecn.cn/"/>
-  <updated>2019-09-16T14:29:09.773Z</updated>
+  <updated>2019-09-16T14:31:14.898Z</updated>
   <id>https://mrleecn.cn/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://mrleecn.cn/2019/09/16/pythononaes/"/>
     <id>https://mrleecn.cn/2019/09/16/pythononaes/</id>
     <published>2019-09-16T12:38:05.000Z</published>
-    <updated>2019-09-16T14:29:09.773Z</updated>
+    <updated>2019-09-16T14:31:14.898Z</updated>
     
     <content type="html"><![CDATA[<h1 id="本文主要解决的问题"><a href="#本文主要解决的问题" class="headerlink" title="本文主要解决的问题"></a>本文主要解决的问题</h1><p>本文主要是讲解AES加密算法中的ECB模式的加密解密的Python3.7实现。具体AES加密算法的原理这里不做过多介绍，想了解的可以参考文末的参考链接。</p><p>主要解决了两个问题：</p><ol><li><strong>在Python3.7版本下，所依赖包的安装问题</strong>。（有一些博客时间久远，其中所提到的模块并不适用于Python3.7）</li><li><strong>因为Python版本的问题，其他博客在基于Python3.6下的代码在Python3.7下并不能运行的问题</strong>。</li></ol><h1 id="背景介绍"><a href="#背景介绍" class="headerlink" title="背景介绍"></a>背景介绍</h1><p>在爬虫项目中遇到，某些网站的账号、密码采用了AES的ECB模式进行了加密。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 加密前的数据</span></span><br><span class="line"><span class="number">123456</span>asd</span><br><span class="line"><span class="comment"># 加密后的数据</span></span><br><span class="line"><span class="number">3</span>cfeba82c31b6635e8fb085e04529e74</span><br><span class="line"><span class="comment"># 密钥</span></span><br><span class="line"><span class="number">8</span>NONwyJtHesysWpM</span><br></pre></td></tr></table></figure><p>使用<a href="http://tool.chacuo.net/cryptaes" target="_blank" rel="noopener">在线AES加密解密、AES在线加密解密</a>，进行尝试。</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="http://abc.mrleecn.cn/blog/20190916/Sk8PQvofDtwE.png?imageslim" alt="mark" title>                </div>                <div class="image-caption">mark</div>            </figure><p>经过测试发现，在<code>AES</code>加密的<code>ECB模式</code>，填充为<code>pkcs7padding</code> ，数据块为<code>128位</code>，输出格式为<code>hex</code>时，得到自己想要的结果。</p><p>（这里可以可以根据密文的格式进行判断输出的格式，<strong>一般密文以==结尾的输出格式为base64</strong>，否则为hex格式）</p><h1 id="问题1：Crypto模块安装报错"><a href="#问题1：Crypto模块安装报错" class="headerlink" title="问题1：Crypto模块安装报错"></a>问题1：Crypto模块安装报错</h1><p>pip 安装 pycrypto模块，抛如下错误:</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">error: command <span class="string">'C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\BIN\\cl.exe'</span> failed <span class="keyword">with</span> exit status <span class="number">2</span></span><br></pre></td></tr></table></figure><p><strong>解决方法：</strong></p><p>详见<a href="https://blog.csdn.net/qq_41917908/article/details/92612142" target="_blank" rel="noopener">python3.7安装pycrypto</a>。</p><h1 id="问题2：网上copy来的代码报错"><a href="#问题2：网上copy来的代码报错" class="headerlink" title="问题2：网上copy来的代码报错"></a>问题2：网上copy来的代码报错</h1><p>在网上博客中直接copy来的代码，可能会抛如下错误。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TypeError: Object type &lt;<span class="class"><span class="keyword">class</span> '<span class="title">str</span>'&gt; <span class="title">cannot</span> <span class="title">be</span> <span class="title">passed</span> <span class="title">to</span> <span class="title">C</span> <span class="title">code</span></span></span><br></pre></td></tr></table></figure><p>换个博客，发现依旧是这个错误。</p><p><strong>错误原因</strong>：</p><p>之前版本的代码并不适用于Python3.7。需要进行修改。</p><p>修改后的代码：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_to_16</span><span class="params">(text)</span>:</span></span><br><span class="line">    <span class="keyword">while</span> len(text) % <span class="number">16</span> != <span class="number">0</span>:</span><br><span class="line">        text += <span class="string">'\0'</span></span><br><span class="line">    <span class="keyword">return</span> text</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt</span><span class="params">(data, password)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> isinstance(password, str):</span><br><span class="line">        password = password.encode(<span class="string">'utf8'</span>)</span><br><span class="line"></span><br><span class="line">    bs = AES.block_size</span><br><span class="line">    pad = <span class="keyword">lambda</span> s: s + (bs - len(s) % bs) * chr(bs - len(s) % bs)</span><br><span class="line">    cipher = AES.new(password, AES.MODE_ECB)</span><br><span class="line">    data = cipher.encrypt(pad(data).encode(<span class="string">'utf8'</span>))</span><br><span class="line">    encrypt_data = binascii.b2a_hex(data)  <span class="comment"># 输出hex</span></span><br><span class="line">    <span class="comment"># encrypt_data = base64.b64encode(data)         # 取消注释，输出Base64格式</span></span><br><span class="line">    <span class="keyword">return</span> encrypt_data.decode(<span class="string">'utf8'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decrypt</span><span class="params">(decrData, password)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> isinstance(password, str):</span><br><span class="line">        password = password.encode(<span class="string">'utf8'</span>)</span><br><span class="line"></span><br><span class="line">    cipher = AES.new(password, AES.MODE_ECB)</span><br><span class="line">    plain_text = cipher.decrypt(binascii.a2b_hex(decrData))</span><br><span class="line">    <span class="keyword">return</span> plain_text.decode(<span class="string">'utf8'</span>).rstrip(<span class="string">'\0'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    data = <span class="string">'123456asd'</span>      <span class="comment"># 待加密数据</span></span><br><span class="line">    password = <span class="string">'8NONwyJtHesysWpM'</span>  <span class="comment"># 16,24,32位长的密码（密钥）</span></span><br><span class="line">    password = add_to_16(password)</span><br><span class="line">    encrypt_data = encrypt(data, password)</span><br><span class="line">    print(<span class="string">'加密前数据：&#123;&#125;\n======================='</span>.format(data))</span><br><span class="line">    print(<span class="string">'加密后的数据:'</span>, encrypt_data)</span><br><span class="line"></span><br><span class="line">    decrypt_data = decrypt(encrypt_data, password)</span><br><span class="line">    print(<span class="string">'解密后的数据：&#123;&#125;'</span>.format(decrypt_data))</span><br></pre></td></tr></table></figure><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="http://abc.mrleecn.cn/blog/20190916/NiBYDUeRtTRh.png?imageslim" alt="mark" title>                </div>                <div class="image-caption">mark</div>            </figure><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://www.cnblogs.com/kaituorensheng/p/4501128.html" target="_blank" rel="noopener">python 加密解密</a></p><p><a href="https://www.cnblogs.com/raymond531/p/10420751.html" target="_blank" rel="noopener">AES ECB PKCS5/PKCS7 加解密 python实现 支持中文</a></p><p><a href="https://www.jianshu.com/p/5b38b4187b54" target="_blank" rel="noopener">python3.7 利用Crypto进行AES解密&amp;加密文件</a></p><p><a href="https://blog.csdn.net/qq_41917908/article/details/92612142" target="_blank" rel="noopener">python3.7安装pycrypto</a></p>]]></content>
     
@@ -37,9 +37,9 @@
     
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
-      <category term="加密" scheme="https://mrleecn.cn/tags/%E5%8A%A0%E5%AF%86/"/>
-    
       <category term="爬虫" scheme="https://mrleecn.cn/tags/%E7%88%AC%E8%99%AB/"/>
+    
+      <category term="加密" scheme="https://mrleecn.cn/tags/%E5%8A%A0%E5%AF%86/"/>
     
   </entry>
   
@@ -69,13 +69,13 @@
     </summary>
     
     
-      <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
-    
-      <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
-    
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
       <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
+    
+      <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
+    
+      <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
     
   </entry>
   
@@ -105,13 +105,13 @@
     </summary>
     
     
-      <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
-    
-      <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
-    
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
       <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
+    
+      <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
+    
+      <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
     
   </entry>
   
@@ -141,13 +141,13 @@
     </summary>
     
     
-      <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
-    
-      <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
-    
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
       <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
+    
+      <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
+    
+      <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
     
   </entry>
   
@@ -170,13 +170,13 @@
     </summary>
     
     
-      <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
-    
-      <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
-    
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
       <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
+    
+      <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
+    
+      <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
     
   </entry>
   
@@ -205,13 +205,13 @@
     </summary>
     
     
-      <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
-    
-      <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
-    
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
       <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
+    
+      <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
+    
+      <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
     
   </entry>
   
