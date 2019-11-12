@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mrleecn.cn/"/>
-  <updated>2019-09-21T13:38:57.026Z</updated>
+  <updated>2019-11-12T13:50:02.861Z</updated>
   <id>https://mrleecn.cn/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>《大话设计模式》——简单工厂模式（Python版）</title>
+    <link href="https://mrleecn.cn/2019/11/12/designmodel1/"/>
+    <id>https://mrleecn.cn/2019/11/12/designmodel1/</id>
+    <published>2019-11-12T13:20:37.000Z</published>
+    <updated>2019-11-12T13:50:02.861Z</updated>
+    
+    <content type="html"><![CDATA[<p><code>简单工厂模式(Simple Factory Pattern)</code>：<strong>是通过专门定义一个类来负责创建其他类的实例，被创建的实例通常都具有共同的父类.</strong></p><h4 id="例："><a href="#例：" class="headerlink" title="例："></a>例：</h4><p><strong>使用Python设计一个控制台计算器，要求输入两个数和运算符号，得到运算结果。</strong></p><h3 id="1-初学者写法"><a href="#1-初学者写法" class="headerlink" title="1. 初学者写法"></a>1. 初学者写法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Operation</span><span class="params">(object)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">conver_strNumber</span><span class="params">(self, strNumber)</span>:</span></span><br><span class="line">        <span class="string">'''</span></span><br><span class="line"><span class="string">        将字符串格式的数字，转化成对应格式的数字</span></span><br><span class="line"><span class="string">        :param strNumber:</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        '''</span></span><br><span class="line">        <span class="keyword">if</span> <span class="string">'.'</span> <span class="keyword">not</span> <span class="keyword">in</span> strNumber:</span><br><span class="line">            <span class="keyword">return</span> int(strNumber)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> float(strNumber)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">op</span><span class="params">(self, strNumberA, strNumberB, strOperate)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> strOperate == <span class="string">'+'</span>:</span><br><span class="line">            <span class="keyword">return</span> self.conver_strNumber(strNumberA) + self.conver_strNumber(strNumberB)</span><br><span class="line">        <span class="keyword">elif</span> strOperate == <span class="string">'-'</span>:</span><br><span class="line">            <span class="keyword">return</span> self.conver_strNumber(strNumberA) - self.conver_strNumber(strNumberB)</span><br><span class="line">        <span class="keyword">elif</span> strOperate == <span class="string">'*'</span>:</span><br><span class="line">            <span class="keyword">return</span> self.conver_strNumber(strNumberA) * self.conver_strNumber(strNumberB)</span><br><span class="line">        <span class="keyword">elif</span> strOperate == <span class="string">'/'</span>:</span><br><span class="line">            <span class="keyword">if</span> strNumberB != <span class="string">'0'</span> <span class="keyword">and</span> strNumberB != <span class="string">'0.0'</span>:</span><br><span class="line">                <span class="keyword">return</span> self.conver_strNumber(strNumberA) / self.conver_strNumber(strNumberB)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(<span class="string">'只能做加减乘除运算'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    p = Operation()</span><br><span class="line">    print(p.op(<span class="string">'2.2'</span>, <span class="string">'1'</span>, <span class="string">'+'</span>))</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 输出</span></span><br><span class="line"><span class="number">21.2</span></span><br></pre></td></tr></table></figure><p><strong>分析</strong>：以上这种写法，将加减乘除运算全部放在一个类中实现，虽然实现了计算器的功能，但<strong>增加其他运算或修改某个运算都必须在Operation类中进行修改。</strong> 使得程序<strong>不容易维护、扩展以及复用</strong>，并且<strong>耦合性高</strong>。</p><h3 id="2-使用简单工厂模式"><a href="#2-使用简单工厂模式" class="headerlink" title="2.使用简单工厂模式"></a>2.使用简单工厂模式</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Operation运算类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Operation</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, strNumberA=<span class="number">0</span>, strNumberB=<span class="number">0</span>)</span>:</span></span><br><span class="line">        self.NumberA = strNumberA</span><br><span class="line">        self.NumberB = strNumberB</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">conver_strNumber</span><span class="params">(self, strNumber)</span>:</span></span><br><span class="line">        <span class="string">'''</span></span><br><span class="line"><span class="string">        将字符串格式的数字，转化成对应格式的数字</span></span><br><span class="line"><span class="string">        :param strNumber:</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        '''</span></span><br><span class="line">        <span class="keyword">if</span> <span class="string">'.'</span> <span class="keyword">not</span> <span class="keyword">in</span> strNumber:</span><br><span class="line">            <span class="keyword">return</span> int(strNumber)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> float(strNumber)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">GetResult</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 加法运算类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OperationAdd</span><span class="params">(Operation)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">GetResult</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.conver_strNumber(self.NumberA) + self.conver_strNumber(self.NumberB)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 减法运算类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OperationSub</span><span class="params">(Operation)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">GetResult</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.conver_strNumber(self.NumberA) - self.conver_strNumber(self.NumberB)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 乘法运算类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OperationMul</span><span class="params">(Operation)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">GetResult</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.conver_strNumber(self.NumberA) * self.conver_strNumber(self.NumberB)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 除法运算类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OperationDiv</span><span class="params">(Operation)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">GetResult</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> self.NumberB != <span class="number">0</span> <span class="keyword">and</span> self.NumberB != <span class="number">0.0</span>:</span><br><span class="line">            <span class="keyword">return</span> self.conver_strNumber(self.NumberA) / self.conver_strNumber(self.NumberB)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">'除数不能为0'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 其他操作符运算</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OperationUndef</span><span class="params">(Operation)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">GetResult</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">'操作符错误'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 简单工厂类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OperationFactory</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">createOperate</span><span class="params">(self, operate)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> operate == <span class="string">'+'</span>:</span><br><span class="line">            <span class="keyword">return</span> OperationAdd()</span><br><span class="line">        <span class="keyword">elif</span> operate == <span class="string">'-'</span>:</span><br><span class="line">            <span class="keyword">return</span> OperationSub()</span><br><span class="line">        <span class="keyword">elif</span> operate == <span class="string">'*'</span>:</span><br><span class="line">            <span class="keyword">return</span> OperationMul()</span><br><span class="line">        <span class="keyword">elif</span> operate == <span class="string">'/'</span>:</span><br><span class="line">            <span class="keyword">return</span> OperationDiv()</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> OperationUndef()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line"></span><br><span class="line">    strNumA = <span class="string">'1.0'</span></span><br><span class="line">    strNumB = <span class="string">'2'</span></span><br><span class="line">    oper = <span class="string">'/'</span></span><br><span class="line"></span><br><span class="line">    OP = OperationFactory()</span><br><span class="line">    oper_obj = OP.createOperate(oper)</span><br><span class="line">    oper_obj.NumberA = strNumA</span><br><span class="line">    oper_obj.NumberB = strNumB</span><br><span class="line">    result = oper_obj.GetResult()</span><br><span class="line">    print(result)</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 输出</span></span><br><span class="line"><span class="number">0.5</span></span><br></pre></td></tr></table></figure><p><strong>分析：</strong>将各种运算拆分成单独的类，均继承于Operation类，各运算子类重写Operation类中的GetResult()方法。统一通过简单工厂类（OperationFactory类）实例化运算所需的运算子类。</p><p>这样设计的优点：</p><ul><li><p><strong>易扩展</strong></p><p>如果添加新的运算类，只需要</p><ol><li>新的运算类继承Operation类，并重写GetResult()方法</li><li>在简单工厂类（OperationFactory类）中添加对应的if语句</li></ol><p>无需对其他运算类进行操作。</p></li><li><p><strong>易维护</strong></p><p>对某一运算类进行修改，并不涉及其他运算类，很大程度上避免了由于误操作而对其他运算类修改的问题。</p></li><li><p><strong>低耦合</strong></p><p>各运算类只公共继承Operation类，不涉及其他运算类。</p></li><li><p><strong>高复用</strong></p><p>无论是控制台，还是windows程序，Web程序，均可使用该程序实现计算器功能。</p></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;code&gt;简单工厂模式(Simple Factory Pattern)&lt;/code&gt;：&lt;strong&gt;是通过专门定义一个类来负责创建其他类的实例，被创建的实例通常都具有共同的父类.&lt;/strong&gt;&lt;/p&gt;
+&lt;h4 id=&quot;例：&quot;&gt;&lt;a href=&quot;#例：&quot; class=
+      
+    
+    </summary>
+    
+    
+      <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
+    
+      <category term="设计模式" scheme="https://mrleecn.cn/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
   
   <entry>
     <title>财务自由之路读书笔记——负债篇</title>
@@ -60,9 +86,9 @@
     
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
-      <category term="加密" scheme="https://mrleecn.cn/tags/%E5%8A%A0%E5%AF%86/"/>
-    
       <category term="爬虫" scheme="https://mrleecn.cn/tags/%E7%88%AC%E8%99%AB/"/>
+    
+      <category term="加密" scheme="https://mrleecn.cn/tags/%E5%8A%A0%E5%AF%86/"/>
     
   </entry>
   
@@ -92,13 +118,13 @@
     </summary>
     
     
-      <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
-    
-      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
-    
       <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
     
       <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
+    
+      <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
+    
+      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
     
   </entry>
   
@@ -128,13 +154,13 @@
     </summary>
     
     
-      <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
-    
-      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
-    
       <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
     
       <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
+    
+      <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
+    
+      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
     
   </entry>
   
@@ -164,13 +190,13 @@
     </summary>
     
     
-      <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
-    
-      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
-    
       <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
     
       <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
+    
+      <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
+    
+      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
     
   </entry>
   
@@ -193,13 +219,13 @@
     </summary>
     
     
-      <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
-    
-      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
-    
       <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
     
       <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
+    
+      <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
+    
+      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
     
   </entry>
   
@@ -228,13 +254,13 @@
     </summary>
     
     
-      <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
-    
-      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
-    
       <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
     
       <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
+    
+      <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
+    
+      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
     
   </entry>
   

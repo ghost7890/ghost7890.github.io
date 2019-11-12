@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'true', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+<!-- End Google Analytics -->
+
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?53891daf9e0316e03eadf2da354a713d"></script>
+<!-- End Baidu Tongji -->
+
+
+
+<!-- Baidu Push -->
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<!-- End Baidu Push -->
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="true">
+    
+    
+    
+    
+    <title>《大话设计模式》——简单工厂模式（Python版） | 西加加先生&#39;Blog | 努力诚可贵，坚持价更高</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Python,设计模式">
+    <meta name="description" content="简单工厂模式(Simple Factory Pattern)：是通过专门定义一个类来负责创建其他类的实例，被创建的实例通常都具有共同的父类. 例：使用Python设计一个控制台计算器，要求输入两个数和运算符号，得到运算结果。 1. 初学者写法12345678910111213141516171819202122232425262728293031323334353637class Operatio">
+<meta name="keywords" content="Python,设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《大话设计模式》——简单工厂模式（Python版）">
+<meta property="og:url" content="https://mrleecn.cn/2019/11/12/designmodel1/index.html">
+<meta property="og:site_name" content="西加加先生&#39;Blog">
+<meta property="og:description" content="简单工厂模式(Simple Factory Pattern)：是通过专门定义一个类来负责创建其他类的实例，被创建的实例通常都具有共同的父类. 例：使用Python设计一个控制台计算器，要求输入两个数和运算符号，得到运算结果。 1. 初学者写法12345678910111213141516171819202122232425262728293031323334353637class Operatio">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-11-12T13:50:02.861Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《大话设计模式》——简单工厂模式（Python版）">
+<meta name="twitter:description" content="简单工厂模式(Simple Factory Pattern)：是通过专门定义一个类来负责创建其他类的实例，被创建的实例通常都具有共同的父类. 例：使用Python设计一个控制台计算器，要求输入两个数和运算符号，得到运算结果。 1. 初学者写法12345678910111213141516171819202122232425262728293031323334353637class Operatio">
+    
+        <link rel="alternate" type="application/atom+xml" title="西加加先生&#39;Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.gif">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-140803241-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-140803241-1');
+</script>
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">西加加先生</h5>
+          <a href="mailto:466987329@qq.com" title="466987329@qq.com" class="mail">466987329@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ghost7890" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books">
+                <i class="icon icon-lg icon-book"></i>
+                我的读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies">
+                <i class="icon icon-lg icon-film"></i>
+                我的电影
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends-link">
+                <i class="icon icon-lg icon-link"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends-apply">
+                <i class="icon icon-lg icon-user-plus"></i>
+                友链申请
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">《大话设计模式》——简单工厂模式（Python版）</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">《大话设计模式》——简单工厂模式（Python版）</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-11-12T13:20:37.000Z" itemprop="datePublished" class="page-time">
+  2019-11-12
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#例："><span class="post-toc-number">1.</span> <span class="post-toc-text">例：</span></a></li></ol><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-初学者写法"><span class="post-toc-number"></span> <span class="post-toc-text">1. 初学者写法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-使用简单工厂模式"><span class="post-toc-number"></span> <span class="post-toc-text">2.使用简单工厂模式</span></a>
+        </li></nav>
+    </aside>
+
+
+<article id="post-designmodel1" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">《大话设计模式》——简单工厂模式（Python版）</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-11-12 21:20:37" datetime="2019-11-12T13:20:37.000Z" itemprop="datePublished">2019-11-12</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p><code>简单工厂模式(Simple Factory Pattern)</code>：<strong>是通过专门定义一个类来负责创建其他类的实例，被创建的实例通常都具有共同的父类.</strong></p>
+<h4 id="例："><a href="#例：" class="headerlink" title="例："></a>例：</h4><p><strong>使用Python设计一个控制台计算器，要求输入两个数和运算符号，得到运算结果。</strong></p>
+<h3 id="1-初学者写法"><a href="#1-初学者写法" class="headerlink" title="1. 初学者写法"></a>1. 初学者写法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Operation</span><span class="params">(object)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">conver_strNumber</span><span class="params">(self, strNumber)</span>:</span></span><br><span class="line">        <span class="string">'''</span></span><br><span class="line"><span class="string">        将字符串格式的数字，转化成对应格式的数字</span></span><br><span class="line"><span class="string">        :param strNumber:</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        '''</span></span><br><span class="line">        <span class="keyword">if</span> <span class="string">'.'</span> <span class="keyword">not</span> <span class="keyword">in</span> strNumber:</span><br><span class="line">            <span class="keyword">return</span> int(strNumber)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> float(strNumber)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">op</span><span class="params">(self, strNumberA, strNumberB, strOperate)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> strOperate == <span class="string">'+'</span>:</span><br><span class="line">            <span class="keyword">return</span> self.conver_strNumber(strNumberA) + self.conver_strNumber(strNumberB)</span><br><span class="line">        <span class="keyword">elif</span> strOperate == <span class="string">'-'</span>:</span><br><span class="line">            <span class="keyword">return</span> self.conver_strNumber(strNumberA) - self.conver_strNumber(strNumberB)</span><br><span class="line">        <span class="keyword">elif</span> strOperate == <span class="string">'*'</span>:</span><br><span class="line">            <span class="keyword">return</span> self.conver_strNumber(strNumberA) * self.conver_strNumber(strNumberB)</span><br><span class="line">        <span class="keyword">elif</span> strOperate == <span class="string">'/'</span>:</span><br><span class="line">            <span class="keyword">if</span> strNumberB != <span class="string">'0'</span> <span class="keyword">and</span> strNumberB != <span class="string">'0.0'</span>:</span><br><span class="line">                <span class="keyword">return</span> self.conver_strNumber(strNumberA) / self.conver_strNumber(strNumberB)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(<span class="string">'只能做加减乘除运算'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    p = Operation()</span><br><span class="line">    print(p.op(<span class="string">'2.2'</span>, <span class="string">'1'</span>, <span class="string">'+'</span>))</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 输出</span></span><br><span class="line"><span class="number">21.2</span></span><br></pre></td></tr></table></figure>
+<p><strong>分析</strong>：以上这种写法，将加减乘除运算全部放在一个类中实现，虽然实现了计算器的功能，但<strong>增加其他运算或修改某个运算都必须在Operation类中进行修改。</strong> 使得程序<strong>不容易维护、扩展以及复用</strong>，并且<strong>耦合性高</strong>。</p>
+<h3 id="2-使用简单工厂模式"><a href="#2-使用简单工厂模式" class="headerlink" title="2.使用简单工厂模式"></a>2.使用简单工厂模式</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Operation运算类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Operation</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, strNumberA=<span class="number">0</span>, strNumberB=<span class="number">0</span>)</span>:</span></span><br><span class="line">        self.NumberA = strNumberA</span><br><span class="line">        self.NumberB = strNumberB</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">conver_strNumber</span><span class="params">(self, strNumber)</span>:</span></span><br><span class="line">        <span class="string">'''</span></span><br><span class="line"><span class="string">        将字符串格式的数字，转化成对应格式的数字</span></span><br><span class="line"><span class="string">        :param strNumber:</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        '''</span></span><br><span class="line">        <span class="keyword">if</span> <span class="string">'.'</span> <span class="keyword">not</span> <span class="keyword">in</span> strNumber:</span><br><span class="line">            <span class="keyword">return</span> int(strNumber)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> float(strNumber)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">GetResult</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 加法运算类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OperationAdd</span><span class="params">(Operation)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">GetResult</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.conver_strNumber(self.NumberA) + self.conver_strNumber(self.NumberB)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 减法运算类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OperationSub</span><span class="params">(Operation)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">GetResult</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.conver_strNumber(self.NumberA) - self.conver_strNumber(self.NumberB)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 乘法运算类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OperationMul</span><span class="params">(Operation)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">GetResult</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.conver_strNumber(self.NumberA) * self.conver_strNumber(self.NumberB)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 除法运算类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OperationDiv</span><span class="params">(Operation)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">GetResult</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> self.NumberB != <span class="number">0</span> <span class="keyword">and</span> self.NumberB != <span class="number">0.0</span>:</span><br><span class="line">            <span class="keyword">return</span> self.conver_strNumber(self.NumberA) / self.conver_strNumber(self.NumberB)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">'除数不能为0'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 其他操作符运算</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OperationUndef</span><span class="params">(Operation)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">GetResult</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">'操作符错误'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 简单工厂类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OperationFactory</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">createOperate</span><span class="params">(self, operate)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> operate == <span class="string">'+'</span>:</span><br><span class="line">            <span class="keyword">return</span> OperationAdd()</span><br><span class="line">        <span class="keyword">elif</span> operate == <span class="string">'-'</span>:</span><br><span class="line">            <span class="keyword">return</span> OperationSub()</span><br><span class="line">        <span class="keyword">elif</span> operate == <span class="string">'*'</span>:</span><br><span class="line">            <span class="keyword">return</span> OperationMul()</span><br><span class="line">        <span class="keyword">elif</span> operate == <span class="string">'/'</span>:</span><br><span class="line">            <span class="keyword">return</span> OperationDiv()</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> OperationUndef()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line"></span><br><span class="line">    strNumA = <span class="string">'1.0'</span></span><br><span class="line">    strNumB = <span class="string">'2'</span></span><br><span class="line">    oper = <span class="string">'/'</span></span><br><span class="line"></span><br><span class="line">    OP = OperationFactory()</span><br><span class="line">    oper_obj = OP.createOperate(oper)</span><br><span class="line">    oper_obj.NumberA = strNumA</span><br><span class="line">    oper_obj.NumberB = strNumB</span><br><span class="line">    result = oper_obj.GetResult()</span><br><span class="line">    print(result)</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 输出</span></span><br><span class="line"><span class="number">0.5</span></span><br></pre></td></tr></table></figure>
+<p><strong>分析：</strong>将各种运算拆分成单独的类，均继承于Operation类，各运算子类重写Operation类中的GetResult()方法。统一通过简单工厂类（OperationFactory类）实例化运算所需的运算子类。</p>
+<p>这样设计的优点：</p>
+<ul>
+<li><p><strong>易扩展</strong></p>
+<p>如果添加新的运算类，只需要</p>
+<ol>
+<li>新的运算类继承Operation类，并重写GetResult()方法</li>
+<li>在简单工厂类（OperationFactory类）中添加对应的if语句</li>
+</ol>
+<p>无需对其他运算类进行操作。</p>
+</li>
+<li><p><strong>易维护</strong></p>
+<p>对某一运算类进行修改，并不涉及其他运算类，很大程度上避免了由于误操作而对其他运算类修改的问题。</p>
+</li>
+<li><p><strong>低耦合</strong></p>
+<p>各运算类只公共继承Operation类，不涉及其他运算类。</p>
+</li>
+<li><p><strong>高复用</strong></p>
+<p>无论是控制台，还是windows程序，Web程序，均可使用该程序实现计算器功能。</p>
+</li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-11-12T13:50:02.861Z" itemprop="dateUpdated">2019-11-12 21:50:02</time>
+</span><br>
+
+
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2019/11/12/designmodel1/" target="_blank" rel="external">https://mrleecn.cn/2019/11/12/designmodel1/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://mrleecn.cn">
+            <img src="/img/avatar.jpg" alt="西加加先生">
+            西加加先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://mrleecn.cn/2019/11/12/designmodel1/&title=《《大话设计模式》——简单工厂模式（Python版）》 — 西加加先生'Blog&pic=https://mrleecn.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://mrleecn.cn/2019/11/12/designmodel1/&title=《《大话设计模式》——简单工厂模式（Python版）》 — 西加加先生'Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://mrleecn.cn/2019/11/12/designmodel1/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《大话设计模式》——简单工厂模式（Python版）》 — 西加加先生'Blog&url=https://mrleecn.cn/2019/11/12/designmodel1/&via=https://mrleecn.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://mrleecn.cn/2019/11/12/designmodel1/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/09/19/caiwuziyou6/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">财务自由之路读书笔记——负债篇</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: '466987329@qq.com' == 'true',
+            verify: 'false' == 'true',
+            appId: "2vYCN34c68lLIPtCeLOQBWY1-gzGzoHsz",
+            appKey: "H9P3LC1LrBg2feypO5qYxBdf",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check" data-wechat="/img/wechat.png" data-alipay="/img/alipay.png">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>西加加先生 &copy; 2015 - 2019</span>
+            <span>
+                
+                <a href="http://www.miitbeian.gov.cn/" target="_blank">湘ICP备17011548号-1</a><br>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://mrleecn.cn/2019/11/12/designmodel1/&title=《《大话设计模式》——简单工厂模式（Python版）》 — 西加加先生'Blog&pic=https://mrleecn.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://mrleecn.cn/2019/11/12/designmodel1/&title=《《大话设计模式》——简单工厂模式（Python版）》 — 西加加先生'Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://mrleecn.cn/2019/11/12/designmodel1/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《大话设计模式》——简单工厂模式（Python版）》 — 西加加先生'Blog&url=https://mrleecn.cn/2019/11/12/designmodel1/&via=https://mrleecn.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://mrleecn.cn/2019/11/12/designmodel1/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACLklEQVR42u3aSY7DMAwFUd//0m6gVwG64dQn5SCmSqsgg6yXBSEOx4HX+bteX7++c/198qvzzzruWDJkyHgs47xc9x2LP/f6OzJkyNiHQYLs9WseoMlB+f4yZMiQQR5WY6/6m2TIkCGDbM0fzC+LMmTIkLE2mUwLZGmwXpyLy5Ah44GMWmPg89fBW/obMmTI+HrGuXSRFgJJg+PnypAhYzSDD0/wiHe9Jx/a4AmtDBkyZjPI0fkR08SV3/HenEqGDBmjGTy0kYEJfjUkRbc4oZUhQ8ZQRm1rcvnr7xmEeBkyZGzAuO+InQAdDGrIkCFjNCMdpOA1PJ7opoU51BiQIUPGOAYp2ZNNU0w6joZ2liFDxjgGD2p8MIKwO9fKf96RIUPGNgx+4UvTy+IlD7c5ZciQMZvBhyrSFLczwFFLm2XIkDGVwRPXTiMhHRGLhzBkyJAxmsETyM7cWVpWI0FWhgwZ+zD4UTql/GDAq9SWkCFDxmwGL6LVmpqd9kA8zCFDhozNGLVQyBucvIUZtBBkyJCxDeOOINufiEBtThkyZIxmdFLHFFA8HCgLypAhYyrjDFc6x8EbDJ10V4YMGbMZtTBHHs9DLUllVwVrGTJkPJfRbwPUyvq8UYp2kCFDxgaM2qAYL9zzC2XQtpQhQ4YM3KpMA2XtUvhmfxkyZMgAKWuK73zaCrgyZMh4LIMksbVSWjoW1qoIypAhYyij1hhIW5jkj0uRC/obMmTI+HbGD2DiIuA/sY7EAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>
