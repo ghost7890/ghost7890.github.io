@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mrleecn.cn/"/>
-  <updated>2019-09-16T14:34:33.367Z</updated>
+  <updated>2019-09-21T13:38:57.026Z</updated>
   <id>https://mrleecn.cn/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>财务自由之路读书笔记——负债篇</title>
+    <link href="https://mrleecn.cn/2019/09/19/caiwuziyou6/"/>
+    <id>https://mrleecn.cn/2019/09/19/caiwuziyou6/</id>
+    <published>2019-09-19T14:49:45.000Z</published>
+    <updated>2019-09-21T13:38:57.026Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="债务产生的原因"><a href="#债务产生的原因" class="headerlink" title="债务产生的原因"></a>债务产生的原因</h1><p>债务一般产生于某一个人想要避免眼下痛苦的时候：一个人买不起自己喜欢的东西，就意味着放弃，放弃就意味着痛苦。而人的大脑总偏向于享受快乐，避免痛苦。</p><h1 id="如何避免债务"><a href="#如何避免债务" class="headerlink" title="如何避免债务"></a>如何避免债务</h1><p>人们总趋向于享受快乐，避免痛苦。但什么是快乐，什么是痛苦，这是由我们的信仰决定的。因此，想要解决债务问题，就需要从改变有关于金钱的信仰开始。</p><h2 id="如何改变金钱观"><a href="#如何改变金钱观" class="headerlink" title="如何改变金钱观"></a>如何改变金钱观</h2><h1 id="消除债务的几个有用技巧"><a href="#消除债务的几个有用技巧" class="headerlink" title="消除债务的几个有用技巧"></a>消除债务的几个有用技巧</h1><p>根据自身的情况，总结出了这几个方法：</p><ol><li>制定远大的目标，并努力向其靠近。</li><li>改变自己对于金钱的信仰。</li><li>拒绝消费债。消费债毫无有点。</li><li>永远不要说：“这没用”。每一块钱都有用。</li><li>记录自己的每一笔开支，制定消费计划，严格按照计划执行。</li><li>拒绝使用信用卡，花呗，白条等产品。</li><li>消费前，问一问自己，这笔支出真的有必要吗？</li><li>寻找新的收入来源。</li><li>开始储蓄。不要用能存下来的钱数额的50%以上偿还债务。</li><li>不要用能存下来的钱数额的50%以上偿还债务。</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;债务产生的原因&quot;&gt;&lt;a href=&quot;#债务产生的原因&quot; class=&quot;headerlink&quot; title=&quot;债务产生的原因&quot;&gt;&lt;/a&gt;债务产生的原因&lt;/h1&gt;&lt;p&gt;债务一般产生于某一个人想要避免眼下痛苦的时候：一个人买不起自己喜欢的东西，就意味着放弃，放弃就意味着
+      
+    
+    </summary>
+    
+    
+      <category term="读书笔记" scheme="https://mrleecn.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
   
   <entry>
     <title>AES中ECB模式的加密与解密（Python3.7）</title>
@@ -37,9 +60,9 @@
     
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
-      <category term="爬虫" scheme="https://mrleecn.cn/tags/%E7%88%AC%E8%99%AB/"/>
-    
       <category term="加密" scheme="https://mrleecn.cn/tags/%E5%8A%A0%E5%AF%86/"/>
+    
+      <category term="爬虫" scheme="https://mrleecn.cn/tags/%E7%88%AC%E8%99%AB/"/>
     
   </entry>
   
@@ -71,11 +94,11 @@
     
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
+      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
+    
       <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
     
       <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
-    
-      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
     
   </entry>
   
@@ -107,11 +130,11 @@
     
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
+      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
+    
       <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
     
       <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
-    
-      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
     
   </entry>
   
@@ -143,11 +166,11 @@
     
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
+      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
+    
       <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
     
       <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
-    
-      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
     
   </entry>
   
@@ -172,11 +195,11 @@
     
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
+      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
+    
       <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
     
       <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
-    
-      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
     
   </entry>
   
@@ -207,11 +230,11 @@
     
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
+      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
+    
       <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
     
       <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
-    
-      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
     
   </entry>
   
@@ -292,9 +315,9 @@
     </summary>
     
     
-      <category term="软技能" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E6%8A%80%E8%83%BD/"/>
-    
       <category term="读书笔记" scheme="https://mrleecn.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+      <category term="软技能" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E6%8A%80%E8%83%BD/"/>
     
   </entry>
   
@@ -318,9 +341,9 @@
     </summary>
     
     
-      <category term="软技能" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E6%8A%80%E8%83%BD/"/>
-    
       <category term="读书笔记" scheme="https://mrleecn.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+      <category term="软技能" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E6%8A%80%E8%83%BD/"/>
     
   </entry>
   
@@ -503,9 +526,9 @@
     </summary>
     
     
-      <category term="软技能" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E6%8A%80%E8%83%BD/"/>
-    
       <category term="读书笔记" scheme="https://mrleecn.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+      <category term="软技能" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E6%8A%80%E8%83%BD/"/>
     
   </entry>
   
@@ -531,9 +554,9 @@
     </summary>
     
     
-      <category term="软技能" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E6%8A%80%E8%83%BD/"/>
-    
       <category term="读书笔记" scheme="https://mrleecn.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+      <category term="软技能" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E6%8A%80%E8%83%BD/"/>
     
   </entry>
   
@@ -789,9 +812,9 @@
     </summary>
     
     
-      <category term="软技能" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E6%8A%80%E8%83%BD/"/>
-    
       <category term="读书笔记" scheme="https://mrleecn.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+      <category term="软技能" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E6%8A%80%E8%83%BD/"/>
     
   </entry>
   
@@ -816,9 +839,9 @@
     </summary>
     
     
-      <category term="软技能" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E6%8A%80%E8%83%BD/"/>
-    
       <category term="读书笔记" scheme="https://mrleecn.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+      <category term="软技能" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E6%8A%80%E8%83%BD/"/>
     
   </entry>
   
