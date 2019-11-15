@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mrleecn.cn/"/>
-  <updated>2019-11-12T13:50:02.861Z</updated>
+  <updated>2019-11-15T16:07:30.179Z</updated>
   <id>https://mrleecn.cn/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>《大话设计模式》——策略模式（Python版）</title>
+    <link href="https://mrleecn.cn/2019/11/15/designmodel2/"/>
+    <id>https://mrleecn.cn/2019/11/15/designmodel2/</id>
+    <published>2019-11-15T14:19:23.000Z</published>
+    <updated>2019-11-15T16:07:30.179Z</updated>
+    
+    <content type="html"><![CDATA[<p><code>策略模式（Stategy）</code>：<strong>它定义了算法家族，分别封装起来，让他们之间可以相互替换，此模式让算法的变化不会影响到使用算法的客户。</strong></p><p>例：</p><p><strong>使用Python设计一个控制台收银软件，收银策略包括（正常收银、打八折、满300返100）。要求输入打折策略和总金额，返回实际付款金额。</strong></p><h3 id="1-使用简单工厂模式写法"><a href="#1-使用简单工厂模式写法" class="headerlink" title="1.使用简单工厂模式写法"></a>1.使用简单工厂模式写法</h3><p>通用的收费类如下：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> abc</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 现金收费对象</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CashSuper</span><span class="params">(metaclass=abc.ABCMeta)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">format_money</span><span class="params">(self, strNumber)</span>:</span></span><br><span class="line">        <span class="string">'''</span></span><br><span class="line"><span class="string">        将字符串格式的金额，转化成float类型，并保留两位小数</span></span><br><span class="line"><span class="string">        :param strNumber:</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        '''</span></span><br><span class="line">        <span class="keyword">return</span> round(float(strNumber), <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">    @abc.abstractmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">acceptCash</span><span class="params">(self, money)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 正常收费子类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CashNormal</span><span class="params">(CashSuper)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">acceptCash</span><span class="params">(self, money)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.format_money(money)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 打折收费子类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CashRebate</span><span class="params">(CashSuper)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, moneyRabate=<span class="number">1</span>)</span>:</span></span><br><span class="line">        self.moneyRabate = self.format_money(moneyRabate)  <span class="comment"># 打折率</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">acceptCash</span><span class="params">(self, money)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.format_money(money) * self.moneyRabate</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 返利收费类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CashReturn</span><span class="params">(CashSuper)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, moneyCondition, moneyReturn)</span>:</span></span><br><span class="line">        self.moneyCondition = self.format_money(moneyCondition)</span><br><span class="line">        self.moneyReturn = self.format_money(moneyReturn)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">acceptCash</span><span class="params">(self, money)</span>:</span></span><br><span class="line">        money = self.format_money(money)</span><br><span class="line">        <span class="keyword">if</span> money &gt; self.moneyCondition:</span><br><span class="line">            money -= money / self.moneyCondition * self.moneyReturn</span><br><span class="line">        <span class="keyword">return</span> self.format_money(money)</span><br></pre></td></tr></table></figure><p><strong>说明：</strong></p><ul><li><p><strong>现金收费对象（CashSuper）</strong></p><p>为其他三种收银策略的抽象类。</p></li><li><p><strong>正常收费子类（CashNormal）</strong></p><p>继承于CashSuper类，重写CashSuper类的acceptCash方法。正常收费，返回原价。</p></li><li><p><strong>打折收费子类（CashRebate）</strong></p><p>继承于CashSuper类，重写CashSuper类的acceptCash方法。用于处理打折策略，初始化传入折扣率，返回打折后的金额。</p></li><li><p><strong>返利收费子类（CashReturn）</strong></p><p>继承于CashSuper类，重写CashSuper类的acceptCash方法。用于处理返利策略，初始化时传入返利条件和返利金额。返回满减后的金额。</p></li></ul><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 现金收费工厂类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CashFactory</span><span class="params">(object)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">createCashAccept</span><span class="params">(self, type)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> type == <span class="string">'正常收费'</span>:</span><br><span class="line">            cs = CashNormal()</span><br><span class="line">        <span class="keyword">elif</span> type == <span class="string">'满300返100'</span>:</span><br><span class="line">            cs = CashReturn(<span class="number">300</span>, <span class="number">100</span>)</span><br><span class="line">        <span class="keyword">elif</span> type == <span class="string">'打八折'</span>:</span><br><span class="line">            cs = CashRebate(<span class="number">0.8</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> cs</span><br><span class="line"></span><br><span class="line"><span class="comment"># 客户端</span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    cf = CashFactory()</span><br><span class="line">    cs = cf.createCashAccept(<span class="string">'满300返100'</span>)</span><br><span class="line">    print(cs.acceptCash(<span class="number">1000</span>))</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 输出</span></span><br><span class="line"><span class="number">666.67</span></span><br></pre></td></tr></table></figure><h3 id="2-使用策略模式写法"><a href="#2-使用策略模式写法" class="headerlink" title="2.使用策略模式写法"></a>2.使用策略模式写法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># CashContext类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CashContext</span><span class="params">(object)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, csuper)</span>:</span></span><br><span class="line">        self.cs = csuper</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">GetResult</span><span class="params">(self, money)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.cs.acceptCash(money)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 客户端</span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    type = <span class="string">'满300返100'</span><span class="comment"># 收银策略</span></span><br><span class="line">    <span class="keyword">if</span> type == <span class="string">'正常收费'</span>:</span><br><span class="line">        cc = CashContext(CashNormal())</span><br><span class="line">    <span class="keyword">elif</span> type == <span class="string">'满300返100'</span>:</span><br><span class="line">        cc = CashContext(CashReturn(<span class="number">300</span>, <span class="number">100</span>))</span><br><span class="line">    <span class="keyword">elif</span> type == <span class="string">'打八折'</span>:</span><br><span class="line">        cc = (CashRebate(<span class="number">0.8</span>))</span><br><span class="line"></span><br><span class="line">    print(cc.GetResult(<span class="number">1000</span>))<span class="comment"># 1000为总金额</span></span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"><span class="comment"># 输出</span></span><br><span class="line"><span class="number">666.67</span></span><br></pre></td></tr></table></figure><h3 id="3-使用策略模式-简单工厂模式"><a href="#3-使用策略模式-简单工厂模式" class="headerlink" title="3.使用策略模式+简单工厂模式"></a>3.使用策略模式+简单工厂模式</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># CashContext类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CashContext</span><span class="params">(object)</span>:</span><span class="comment"># 将工厂类对各种子类的初始化合并到策略模式的构造函数中</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, type)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> type == <span class="string">'正常收费'</span>:</span><br><span class="line">            self.cs = CashNormal()</span><br><span class="line">        <span class="keyword">elif</span> type == <span class="string">'满300返100'</span>:</span><br><span class="line">            self.cs = CashReturn(<span class="number">300</span>, <span class="number">100</span>)</span><br><span class="line">        <span class="keyword">elif</span> type == <span class="string">'打八折'</span>:</span><br><span class="line">            self.cs = CashRebate(<span class="number">0.8</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">GetResult</span><span class="params">(self, money)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.cs.acceptCash(money)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 客户端</span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    cc = CashContext(<span class="string">'满300返100'</span>)</span><br><span class="line">    print(cc.GetResult(<span class="number">1000</span>))</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 输出</span></span><br><span class="line"><span class="number">666.67</span></span><br></pre></td></tr></table></figure><h3 id="4-对比总结"><a href="#4-对比总结" class="headerlink" title="4.对比总结"></a>4.对比总结</h3><p><strong>对比：</strong></p><ul><li><p><strong>简单工厂模式：</strong></p><p>将各种收银策略的子类对象在工厂中进行实例化。</p><p>客户端需要先创建工厂类；然后再工厂类中传入收银策略，进行初始化对应的策略子类；最后才传入总金额计算。在这过程中，共<strong>实例化了两个对象</strong>（cf、cs）。</p><p>如果添加新的收银策略，需要增加对应的收费子类，并修改工厂中对应部分。无需修改客户端。</p></li><li><p><strong>策略模式：</strong></p><p>在CashContext的构造函数中，传入具体的收银策略对象，在GetResult方法中根据具体的收银策略对象调用其算法。</p><p>客户端需要对具体收银策略进行判断，生成具体的收银策略对象，然后传入到CashContext中。最后传入总金额计算。</p><p>如果添加新的收银策略，需要增加对应的收费子类，并对客户端代码进行修改。</p></li></ul><ul><li><p><strong>策略模式+简单工厂模式：</strong></p><p>在CashContext的构造函数中将各种收银策略的子类对象实例化。在GetResult方法中根据具体的收银策略对象调用其算法。</p><p>客户端<strong>只需要实例化一个CashContext对象</strong>，然后直接可以传入总金额计算。</p><p>如果添加新的收银策略，需要增加对应的收费子类，并修改CashContext类中对应部分。无需修改客户端。</p></li></ul><p><strong>总结：</strong></p><ul><li><p><strong>简单工厂模式用于解决对象的创建问题，策略模式用于封装算法。</strong></p></li><li><p><strong>策略模式简化了单元测试。因为每个算法都有自己的类，可以通过自己的接口进行单独测试。</strong></p></li><li><p><strong>只要在分析过程中听到需要在不同时间应用不同的业务规则，就可以考虑使用策略模式来处里这种变化的可能。</strong></p></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;code&gt;策略模式（Stategy）&lt;/code&gt;：&lt;strong&gt;它定义了算法家族，分别封装起来，让他们之间可以相互替换，此模式让算法的变化不会影响到使用算法的客户。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;例：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;使用Python设计一个控制台收银
+      
+    
+    </summary>
+    
+    
+      <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
+    
+      <category term="设计模式" scheme="https://mrleecn.cn/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
   
   <entry>
     <title>《大话设计模式》——简单工厂模式（Python版）</title>
@@ -118,13 +145,13 @@
     </summary>
     
     
-      <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
-    
-      <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
-    
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
       <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
+    
+      <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
+    
+      <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
     
   </entry>
   
@@ -154,13 +181,13 @@
     </summary>
     
     
-      <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
-    
-      <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
-    
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
       <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
+    
+      <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
+    
+      <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
     
   </entry>
   
@@ -190,13 +217,13 @@
     </summary>
     
     
-      <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
-    
-      <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
-    
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
       <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
+    
+      <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
+    
+      <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
     
   </entry>
   
@@ -219,13 +246,13 @@
     </summary>
     
     
-      <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
-    
-      <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
-    
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
       <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
+    
+      <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
+    
+      <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
     
   </entry>
   
@@ -254,13 +281,13 @@
     </summary>
     
     
-      <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
-    
-      <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
-    
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
       <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
+    
+      <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
+    
+      <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
     
   </entry>
   
