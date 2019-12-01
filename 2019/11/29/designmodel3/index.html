@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'true', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+<!-- End Google Analytics -->
+
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?53891daf9e0316e03eadf2da354a713d"></script>
+<!-- End Baidu Tongji -->
+
+
+
+<!-- Baidu Push -->
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<!-- End Baidu Push -->
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="true">
+    
+    
+    
+    
+    <title>《大话设计模式》——装饰模式（Python版） | 西加加先生&#39;Blog | 努力诚可贵，坚持价更高</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Python,设计模式">
+    <meta name="description" content="装饰模式：动态地给一个对象添加一些额外的职责，就添加功能来说，装饰模式比生成子类更为灵活。 1. 装饰模式基本实现代码（Python版）1234567891011121314151617181920212223242526272829303132333435363738394041424344import abc class Component(metaclass=abc.ABCMeta):	#">
+<meta name="keywords" content="Python,设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《大话设计模式》——装饰模式（Python版）">
+<meta property="og:url" content="https://mrleecn.cn/2019/11/29/designmodel3/index.html">
+<meta property="og:site_name" content="西加加先生&#39;Blog">
+<meta property="og:description" content="装饰模式：动态地给一个对象添加一些额外的职责，就添加功能来说，装饰模式比生成子类更为灵活。 1. 装饰模式基本实现代码（Python版）1234567891011121314151617181920212223242526272829303132333435363738394041424344import abc class Component(metaclass=abc.ABCMeta):	#">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-12-01T03:54:49.972Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《大话设计模式》——装饰模式（Python版）">
+<meta name="twitter:description" content="装饰模式：动态地给一个对象添加一些额外的职责，就添加功能来说，装饰模式比生成子类更为灵活。 1. 装饰模式基本实现代码（Python版）1234567891011121314151617181920212223242526272829303132333435363738394041424344import abc class Component(metaclass=abc.ABCMeta):	#">
+    
+        <link rel="alternate" type="application/atom+xml" title="西加加先生&#39;Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.gif">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-140803241-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-140803241-1');
+</script>
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">西加加先生</h5>
+          <a href="mailto:466987329@qq.com" title="466987329@qq.com" class="mail">466987329@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ghost7890" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books">
+                <i class="icon icon-lg icon-book"></i>
+                我的读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies">
+                <i class="icon icon-lg icon-film"></i>
+                我的电影
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends-link">
+                <i class="icon icon-lg icon-link"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends-apply">
+                <i class="icon icon-lg icon-user-plus"></i>
+                友链申请
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">《大话设计模式》——装饰模式（Python版）</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">《大话设计模式》——装饰模式（Python版）</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-11-29T14:46:18.000Z" itemprop="datePublished" class="page-time">
+  2019-11-29
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-装饰模式基本实现代码（Python版）"><span class="post-toc-number">1.</span> <span class="post-toc-text">1. 装饰模式基本实现代码（Python版）</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-使用装饰模式和不使用装饰模式的代码区别"><span class="post-toc-number">2.</span> <span class="post-toc-text">2.使用装饰模式和不使用装饰模式的代码区别</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-1-不使用装饰模式"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">2.1 不使用装饰模式</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-2-使用装饰模式"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">2.2 使用装饰模式</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-python中装饰器VS装饰模式"><span class="post-toc-number">3.</span> <span class="post-toc-text">3. python中装饰器VS装饰模式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#总结："><span class="post-toc-number">4.</span> <span class="post-toc-text">总结：</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#参考："><span class="post-toc-number">4.1.</span> <span class="post-toc-text">参考：</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-designmodel3" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">《大话设计模式》——装饰模式（Python版）</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-11-29 22:46:18" datetime="2019-11-29T14:46:18.000Z" itemprop="datePublished">2019-11-29</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p> <code>装饰模式</code>：动态地给一个对象添加一些额外的职责，就添加功能来说，装饰模式比生成子类更为灵活。</p>
+<h3 id="1-装饰模式基本实现代码（Python版）"><a href="#1-装饰模式基本实现代码（Python版）" class="headerlink" title="1. 装饰模式基本实现代码（Python版）"></a>1. 装饰模式基本实现代码（Python版）</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> abc</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Component</span><span class="params">(metaclass=abc.ABCMeta)</span>:</span>	<span class="comment">#定义一个对象的接口，可以给这些对象动态地添加职责。</span></span><br><span class="line"><span class="meta">    @abc.abstractmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Operation</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteComponent</span><span class="params">(Component)</span>:</span>	<span class="comment"># 定义一个具体对象，可以给这个对象添加一些职责。</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Operation</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"具体对象的操作"</span>)</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Decorator</span><span class="params">(Component)</span>:</span>	</span><br><span class="line">    <span class="comment"># 抽象装饰类，继承了Component，从外类来扩展Component类的功能，但对于Component来说，无需知道Decorator的存在。</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self._component = Component()</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">SetComponent</span><span class="params">(self,component)</span>:</span>	<span class="comment"># 设置Component</span></span><br><span class="line">        self._component = component</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Operation</span><span class="params">(self)</span>:</span>				<span class="comment"># 重写Operation()实际执行的市Component的Operation()</span></span><br><span class="line">        <span class="keyword">if</span>(self._component != <span class="literal">None</span>):</span><br><span class="line">            self._component.Operation()            </span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteDecoratorA</span><span class="params">(Decorator)</span>:</span> <span class="comment"># 具体的装饰对象，起到给Component添加职责的功能。</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.__addedState = <span class="literal">None</span>	<span class="comment"># 本类独有的功能，区别于ConcreteDecoratorB</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Operation</span><span class="params">(self)</span>:</span></span><br><span class="line">        super(ConcreteDecoratorA,self).Operation()	<span class="comment"># 先运行原Component的Operation（），再执行本类功能。</span></span><br><span class="line">        self.__addedState = <span class="string">"New State"</span></span><br><span class="line">        print(<span class="string">"具体装饰对象A的操作"</span>)</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteDecoratorB</span><span class="params">(Decorator)</span>:</span>	<span class="comment"># 具体的装饰对象，起到给Component添加职责的功能。</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Operation</span><span class="params">(self)</span>:</span></span><br><span class="line">        super(ConcreteDecoratorB,self).Operation()</span><br><span class="line">        self.AddedBehavior()</span><br><span class="line">        print(<span class="string">"具体装饰对象A的操作"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">AddedBehavior</span><span class="params">(self)</span>:</span>	<span class="comment"># 本类独有的功能，区别于ConcreteDecoratorA</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    c = ConcreteComponent()</span><br><span class="line">    d1 = ConcreteDecoratorA()</span><br><span class="line">    d2 = ConcreteDecoratorB()</span><br><span class="line">    d1.SetComponent(c)</span><br><span class="line">    d2.SetComponent(d1)</span><br><span class="line">    d2.Operation()</span><br></pre></td></tr></table></figure>
+<p>​    装饰模式<strong>利用SetComponent来对对象进行包装</strong>。<strong>每个装饰对象的实现就与如何使用这个对象分开了</strong>，<strong>每个装饰对象只关心自己的功能</strong>，不需要关系如何被添加到对象链当中。</p>
+<p>​    <strong>当只有一个ConcreteComponent类而没有抽象的Component类，那么Decorator类可以是ConcreteComponent的一个子类。同理，如果只有一个ConcreteDecorator类，那么没必要建立一个单独的Decorator类，而可以把Decorator和ConcreteDecorator的责任和合并成一个类。</strong></p>
+<h3 id="2-使用装饰模式和不使用装饰模式的代码区别"><a href="#2-使用装饰模式和不使用装饰模式的代码区别" class="headerlink" title="2.使用装饰模式和不使用装饰模式的代码区别"></a>2.使用装饰模式和不使用装饰模式的代码区别</h3><p><strong>例：使用Python设计一个给人搭配不同服饰的系统，控制台模式下即可。</strong></p>
+<h4 id="2-1-不使用装饰模式"><a href="#2-1-不使用装饰模式" class="headerlink" title="2.1 不使用装饰模式"></a><strong>2.1 不使用装饰模式</strong></h4><p>版本一：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name)</span>:</span></span><br><span class="line">        self.__name = name</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">WearTShits</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"大T恤"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">WearBigTrouser</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"垮裤"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">WearSneakers</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"破球鞋"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Show</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"装扮的"</span>,self.__name)</span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    xc = Person(<span class="string">'小菜'</span>)</span><br><span class="line">    print(<span class="string">'装扮: '</span>)</span><br><span class="line">    xc.WearTShits()</span><br><span class="line">    xc.WearBigTrouser()</span><br><span class="line">    xc.WearSneakers()</span><br><span class="line">    xc.Show()</span><br></pre></td></tr></table></figure>
+<p>此版本，将人物和穿搭封装成了Person类，所有穿搭都是Person类中的方法。如果有新的装扮，则需要对Person类进行修改，违背了<code>开放-封闭原则</code>。</p>
+<p>因此需要将人物和穿搭拆分开。</p>
+<p><strong>第二版</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">from</span> abc <span class="keyword">import</span> ABCMeta,abstractmethod</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,name)</span>:</span></span><br><span class="line">        self.__name = name</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Show</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"装扮的"</span>,self.__name)</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Finery</span><span class="params">(metaclass=abc.ABCMeta)</span>:</span></span><br><span class="line"><span class="meta">    @abstractmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Show</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TShits</span><span class="params">(Finery)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Show</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"大T恤"</span>)</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BigTrouser</span><span class="params">(Finery)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Show</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"垮裤"</span>)</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Sneakers</span><span class="params">(Finery)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Show</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"破球鞋"</span>)</span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    xc = Person(<span class="string">'小菜'</span>)</span><br><span class="line">    print(<span class="string">'装扮:'</span>)</span><br><span class="line">    dtx = TShits()</span><br><span class="line">    kk = BigTrouser()</span><br><span class="line">    pqx = Sneakers()</span><br><span class="line">    <span class="comment"># 装饰过程</span></span><br><span class="line">    dtx.Show()</span><br><span class="line">    kk.Show()</span><br><span class="line">    pqx.Show()</span><br></pre></td></tr></table></figure>
+<p>此版本，将人物和服饰分别进行封装成Person类和Finery类。Finery类是服饰抽象类，所有具体服饰类都继承于它，如果又新的装扮，则直接添加新的具体服饰类就可以，无需修改Person类和Finery类。但是，在具体使用时，下面的代码显得十分冗余。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dtx.Show()</span><br><span class="line">kk.Show()</span><br><span class="line">pqx.Show()</span><br></pre></td></tr></table></figure>
+<p>没有将具体的穿搭过程进行封装，<strong>犹如公众场合下换衣服的感觉</strong>，没有真正体现出<code>先穿什么再穿什么</code>的流程。</p>
+<h4 id="2-2-使用装饰模式"><a href="#2-2-使用装饰模式" class="headerlink" title="2.2 使用装饰模式"></a>2.2 使用装饰模式</h4><p>仿照装饰模式的基本实现代码对上面的代码进行修改，</p>
+<p><strong>Person类相当于ConcreteComponent类，Finery类相当于Decorator类</strong>。因为只有一个ConcreteComponent类而没有抽象的Component类，所以Decorator类可以是ConcreteComponent的一个子类。</p>
+<p>修改结果如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> abc</span><br><span class="line"></span><br><span class="line"><span class="comment"># Person类	</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">(metaclass=abc.ABCMeta)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name)</span>:</span></span><br><span class="line">        self._name = name</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Show</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"装扮的"</span>,self.__name)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 服饰类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Finery</span><span class="params">(Person)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Decorate</span><span class="params">(self, component)</span>:</span></span><br><span class="line">        self._component = component</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Show</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> self._component <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            self._component.Show()</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TShirts</span><span class="params">(Finery)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Show</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'T恤衫'</span>)</span><br><span class="line">        self._component.Show()</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BigTrouser</span><span class="params">(Finery)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Show</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'垮裤'</span>)</span><br><span class="line">        self._component.Show()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    person = Person(<span class="string">'小菜'</span>)</span><br><span class="line">    dtx = TShirts()</span><br><span class="line">    kk = BigTrouser()</span><br><span class="line">    <span class="comment"># 装饰过程</span></span><br><span class="line">    dtx.Decorate(person)</span><br><span class="line">    kk.Decorate(dtx)</span><br><span class="line">    kk.Show()</span><br></pre></td></tr></table></figure>
+<p>此版本从装饰过程中能明显体会到<code>先穿什么再穿什么</code>的流程。这种写法<strong>有效地把类中的核心职责和装饰功能分开，而且可以去除相关重复的装饰逻辑</strong>。每个装饰对象只需要关注自己的功能，无需关注如何被添加到对象中的。</p>
+<h3 id="3-python中装饰器VS装饰模式"><a href="#3-python中装饰器VS装饰模式" class="headerlink" title="3. python中装饰器VS装饰模式"></a>3. python中装饰器VS装饰模式</h3><p>看到这里，你可能会联想到Python自带的装饰器<code>@</code>语法糖，那我们谈一谈Python中的装饰器和设计模式中的装饰模式的联系与区别：</p>
+<p><strong>设计模式中的装饰模式</strong>：</p>
+<ul>
+<li>是设计模式的一种。<strong>是一种编程思想，与编程语言无关</strong>。</li>
+<li>是在不必改变原<strong>类</strong>文件和使用继承的情况下，动态地扩展一个<strong>对象</strong>的功能。它是通过创建一个包装对象，也就是装饰来包裹真实的对象。</li>
+</ul>
+<p><strong>Python装饰器：</strong></p>
+<ul>
+<li>是Python中的高级函数使用上的一种语法糖。</li>
+<li>是对装饰模式的一个更宽泛的应用，<strong>不仅仅能够应用于类，也能应用于函数，类方法和类属性</strong>。</li>
+</ul>
+<h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><p>​    <strong>当系统需要新功能且新功能只是为了满足一些再特定情况下才会执行的特殊行为需要。可以采用装饰模式</strong>。</p>
+<p>在Python有现成的语法糖支持装饰模式。</p>
+<h4 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h4><p><a href="https://foofish.net/python-decorator.html" target="_blank" rel="noopener">理解 Python 装饰器看这一篇就够了</a></p>
+<p><a href="https://www.jianshu.com/p/013985a58841" target="_blank" rel="noopener">Python设计模式之装饰器模式</a></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-12-01T03:54:49.972Z" itemprop="dateUpdated">2019-12-01 11:54:49</time>
+</span><br>
+
+
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2019/11/29/designmodel3/" target="_blank" rel="external">https://mrleecn.cn/2019/11/29/designmodel3/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://mrleecn.cn">
+            <img src="/img/avatar.jpg" alt="西加加先生">
+            西加加先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://mrleecn.cn/2019/11/29/designmodel3/&title=《《大话设计模式》——装饰模式（Python版）》 — 西加加先生'Blog&pic=https://mrleecn.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://mrleecn.cn/2019/11/29/designmodel3/&title=《《大话设计模式》——装饰模式（Python版）》 — 西加加先生'Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://mrleecn.cn/2019/11/29/designmodel3/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《大话设计模式》——装饰模式（Python版）》 — 西加加先生'Blog&url=https://mrleecn.cn/2019/11/29/designmodel3/&via=https://mrleecn.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://mrleecn.cn/2019/11/29/designmodel3/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/11/15/designmodel2/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">《大话设计模式》——策略模式（Python版）</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: '466987329@qq.com' == 'true',
+            verify: 'false' == 'true',
+            appId: "2vYCN34c68lLIPtCeLOQBWY1-gzGzoHsz",
+            appKey: "H9P3LC1LrBg2feypO5qYxBdf",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check" data-wechat="/img/wechat.png" data-alipay="/img/alipay.png">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>西加加先生 &copy; 2015 - 2019</span>
+            <span>
+                
+                <a href="http://www.miitbeian.gov.cn/" target="_blank">湘ICP备17011548号-1</a><br>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://mrleecn.cn/2019/11/29/designmodel3/&title=《《大话设计模式》——装饰模式（Python版）》 — 西加加先生'Blog&pic=https://mrleecn.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://mrleecn.cn/2019/11/29/designmodel3/&title=《《大话设计模式》——装饰模式（Python版）》 — 西加加先生'Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://mrleecn.cn/2019/11/29/designmodel3/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《大话设计模式》——装饰模式（Python版）》 — 西加加先生'Blog&url=https://mrleecn.cn/2019/11/29/designmodel3/&via=https://mrleecn.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://mrleecn.cn/2019/11/29/designmodel3/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACLElEQVR42u3aQXKDMAwF0Nz/0um2nQ70S4K22M8rJgHsx0IjS3694vH+NI5+T8bnp46uv89y2cDAwHgsI5/4fJpz6tE91XkP14CBgbEB42hZ59eTcHx+Z742DAwMjCojD6Dnv2BgYGBMGEmoTYLpHwdcDAyMBzKqBbJeqpf/e+NeHAMD44GMvOr++9e39DcwMDAexZg0IO9oTL5bAwMDY21GHuAu2GTG91TXg4GBsQ+jGlInz+Ztg/N5X/OlYGBg/HvGpEyWBMfe8a98ri8ZLgYGxjaM/GjFtQ3LUQMAAwNjaUZ1+slHSWAXvA0DA2M5Rq+5mCdwSeo5P9iBgYGxNqMaaqvNy8kHqm6SMTAwVmUkU+b3JE2CySc4LPxhYGBswCiU4CepW/yZyn1JDAyMpRnVBC4vtyWt0KsSRAwMjB0YveNfvaJ/9c2FXzAwMBZlTI5EJHcmKWD+KX8ot2FgYCzKyBuT1SDYSw3zQhsGBsaejHwjWi2TVUNqc1uLgYGxAaOanFXbn9XjZfl7MDAwdmNM0ru7A3SzMYCBgbEQY5Le5eX+eXHt8M0YGBiLMt7Fke8Z89Rw8gYMDIwdGPmYtArydDMp/5WPi2FgYCzBSIJstXmQF+wmR80wMDB2YxSONRQjd34srFpVw8DAwKgG3F55rtpOKFQNMTAwtmfkIbiXViYb4AsCLgYGxqMYvWJ9AugV2spHMTAwMJZm9LaOvYZitcGZP4WBgbEo4wOn9omHpfO4lwAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>
