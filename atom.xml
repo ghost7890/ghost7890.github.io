@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mrleecn.cn/"/>
-  <updated>2019-12-01T04:09:29.333Z</updated>
+  <updated>2019-12-09T13:36:20.056Z</updated>
   <id>https://mrleecn.cn/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Python上下文管理器</title>
+    <link href="https://mrleecn.cn/2019/12/07/contextor/"/>
+    <id>https://mrleecn.cn/2019/12/07/contextor/</id>
+    <published>2019-12-07T09:06:08.000Z</published>
+    <updated>2019-12-09T13:36:20.056Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="什么是上下文管理器？"><a href="#什么是上下文管理器？" class="headerlink" title="什么是上下文管理器？"></a>什么是上下文管理器？</h2><p>我们常见的<code>with open</code>操作文件，就是一个上下文管理器。如：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> open(file, <span class="string">'rb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    text = f.read()</span><br></pre></td></tr></table></figure><p><strong>那上下文管理器具体的定义是什么呢？</strong></p><p><code>上下文管理器</code>：是指<strong>在一段代码执行之前执行一段代码，用于一些预处理工作；执行之后再执行一段代码，用于一些清理工作</strong>。</p><p>比如刚提到的文件操作，打开文件进行读写，读写完之后需要将文件关闭。很明显用到了上下文管理器。主要依靠<code>__enter__</code>、<code>__exit__</code>这两个”魔术方法”实现。</p><blockquote><p><code>__enter__(self)</code></p><p>Defines what the context manager should do at the beginning of the block created by the with statement. Note that the return value of <strong>enter</strong> is bound to the target of the with statement, or the name after the as.</p><p><code>__exit__(self, exception_type, exception_value, traceback)</code></p><p>Defines what the context manager should do after its block has been executed (or terminates). It can be used to handle exceptions, perform cleanup, or do something always done immediately after the action in the block. If the block executes successfully, exception_type, exception<em>value, and traceback will be None. Otherwise, you can choose to handle the exception or let the user handle it; if you want to handle it, make sure</em> _exit__ returns True after all is said and done. If you don’t want the exception to be handled by the context manager, just let it happen.</p></blockquote><p>当我们需要创建一个上下文管理器类型的时候，就需要实现<code>__enter__</code>和<code>__exit__</code>方法，这对方法称为<strong>上下文管理协议</strong>（Context Manager Protocol），定义了一种运行时上下文环境。</p><p><strong>基本语法</strong></p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> EXPR <span class="keyword">as</span> VAR:</span><br><span class="line">    BLOCK</span><br></pre></td></tr></table></figure><p>这里就是一个标准的上下文管理器的使用逻辑，其中的运行逻辑：</p><p>（1）执行EXPR语句，获取上下文管理器（Context Manager）</p><p>（2）调用上下文管理器中的<strong>enter</strong>方法，该方法执行一些预处理工作。</p><p>（3）这里的as VAR可以省略，如果不省略，则将<strong>enter</strong>方法的返回值赋值给VAR。</p><p>（4）执行代码块BLOCK，这里的VAR可以当做普通变量使用。</p><p>（5）最后调用上下文管理器中的的<strong>exit</strong>方法。</p><p>（6）<strong>exit</strong>方法有三个参数：exc_type, exc_val, exc_tb。如果代码块BLOCK发生异常并退出，那么分别对应异常的type、value 和 traceback。否则三个参数全为None。</p><p>（7）<strong>exit</strong>方法的返回值可以为True或者False。如果为True，那么表示异常被忽视，相当于进行了try-except操作；如果为False，则该异常会被重新raise。</p><h2 id="如何自己实现上下文管理器？"><a href="#如何自己实现上下文管理器？" class="headerlink" title="如何自己实现上下文管理器？"></a>如何自己实现上下文管理器？</h2><p>简单来说，如果一个类中，实现了<code>__enter__</code>和<code>__exit__</code>方法，那么这个类就是上下文管理器。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Contextor</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__enter__</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'程序的预处理开始啦！'</span>)</span><br><span class="line">        <span class="keyword">return</span> self<span class="comment"># 作为as说明符指定的变量的值</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__exit__</span><span class="params">(self, exc_type, exc_val, exc_tb)</span>:</span></span><br><span class="line">        print(<span class="string">'正在进行收尾！'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'程序进行中....'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> Contextor() <span class="keyword">as</span> var:</span><br><span class="line">    var.func()</span><br><span class="line">   </span><br><span class="line"><span class="comment"># 输出</span></span><br><span class="line">程序的预处理开始啦！</span><br><span class="line">程序进行中....</span><br><span class="line">正在进行收尾！</span><br></pre></td></tr></table></figure><p>从这个示例可以很明显的看出，在编写代码时，可以将资源的连接或者获取放在<code>__enter__</code>中，而将资源的关闭写在<code>__exit__</code> 中。</p><h2 id="为什么要使用上下文管理器？"><a href="#为什么要使用上下文管理器？" class="headerlink" title="为什么要使用上下文管理器？"></a>为什么要使用上下文管理器？</h2><p>在我看来，这和 Python 崇尚的优雅风格有关。</p><ol><li>可以以一种更加优雅的方式，操作（创建/获取/释放）资源，如文件操作、数据库连接；</li><li>可以以一种更加优雅的方式，处理异常；</li></ol><p>第二种，会被大多数人所忽略。这里着重介绍下。</p><p>在处理异常时，通常都是使用<code>try...except...</code>来进行异常处理的。这就可能会出现在程序的主逻辑中有大量的异常处理代码，这会大大影响程序的可读性。</p><p>好的做法可以通过<code>with</code>将异常处理隐藏起来。</p><p>我们以<code>1/0</code>举例（<code>1/0</code>必然会抛出错误）</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Resource</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__enter__</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'===connect to resource==='</span>)</span><br><span class="line">        <span class="keyword">return</span> self</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__exit__</span><span class="params">(self, exc_type, exc_val, exc_tb)</span>:</span></span><br><span class="line">        print(<span class="string">'===close resource connection==='</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">operate</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="number">1</span>/<span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> Resource() <span class="keyword">as</span> res:</span><br><span class="line">    res.operate()</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 输出结果</span></span><br><span class="line">===connect to resource===</span><br><span class="line">===close resource connection===</span><br></pre></td></tr></table></figure><p>运行发现，并没有出异常。</p><p>这就是上下文管理器的强大之处，异常可以在<code>__exit__</code>进行捕获，并自己决定如何处理。在<code>__exit__</code> 里返回 <code>True</code>（没有return 就默认为 return False），就相当于告诉 Python解释器，这个异常我们已经捕获了，不需要再往外抛了。</p><p>在 写<code>__exit__</code> 函数时，需要注意的事，它必须要有这三个参数：</p><ul><li>exc_type：异常类型</li><li>exc_val：异常值</li><li>exc_tb：异常的错误栈信息</li></ul><p>当主逻辑代码没有报异常时，这三个参数将都为None。</p><p><strong>如何处理自行处理异常</strong></p><p>我们以上面的代码为例，在<code>__exit__</code>加入判断异常的逻辑，如果发生异常，则打印异常信息。</p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Resource</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__enter__</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'===connect to resource==='</span>)</span><br><span class="line">        <span class="keyword">return</span> self</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__exit__</span><span class="params">(self, exc_type, exc_val, exc_tb)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> exc_type:</span><br><span class="line">            print(<span class="string">f'出现异常：<span class="subst">&#123;exc_type&#125;</span>：<span class="subst">&#123;exc_val&#125;</span>'</span>)</span><br><span class="line">        print(<span class="string">'===close resource connection==='</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">operate</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="number">1</span>/<span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> Resource() <span class="keyword">as</span> res:</span><br><span class="line">    res.operate()</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 输出</span></span><br><span class="line">===connect to resource===</span><br><span class="line">出现异常：&lt;<span class="class"><span class="keyword">class</span> '<span class="title">ZeroDivisionError</span>'&gt;：<span class="title">division</span> <span class="title">by</span> <span class="title">zero</span></span></span><br><span class="line">===close resource connection===</span><br></pre></td></tr></table></figure><h2 id="如何更好的使用上下文管理器？"><a href="#如何更好的使用上下文管理器？" class="headerlink" title="如何更好的使用上下文管理器？"></a>如何更好的使用上下文管理器？</h2><p>在Python中有一个专门用于实现上下文管理的标准库<code>contextlib</code>。</p><p>有了 <code>contextlib</code> 创建上下文管理的最好方式就是使用 contextmanager 装饰器，通过 contextmanager 装饰一个生成器函数，<code>yield</code> 语句前面的部分被认为是<code>__enter__()</code> 方法的代码，后面的部分被认为是 <code>__exit__()</code>方法的代码。</p><p>我们以打开文件为例：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> contextlib</span><br><span class="line"></span><br><span class="line"><span class="meta">@contextlib.contextmanager</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">open_func</span><span class="params">(file_name)</span>:</span></span><br><span class="line">    <span class="comment"># __enter__方法</span></span><br><span class="line">    print(<span class="string">'open file:'</span>, file_name, <span class="string">'in __enter__'</span>)</span><br><span class="line">    file_handler = open(file_name, <span class="string">'r'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 【重点】：yield</span></span><br><span class="line">    <span class="keyword">yield</span> file_handler</span><br><span class="line"></span><br><span class="line">    <span class="comment"># __exit__方法</span></span><br><span class="line">    print(<span class="string">'close file:'</span>, file_name, <span class="string">'in __exit__'</span>)</span><br><span class="line">    file_handler.close()</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open_func(<span class="string">'/Users/MING/mytest.txt'</span>) <span class="keyword">as</span> file_in:</span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> file_in:</span><br><span class="line">        print(line)</span><br></pre></td></tr></table></figure><p>如果要处理异常，将上面代码改写成下面的样子。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> contextlib</span><br><span class="line"></span><br><span class="line"><span class="meta">@contextlib.contextmanager</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">open_func</span><span class="params">(file_name)</span>:</span></span><br><span class="line">    <span class="comment"># __enter__方法</span></span><br><span class="line">    print(<span class="string">'open file:'</span>, file_name, <span class="string">'in __enter__'</span>)</span><br><span class="line">    file_handler = open(file_name, <span class="string">'r'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">yield</span> file_handler</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> exc:</span><br><span class="line">        <span class="comment"># deal with exception</span></span><br><span class="line">        print(<span class="string">'the exception was thrown'</span>)</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        print(<span class="string">'close file:'</span>, file_name, <span class="string">'in __exit__'</span>)</span><br><span class="line">        file_handler.close()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open_func(<span class="string">'test.txt'</span>) <span class="keyword">as</span> file_in:</span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> file_in:</span><br><span class="line">        <span class="number">1</span>/<span class="number">0</span></span><br><span class="line">        print(line)</span><br></pre></td></tr></table></figure><p><strong>参考</strong>：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">https://juejin.im/post/5c87b165f265da2dac4589cc</span><br><span class="line">https://www.cnblogs.com/linxiyue/p/3855751.html</span><br><span class="line">https://runnerliu.github.io/2018/01/02/pythoncontextmanager/</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;什么是上下文管理器？&quot;&gt;&lt;a href=&quot;#什么是上下文管理器？&quot; class=&quot;headerlink&quot; title=&quot;什么是上下文管理器？&quot;&gt;&lt;/a&gt;什么是上下文管理器？&lt;/h2&gt;&lt;p&gt;我们常见的&lt;code&gt;with open&lt;/code&gt;操作文件，就是一个上下
+      
+    
+    </summary>
+    
+    
+      <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
+    
+  </entry>
   
   <entry>
     <title>《大话设计模式》——装饰模式（Python版）</title>
@@ -139,9 +162,9 @@
     
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
-      <category term="爬虫" scheme="https://mrleecn.cn/tags/%E7%88%AC%E8%99%AB/"/>
-    
       <category term="加密" scheme="https://mrleecn.cn/tags/%E5%8A%A0%E5%AF%86/"/>
+    
+      <category term="爬虫" scheme="https://mrleecn.cn/tags/%E7%88%AC%E8%99%AB/"/>
     
   </entry>
   
@@ -173,11 +196,11 @@
     
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
+      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
+    
       <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
     
       <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
-    
-      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
     
   </entry>
   
@@ -209,11 +232,11 @@
     
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
+      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
+    
       <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
     
       <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
-    
-      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
     
   </entry>
   
@@ -245,11 +268,11 @@
     
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
+      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
+    
       <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
     
       <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
-    
-      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
     
   </entry>
   
@@ -274,11 +297,11 @@
     
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
+      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
+    
       <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
     
       <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
-    
-      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
     
   </entry>
   
@@ -309,11 +332,11 @@
     
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
+      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
+    
       <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
     
       <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
-    
-      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
     
   </entry>
   
