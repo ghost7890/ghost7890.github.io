@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'true', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+<!-- End Google Analytics -->
+
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?53891daf9e0316e03eadf2da354a713d"></script>
+<!-- End Baidu Tongji -->
+
+
+
+<!-- Baidu Push -->
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<!-- End Baidu Push -->
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="true">
+    
+    
+    
+    
+    <title>深入理解协程（一）：协程的引入 | 西加加先生&#39;Blog | 努力诚可贵，坚持价更高</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Python">
+    <meta name="description" content="原创不易，转载请联系作者  深入理解协程分为三部分进行讲解：  协程的引入 yield from实现协程 async/await实现异步协程  本篇为深入理解协程文章的第一篇。 什么是协程协程：英文叫做 Coroutine，又称微线程，纤程，是一种用户态的轻量级线程。 本质上是单线程，拥有自己的寄存器上下文和栈。所以能保留上一次调用时的状态，每次过程重入时，就相当于进入上一次调用的状态。 与多进">
+<meta name="keywords" content="Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入理解协程（一）：协程的引入">
+<meta property="og:url" content="https://mrleecn.cn/2019/12/14/coroutine/index.html">
+<meta property="og:site_name" content="西加加先生&#39;Blog">
+<meta property="og:description" content="原创不易，转载请联系作者  深入理解协程分为三部分进行讲解：  协程的引入 yield from实现协程 async/await实现异步协程  本篇为深入理解协程文章的第一篇。 什么是协程协程：英文叫做 Coroutine，又称微线程，纤程，是一种用户态的轻量级线程。 本质上是单线程，拥有自己的寄存器上下文和栈。所以能保留上一次调用时的状态，每次过程重入时，就相当于进入上一次调用的状态。 与多进">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-12-15T12:31:40.281Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深入理解协程（一）：协程的引入">
+<meta name="twitter:description" content="原创不易，转载请联系作者  深入理解协程分为三部分进行讲解：  协程的引入 yield from实现协程 async/await实现异步协程  本篇为深入理解协程文章的第一篇。 什么是协程协程：英文叫做 Coroutine，又称微线程，纤程，是一种用户态的轻量级线程。 本质上是单线程，拥有自己的寄存器上下文和栈。所以能保留上一次调用时的状态，每次过程重入时，就相当于进入上一次调用的状态。 与多进">
+    
+        <link rel="alternate" type="application/atom+xml" title="西加加先生&#39;Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.gif">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-140803241-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-140803241-1');
+</script>
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">西加加先生</h5>
+          <a href="mailto:466987329@qq.com" title="466987329@qq.com" class="mail">466987329@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ghost7890" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books">
+                <i class="icon icon-lg icon-book"></i>
+                我的读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies">
+                <i class="icon icon-lg icon-film"></i>
+                我的电影
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends-link">
+                <i class="icon icon-lg icon-link"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends-apply">
+                <i class="icon icon-lg icon-user-plus"></i>
+                友链申请
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">深入理解协程（一）：协程的引入</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">深入理解协程（一）：协程的引入</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-12-14T12:20:32.000Z" itemprop="datePublished" class="page-time">
+  2019-12-14
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#什么是协程"><span class="post-toc-number">1.</span> <span class="post-toc-text">什么是协程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#最简单的协程"><span class="post-toc-number">2.</span> <span class="post-toc-text">最简单的协程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#协程的四种状态"><span class="post-toc-number">3.</span> <span class="post-toc-text">协程的四种状态</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#终止协程"><span class="post-toc-number">4.</span> <span class="post-toc-text">终止协程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#异常处理"><span class="post-toc-number">5.</span> <span class="post-toc-text">异常处理</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-coroutine" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">深入理解协程（一）：协程的引入</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-12-14 20:20:32" datetime="2019-12-14T12:20:32.000Z" itemprop="datePublished">2019-12-14</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>原创不易，转载请联系作者</p>
+</blockquote>
+<p><code>深入理解协程</code>分为三部分进行讲解：</p>
+<ul>
+<li>协程的引入</li>
+<li>yield from实现协程</li>
+<li>async/await实现异步协程</li>
+</ul>
+<p>本篇为<code>深入理解协程</code>文章的第一篇。</p>
+<h4 id="什么是协程"><a href="#什么是协程" class="headerlink" title="什么是协程"></a>什么是协程</h4><p><strong>协程</strong>：英文叫做 Coroutine，又称微线程，纤程，是一种用户态的轻量级线程。</p>
+<p><strong>本质上是单线程</strong>，拥有自己的寄存器上下文和栈。所以能保留上一次调用时的状态，每次过程重入时，就相当于进入上一次调用的状态。</p>
+<p>与多进程相比，无需线程上下文切换的开销；与多线程相比，无需使用多线程的锁机制。执行效率要高于多进程和多线程。</p>
+<h4 id="最简单的协程"><a href="#最简单的协程" class="headerlink" title="最简单的协程"></a>最简单的协程</h4><p>在Python2.5时引入，是通过生成器（generator）实现的。下面来看一下生成器实现的最简单的协程。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">coroutine</span><span class="params">()</span>:</span>	<span class="comment"># 注释一</span></span><br><span class="line">        print(<span class="string">'-&gt; coroutine started'</span>)</span><br><span class="line">        x = <span class="keyword">yield</span>	<span class="comment"># 注释二</span></span><br><span class="line">        print(<span class="string">'-&gt; coroutine received:'</span>, x)</span><br><span class="line">    </span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>c = coroutine()	<span class="comment"># 注释三</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>c	</span><br><span class="line">&lt;generator object coroutine at <span class="number">0x03899230</span>&gt;</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>next(c)	<span class="comment"># 注释四</span></span><br><span class="line">-&gt; coroutine started</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>c.send(<span class="number">1</span>)	<span class="comment"># 注释五</span></span><br><span class="line">-&gt; coroutine received: 1</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;input&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">StopIteration	<span class="comment"># 注释六</span></span><br></pre></td></tr></table></figure>
+<p><strong>注释一</strong>：使用生成器函数定义一个协程（函数中需有yield关键字）</p>
+<p><strong>注释二</strong>：yield关键字分为左右两边理解，yield右边用于返回数据，左边用于接收用户数据。如果只从用户客户端接收数据，那么yield返回值为None。</p>
+<p><strong>注释三</strong>：创建生成器。</p>
+<p><strong>注释四</strong>：刚创建的生成器需要预激活，这里调用<code>next()</code>函数对生成器进行预激活。也可使用<code>c.send(None)</code>。</p>
+<p><strong>注释五</strong>：预激活完成后，使用<code>send()</code>函数传入数据，协程生成器中在yield处会计算出<code>1</code>，程序继续运行直到运行到下一个yield表达式出现或程序终止。</p>
+<p><strong>注释六</strong>：由于程序运行到结尾，协程生成器中再无yield关键字，导致生成器像往常一样抛出<code>StopIteration</code>异常。</p>
+<h4 id="协程的四种状态"><a href="#协程的四种状态" class="headerlink" title="协程的四种状态"></a>协程的四种状态</h4><ul>
+<li><p><code>GEN_CREATED</code></p>
+<p>协程生成器创建完成，等待开始执行。</p>
+</li>
+<li><p><code>GEN_RUNNING</code></p>
+<p>解释器正在执行。</p>
+</li>
+<li><p><code>GEN_SUSPENDED</code></p>
+<p>在yield表达式处暂停。</p>
+</li>
+<li><p><code>GEN_CLOSED</code></p>
+<p>执行结束。</p>
+</li>
+</ul>
+<p>协程当前的状态可通过<code>inspect</code>模块查询。</p>
+<p>下面举一个产出多个值的例子，以便更好理解协程的行为。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> inspect <span class="keyword">import</span> getgeneratorstate</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">coroutine</span><span class="params">(a)</span>:</span></span><br><span class="line">        print(<span class="string">'-&gt; started a='</span>, a)</span><br><span class="line">        b = <span class="keyword">yield</span> a</span><br><span class="line">        print(<span class="string">'-&gt; received: b='</span>, b)</span><br><span class="line">        c = <span class="keyword">yield</span> a + b</span><br><span class="line">        print(<span class="string">'-&gt; received: c=:'</span>, c)</span><br><span class="line">    </span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x = coroutine(<span class="number">1</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>getgeneratorstate(x)</span><br><span class="line"><span class="string">'GEN_CREATED'</span>	<span class="comment"># 注释一</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>next(x)		</span><br><span class="line">-&gt; started a= 1</span><br><span class="line"><span class="number">1</span>				<span class="comment"># 注释二</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x.send(<span class="number">2</span>)	</span><br><span class="line">-&gt; received: b= 2</span><br><span class="line"><span class="number">3</span>				<span class="comment"># 注释三</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>getgeneratorstate(x)</span><br><span class="line"><span class="string">'GEN_SUSPENDED'</span>		<span class="comment"># 注释四</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x.send(<span class="number">3</span>)</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">-&gt; received: c=: 3</span><br><span class="line">  File <span class="string">"&lt;input&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">StopIteration		</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>getgeneratorstate(x)</span><br><span class="line"><span class="string">'GEN_CLOSED'</span>		<span class="comment"># 注释五</span></span><br></pre></td></tr></table></figure>
+<p><strong>注释一</strong>：刚创建生成器，协程生成器还处于<code>GEN_CREATED</code>状态（协程未启动）。</p>
+<p><strong>注释二</strong>：使用<code>next(x)</code>预激活协程生成器，程序执行到第一个yield暂停，即返回a的值<code>1</code>。</p>
+<p><strong>注释三</strong>：<code>x.send(2)</code>向协程生成器传入值<code>2</code>并赋值给变量<code>b</code>，程序执行到第二个yield暂停，此处返回<code>a+b</code>的值，即为<code>3</code>。</p>
+<p><strong>注释四</strong>：此时程序在第二个yield处暂停，所以协程生成器处于<code>GEN_SUSPENDED</code>状态。</p>
+<p><strong>注释五</strong>：协程生成器抛出异常后，导致协程生成器结束，因此处于<code>GEN_CLOSED</code>状态。</p>
+<h4 id="终止协程"><a href="#终止协程" class="headerlink" title="终止协程"></a>终止协程</h4><p>上面举例的协程都是以抛出异常结束的，其实可以使用<code>close()</code>方法正常结束协程。</p>
+<p>我们将第一示例代码进行修改，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> inspect <span class="keyword">import</span> getgeneratorstate</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">coroutine</span><span class="params">()</span>:</span>  </span><br><span class="line">        print(<span class="string">'-&gt; coroutine started'</span>)</span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:		<span class="comment"># 注释一</span></span><br><span class="line">            x = <span class="keyword">yield</span>  </span><br><span class="line">            print(<span class="string">'-&gt; coroutine received:'</span>, x)</span><br><span class="line">        </span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>c = coroutine()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>next(c)</span><br><span class="line">-&gt; coroutine started</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>c.send(<span class="number">1</span>)</span><br><span class="line">-&gt; coroutine received: 1</span><br><span class="line">    </span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>c.send(<span class="number">2</span>)</span><br><span class="line">-&gt; coroutine received: 2</span><br><span class="line">    </span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>getgeneratorstate(c)</span><br><span class="line"><span class="string">'GEN_SUSPENDED'</span>		</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>c.close()		</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>getgeneratorstate(c)</span><br><span class="line"><span class="string">'GEN_CLOSED'</span>		<span class="comment"># 注释二</span></span><br></pre></td></tr></table></figure>
+<p><strong>注释一</strong>：此处加入死循环，避免协程生成器终止。</p>
+<p><strong>注释二</strong>：可以看出在执行<code>close()</code>之后协程生成器处于<code>GEN_SUSPENDED</code>状态。即协程正常结束。</p>
+<h4 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h4><p><code>throw()</code>方法可以传入异常。请看示例代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="class"><span class="keyword">class</span> <span class="title">DemoException</span><span class="params">(Exception)</span>:</span>	<span class="comment"># 注释一</span></span><br><span class="line">        <span class="string">'''定义的演示异常类型'''</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">coroutine</span><span class="params">()</span>:</span></span><br><span class="line">        print(<span class="string">'-&gt; coroutine started'</span>)</span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                x = <span class="keyword">yield</span></span><br><span class="line">            <span class="keyword">except</span> DemoException:	<span class="comment"># 注释二</span></span><br><span class="line">                print(<span class="string">'*** DemoException handled. Continuing...'</span>)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                print(<span class="string">'-&gt; coroutine received:'</span>, x)</span><br><span class="line">        <span class="keyword">raise</span> RuntimeError(<span class="string">'This line should never run.'</span>)	<span class="comment"># 注释三</span></span><br><span class="line">        </span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>c = coroutine()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>next(c)</span><br><span class="line">-&gt; coroutine started</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>c.send(<span class="number">1</span>)</span><br><span class="line">-&gt; coroutine received: 1</span><br><span class="line">    </span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>c.throw(DemoException)	<span class="comment"># 注释四</span></span><br><span class="line">*** DemoException handled. Continuing...</span><br></pre></td></tr></table></figure>
+<p><strong>注释一</strong>：自定义异常类型<code>DemoException</code>。</p>
+<p><strong>注释二</strong>：特殊处理<code>DemoException</code>类型。</p>
+<p><strong>注释三</strong>：这一行永远不会执行。</p>
+<p><strong>注释四</strong>：使用<code>throw()</code>传入异常类型。</p>
+<p>本篇讲述的为协程最原始的实现方法，虽然实现与异常处理比较繁琐，但确是协程的实现原理，对于真正理解协程大有裨益。</p>
+<p>下篇将与您分享如何使用<code>yield from</code>实现协程。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-12-15T12:31:40.281Z" itemprop="dateUpdated">2019-12-15 20:31:40</time>
+</span><br>
+
+
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2019/12/14/coroutine/" target="_blank" rel="external">https://mrleecn.cn/2019/12/14/coroutine/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://mrleecn.cn">
+            <img src="/img/avatar.jpg" alt="西加加先生">
+            西加加先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://mrleecn.cn/2019/12/14/coroutine/&title=《深入理解协程（一）：协程的引入》 — 西加加先生'Blog&pic=https://mrleecn.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://mrleecn.cn/2019/12/14/coroutine/&title=《深入理解协程（一）：协程的引入》 — 西加加先生'Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://mrleecn.cn/2019/12/14/coroutine/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《深入理解协程（一）：协程的引入》 — 西加加先生'Blog&url=https://mrleecn.cn/2019/12/14/coroutine/&via=https://mrleecn.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://mrleecn.cn/2019/12/14/coroutine/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/12/12/asyncio/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">asyncio</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: '466987329@qq.com' == 'true',
+            verify: 'false' == 'true',
+            appId: "2vYCN34c68lLIPtCeLOQBWY1-gzGzoHsz",
+            appKey: "H9P3LC1LrBg2feypO5qYxBdf",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check" data-wechat="/img/wechat.png" data-alipay="/img/alipay.png">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>西加加先生 &copy; 2015 - 2019</span>
+            <span>
+                
+                <a href="http://www.miitbeian.gov.cn/" target="_blank">湘ICP备17011548号-1</a><br>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://mrleecn.cn/2019/12/14/coroutine/&title=《深入理解协程（一）：协程的引入》 — 西加加先生'Blog&pic=https://mrleecn.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://mrleecn.cn/2019/12/14/coroutine/&title=《深入理解协程（一）：协程的引入》 — 西加加先生'Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://mrleecn.cn/2019/12/14/coroutine/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《深入理解协程（一）：协程的引入》 — 西加加先生'Blog&url=https://mrleecn.cn/2019/12/14/coroutine/&via=https://mrleecn.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://mrleecn.cn/2019/12/14/coroutine/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABv0lEQVR42u3aQW4CMQwFUO5/6anUVTczfNuNi6qXFUKQPFhYY/+8XvG6vtfd+z/X3ft3n3mdWLi4uGNudevk4Lt9nnd4NuDi4u5zn4vXc9GZlLncgIuL+5nc59JWLWG4uLj/g1stYUf2x8XFXeQmzU++6RWvg70aLi7ugFsdmJ54fXC+i4uLW+RerZUcnBTB8rm4uLgr3OTxpdfw5KWqHL7i4uKucPMjq4FKNWot/2xcXNzD3PzKRW90kocu0Z64uLjHuHkR6f0HvWbpdk9cXNx1bm+QMcHlgxJcXNx9bvIoUx1tVEthOUrBxcU9xs0LTXLYJOMtBLG4uLiHub1rUsnne0PYN38KLi7uIncSrPbC196IFhcXd4d7oh2aXMlqZsK4uLiHub1bG5NHn3IajIuLu8jtXbBICly+c2EUi4uLu87tPaxMGqFyW4WLi3uMexVX/vPyJqdw1QMXF3eFOwlBR31VkP3i4uL+LbfXnEwGqZNhCi4u7iZ3UmjmAW3hdFxc3I/kJuPRvFCWA11cXNwP407Gqc/fLRQ+XFzcRW5vuDkJZRPcL6TBuLi4Le5kYNqLYarV6dfmu7i4uO/XF9xVvlWSRdZNAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>
