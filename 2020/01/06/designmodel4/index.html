@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'true', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+<!-- End Google Analytics -->
+
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?53891daf9e0316e03eadf2da354a713d"></script>
+<!-- End Baidu Tongji -->
+
+
+
+<!-- Baidu Push -->
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<!-- End Baidu Push -->
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="true">
+    
+    
+    
+    
+    <title>《大话设计模式》——代理模式（Python版） | 西加加先生&#39;Blog | 努力诚可贵，坚持价更高</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Python,设计模式">
+    <meta name="description" content="代理模式：为其他对象提供一种代理以控制对这个对象的访问。  在某些情况下，一个对象不适合或者不能直接引用另一个对象，而代理对象可以在客户端和目标对象之间起到中介的作用。 代理模式分为：  静态代理 动态代理  由下面三部分组成： 抽象角色：通过接口或抽象类声明真实角色实现的业务方法。 代理角色：实现抽象角色，是真实角色的代理，通过真实角色的业务逻辑方法来实现抽象方法，并可以附加自己的操作。 真实">
+<meta name="keywords" content="Python,设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《大话设计模式》——代理模式（Python版）">
+<meta property="og:url" content="https://mrleecn.cn/2020/01/06/designmodel4/index.html">
+<meta property="og:site_name" content="西加加先生&#39;Blog">
+<meta property="og:description" content="代理模式：为其他对象提供一种代理以控制对这个对象的访问。  在某些情况下，一个对象不适合或者不能直接引用另一个对象，而代理对象可以在客户端和目标对象之间起到中介的作用。 代理模式分为：  静态代理 动态代理  由下面三部分组成： 抽象角色：通过接口或抽象类声明真实角色实现的业务方法。 代理角色：实现抽象角色，是真实角色的代理，通过真实角色的业务逻辑方法来实现抽象方法，并可以附加自己的操作。 真实">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-01-06T15:28:16.914Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《大话设计模式》——代理模式（Python版）">
+<meta name="twitter:description" content="代理模式：为其他对象提供一种代理以控制对这个对象的访问。  在某些情况下，一个对象不适合或者不能直接引用另一个对象，而代理对象可以在客户端和目标对象之间起到中介的作用。 代理模式分为：  静态代理 动态代理  由下面三部分组成： 抽象角色：通过接口或抽象类声明真实角色实现的业务方法。 代理角色：实现抽象角色，是真实角色的代理，通过真实角色的业务逻辑方法来实现抽象方法，并可以附加自己的操作。 真实">
+    
+        <link rel="alternate" type="application/atom+xml" title="西加加先生&#39;Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.gif">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-140803241-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-140803241-1');
+</script>
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">西加加先生</h5>
+          <a href="mailto:466987329@qq.com" title="466987329@qq.com" class="mail">466987329@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ghost7890" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books">
+                <i class="icon icon-lg icon-book"></i>
+                我的读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies">
+                <i class="icon icon-lg icon-film"></i>
+                我的电影
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends-link">
+                <i class="icon icon-lg icon-link"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends-apply">
+                <i class="icon icon-lg icon-user-plus"></i>
+                友链申请
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">《大话设计模式》——代理模式（Python版）</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">《大话设计模式》——代理模式（Python版）</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-01-06T13:07:43.000Z" itemprop="datePublished" class="page-time">
+  2020-01-06
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#静态代理"><span class="post-toc-number">1.</span> <span class="post-toc-text">静态代理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#动态代理"><span class="post-toc-number">2.</span> <span class="post-toc-text">动态代理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考"><span class="post-toc-number">3.</span> <span class="post-toc-text">参考</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-designmodel4" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">《大话设计模式》——代理模式（Python版）</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-01-06 21:07:43" datetime="2020-01-06T13:07:43.000Z" itemprop="datePublished">2020-01-06</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><code>代理模式</code>：<strong>为其他对象提供一种代理以控制对这个对象的访问。</strong></p>
+</blockquote>
+<p>在某些情况下，一个对象不适合或者不能直接引用另一个对象，而代理对象可以在客户端和目标对象之间起到中介的作用。</p>
+<p><strong>代理模式分为：</strong></p>
+<ul>
+<li><strong>静态代理</strong></li>
+<li><strong>动态代理</strong></li>
+</ul>
+<p><strong>由下面三部分组成</strong>：</p>
+<p><strong><code>抽象角色</code></strong>：通过接口或抽象类声明真实角色实现的业务方法。</p>
+<p><strong><code>代理角色</code></strong>：实现抽象角色，是真实角色的代理，通过真实角色的业务逻辑方法来实现抽象方法，并可以附加自己的操作。</p>
+<p><strong><code>真实角色</code></strong>：实现抽象角色，定义真实角色所要实现的业务逻辑，供代理角色调用。</p>
+<h2 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h2><p>在程序运行前，就已经确定代理类和委托类的关系的代理方式，被称为<code>静态代理</code>。</p>
+<blockquote>
+<p>例：<strong>小明请律师进行诉讼</strong></p>
+</blockquote>
+<p>诉讼流程可抽象为<code>ILawsuit</code>类，如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> abc</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ILawsuit</span><span class="params">(metaclass=abc.ABCMeta)</span>:</span></span><br><span class="line"><span class="meta">    @abc.abstractmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">submit</span><span class="params">(self)</span>:</span>	<span class="comment"># 提交申请</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"><span class="meta">    @abc.abstractmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">burden</span><span class="params">(self)</span>:</span>	<span class="comment"># 进行举证</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"><span class="meta">    @abc.abstractmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">defend</span><span class="params">(self)</span>:</span>	<span class="comment"># 开始辩护</span></span><br><span class="line">        <span class="keyword">pass</span>	</span><br><span class="line"><span class="meta">    @abc.abstractmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">finish</span><span class="params">(self)</span>:</span>	<span class="comment"># 诉讼完成</span></span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+<p>小明为具体诉讼人，可写为<code>Litigant</code>类，如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Litigant</span><span class="params">(ILawsuit)</span>:</span>		<span class="comment"># 继承于ILawsuit</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">submit</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">f'<span class="subst">&#123;self.name&#125;</span>申请仲裁！'</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">burden</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'证据如下：XXXXXX'</span>) </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">defend</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'辩护过程：XXXXXX'</span>)  </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">finish</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'诉讼结果如下：XXXXXX'</span>)</span><br></pre></td></tr></table></figure></p>
+<p>律师可写为<code>Lawyer</code>类，如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Lawyer</span><span class="params">(ILawsuit)</span>:</span>		<span class="comment"># 继承于ILawsuit</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, litigant)</span>:</span></span><br><span class="line">        self.litigant = litigant	<span class="comment"># 具体诉讼人	</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">submit</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.litigant.submit()</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">burden</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.litigant.burden()</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">defend</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.litigant.defend()</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">finish</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.litigant.finish()</span><br></pre></td></tr></table></figure></p>
+<p>诉讼过程，可表示为：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    xiaoming = Litigant(<span class="string">'小明'</span>)		</span><br><span class="line">    lawyer = Lawyer(xiaoming)		</span><br><span class="line">    lawyer.submit()		<span class="comment"># 律师提交诉讼申请</span></span><br><span class="line">    lawyer.burden()		<span class="comment"># 律师进行举证</span></span><br><span class="line">    lawyer.defend()		<span class="comment"># 律师替小明辩护</span></span><br><span class="line">    lawyer.finish()		<span class="comment"># 完成诉讼</span></span><br><span class="line">    </span><br><span class="line"><span class="comment"># 输出结果</span></span><br><span class="line">小明申请仲裁！</span><br><span class="line">证据如下：XXXXXX</span><br><span class="line">辩护过程：XXXXXX</span><br><span class="line">诉讼结果如下：XXXXXX</span><br></pre></td></tr></table></figure></p>
+<p><strong>静态代理的优缺点</strong></p>
+<p><code>优点</code>：业务类只需要关注业务逻辑本身，保证了业务类的重用性。</p>
+<p><code>缺点</code>：代理对象的一个接口只服务于一种类型的对象，如果要代理的方法很多，势必要为每一种方法都进行代理，静态代理在程序规模稍大时就无法胜任了。</p>
+<h2 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h2><p>代理类在程序运行时创建的代理方式被称为 <code>动态代理</code>。 </p>
+<p>也就是说，这种情况下，代理类并不是在代码中定义的，而是在运行时根据我们在代码中的<code>指示</code>动态生成的。</p>
+<p>同样，我们举例说明：</p>
+<p>通常我们调用REST API通常可能是这样的：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fetch_resource</span><span class="params">(resource_id)</span>:</span></span><br><span class="line">    opener = urllib.urlopen(<span class="string">'http://remote.server/api/resource/'</span> + resource_id)</span><br><span class="line">    <span class="keyword">if</span> opener.code != <span class="number">200</span>:</span><br><span class="line">        <span class="keyword">raise</span> RuntimeError(<span class="string">'invalid return code!'</span>)</span><br><span class="line">    content = opener.read()</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">return</span> json.loads(content)</span><br><span class="line">    <span class="keyword">except</span> ValueError:</span><br><span class="line">        <span class="keyword">return</span> content</span><br></pre></td></tr></table></figure></p>
+<p>对于每一个REST操作，都会有类似的代码。差别仅在于API的地址和HTTP method（GET、POST、等）。此时，可以引入一个<code>GetProxy</code>，可以代替我们实现这些繁杂的工作。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GetProxy</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getattr__</span><span class="params">(self, api_path)</span>:</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">_rest_fetch</span><span class="params">(*paras)</span>:</span></span><br><span class="line">            opener = urllib.urlopen(<span class="string">'http://remote.server/api/'</span> + api_path + <span class="string">'/'</span> + <span class="string">'/'</span>.join(resource_id))</span><br><span class="line">            <span class="keyword">if</span> opener.code != <span class="number">200</span>:</span><br><span class="line">                <span class="keyword">raise</span> RuntimeError(<span class="string">'invalid return code!'</span>)</span><br><span class="line">            content = opener.read()</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                <span class="keyword">return</span> json.loads(content)</span><br><span class="line">            <span class="keyword">except</span> ValueError:</span><br><span class="line">                <span class="keyword">return</span> content</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> _rest_fetch</span><br></pre></td></tr></table></figure>
+<p>此时，新的调用方式如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">proxy = GetProxy()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调用API</span></span><br><span class="line">proxy.user(<span class="number">123</span>) <span class="comment"># http://remote.server/api/user/123</span></span><br><span class="line">proxy.resource(<span class="string">'switch'</span>, <span class="number">456</span>) <span class="comment"># http://remote.server/api/resource/switch/456</span></span><br></pre></td></tr></table></figure></p>
+<p>可见，通过动态代理，极大简化了调用过程。</p>
+<p>相比于静态代理， 动态代理的优势在于可以<strong>很方便的对代理类的函数进行统一的处理</strong>，而不用修改每个代理类的函数。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://adolph.cc/15712984956484.html" target="_blank" rel="noopener">http://adolph.cc/15712984956484.html</a><br><a href="https://blog.zhangyu.so/python/2016/02/24/design-patterns-of-python-proxy/" target="_blank" rel="noopener">https://blog.zhangyu.so/python/2016/02/24/design-patterns-of-python-proxy/</a></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-01-06T15:28:16.914Z" itemprop="dateUpdated">2020-01-06 23:28:16</time>
+</span><br>
+
+
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2020/01/06/designmodel4/" target="_blank" rel="external">https://mrleecn.cn/2020/01/06/designmodel4/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://mrleecn.cn">
+            <img src="/img/avatar.jpg" alt="西加加先生">
+            西加加先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://mrleecn.cn/2020/01/06/designmodel4/&title=《《大话设计模式》——代理模式（Python版）》 — 西加加先生'Blog&pic=https://mrleecn.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://mrleecn.cn/2020/01/06/designmodel4/&title=《《大话设计模式》——代理模式（Python版）》 — 西加加先生'Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://mrleecn.cn/2020/01/06/designmodel4/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《大话设计模式》——代理模式（Python版）》 — 西加加先生'Blog&url=https://mrleecn.cn/2020/01/06/designmodel4/&via=https://mrleecn.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://mrleecn.cn/2020/01/06/designmodel4/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/12/16/yieldfrom/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">深入理解协程（二）：yield from实现协程</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: '466987329@qq.com' == 'true',
+            verify: 'false' == 'true',
+            appId: "2vYCN34c68lLIPtCeLOQBWY1-gzGzoHsz",
+            appKey: "H9P3LC1LrBg2feypO5qYxBdf",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check" data-wechat="/img/wechat.png" data-alipay="/img/alipay.png">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>西加加先生 &copy; 2015 - 2020</span>
+            <span>
+                
+                <a href="http://www.miitbeian.gov.cn/" target="_blank">湘ICP备17011548号-1</a><br>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://mrleecn.cn/2020/01/06/designmodel4/&title=《《大话设计模式》——代理模式（Python版）》 — 西加加先生'Blog&pic=https://mrleecn.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://mrleecn.cn/2020/01/06/designmodel4/&title=《《大话设计模式》——代理模式（Python版）》 — 西加加先生'Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://mrleecn.cn/2020/01/06/designmodel4/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《大话设计模式》——代理模式（Python版）》 — 西加加先生'Blog&url=https://mrleecn.cn/2020/01/06/designmodel4/&via=https://mrleecn.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://mrleecn.cn/2020/01/06/designmodel4/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACLklEQVR42u3aQXbDIAwFwNz/0unWi5p+CdIXw7Dyc5Ka8UIVkl6veL0vK7lzt67fvLu+3lm8MDAwHsvIH3z3mORXVXy+NwwMjHMYdxFs1fXMixjvDQMDA2P8nbUBN38uBgYGRi+wVpFf+n8DAwPjixm9Atn4TnXTeVqJgYFxGiOvuv//9Uf6GxgYGI9ivIsrCbIz23q3FgYGxt6MmYNoUoDLg3jvtxgYGOcwxh/kLYG8cJY3EvJjMwYGxt6MvDGQF+6rIxfV1uYvdzAwMA5gVANiXtZfWx97rYr9GBgYj2X0SmPVTScH1/Jfw8DA2JqRNyzHCV/+aXWwYyoEY2BgPJzRS/KqaVw+YNEr9mFgYOzNWDtndbeJaoCuJogYGBgnMMol+GIqmaeVybG2MGaBgYGxHWNVcX/VubI6KIaBgbEroxcoe2lcnj6Wn4iBgbE1o1e+741cJK8pf60YGBjnMGZaidUiXS/1jMI3BgbG1oxeeasafKshdepYi4GBsSljvqzfa1VWi3p/7BYDA+MARnWoYm2rsveU5oQIBgbGYxn5dX7UnE8Tm8MWGBgYGzF6pf+8xJ8X75LS3oKkEAMD44GMfI3LXr1wWS39l8fFMDAwNmL0gmx5pqP1agqpJwYGxgGM8ljDxJG1Co52hYGBgTF9HE3u5GMW0UAYBgbGwYyZYJoAqk1WDAyMcxjVYv04IOYBdxwzP3IWx8DAeCCjd3RMGPMNzvxXGBgYmzJ+AE/H+gh7LRJeAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

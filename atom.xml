@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mrleecn.cn/"/>
-  <updated>2019-12-15T12:31:40.281Z</updated>
+  <updated>2020-01-06T15:28:16.914Z</updated>
   <id>https://mrleecn.cn/</id>
   
   <author>
@@ -15,6 +15,64 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>《大话设计模式》——代理模式（Python版）</title>
+    <link href="https://mrleecn.cn/2020/01/06/designmodel4/"/>
+    <id>https://mrleecn.cn/2020/01/06/designmodel4/</id>
+    <published>2020-01-06T13:07:43.000Z</published>
+    <updated>2020-01-06T15:28:16.914Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p><code>代理模式</code>：<strong>为其他对象提供一种代理以控制对这个对象的访问。</strong></p></blockquote><p>在某些情况下，一个对象不适合或者不能直接引用另一个对象，而代理对象可以在客户端和目标对象之间起到中介的作用。</p><p><strong>代理模式分为：</strong></p><ul><li><strong>静态代理</strong></li><li><strong>动态代理</strong></li></ul><p><strong>由下面三部分组成</strong>：</p><p><strong><code>抽象角色</code></strong>：通过接口或抽象类声明真实角色实现的业务方法。</p><p><strong><code>代理角色</code></strong>：实现抽象角色，是真实角色的代理，通过真实角色的业务逻辑方法来实现抽象方法，并可以附加自己的操作。</p><p><strong><code>真实角色</code></strong>：实现抽象角色，定义真实角色所要实现的业务逻辑，供代理角色调用。</p><h2 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h2><p>在程序运行前，就已经确定代理类和委托类的关系的代理方式，被称为<code>静态代理</code>。</p><blockquote><p>例：<strong>小明请律师进行诉讼</strong></p></blockquote><p>诉讼流程可抽象为<code>ILawsuit</code>类，如下：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> abc</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ILawsuit</span><span class="params">(metaclass=abc.ABCMeta)</span>:</span></span><br><span class="line"><span class="meta">    @abc.abstractmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">submit</span><span class="params">(self)</span>:</span><span class="comment"># 提交申请</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"><span class="meta">    @abc.abstractmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">burden</span><span class="params">(self)</span>:</span><span class="comment"># 进行举证</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"><span class="meta">    @abc.abstractmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">defend</span><span class="params">(self)</span>:</span><span class="comment"># 开始辩护</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"><span class="meta">    @abc.abstractmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">finish</span><span class="params">(self)</span>:</span><span class="comment"># 诉讼完成</span></span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></figure><p>小明为具体诉讼人，可写为<code>Litigant</code>类，如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Litigant</span><span class="params">(ILawsuit)</span>:</span><span class="comment"># 继承于ILawsuit</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">submit</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">f'<span class="subst">&#123;self.name&#125;</span>申请仲裁！'</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">burden</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'证据如下：XXXXXX'</span>) </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">defend</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'辩护过程：XXXXXX'</span>)  </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">finish</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'诉讼结果如下：XXXXXX'</span>)</span><br></pre></td></tr></table></figure></p><p>律师可写为<code>Lawyer</code>类，如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Lawyer</span><span class="params">(ILawsuit)</span>:</span><span class="comment"># 继承于ILawsuit</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, litigant)</span>:</span></span><br><span class="line">        self.litigant = litigant<span class="comment"># 具体诉讼人</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">submit</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.litigant.submit()</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">burden</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.litigant.burden()</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">defend</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.litigant.defend()</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">finish</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.litigant.finish()</span><br></pre></td></tr></table></figure></p><p>诉讼过程，可表示为：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    xiaoming = Litigant(<span class="string">'小明'</span>)</span><br><span class="line">    lawyer = Lawyer(xiaoming)</span><br><span class="line">    lawyer.submit()<span class="comment"># 律师提交诉讼申请</span></span><br><span class="line">    lawyer.burden()<span class="comment"># 律师进行举证</span></span><br><span class="line">    lawyer.defend()<span class="comment"># 律师替小明辩护</span></span><br><span class="line">    lawyer.finish()<span class="comment"># 完成诉讼</span></span><br><span class="line">    </span><br><span class="line"><span class="comment"># 输出结果</span></span><br><span class="line">小明申请仲裁！</span><br><span class="line">证据如下：XXXXXX</span><br><span class="line">辩护过程：XXXXXX</span><br><span class="line">诉讼结果如下：XXXXXX</span><br></pre></td></tr></table></figure></p><p><strong>静态代理的优缺点</strong></p><p><code>优点</code>：业务类只需要关注业务逻辑本身，保证了业务类的重用性。</p><p><code>缺点</code>：代理对象的一个接口只服务于一种类型的对象，如果要代理的方法很多，势必要为每一种方法都进行代理，静态代理在程序规模稍大时就无法胜任了。</p><h2 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h2><p>代理类在程序运行时创建的代理方式被称为 <code>动态代理</code>。 </p><p>也就是说，这种情况下，代理类并不是在代码中定义的，而是在运行时根据我们在代码中的<code>指示</code>动态生成的。</p><p>同样，我们举例说明：</p><p>通常我们调用REST API通常可能是这样的：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fetch_resource</span><span class="params">(resource_id)</span>:</span></span><br><span class="line">    opener = urllib.urlopen(<span class="string">'http://remote.server/api/resource/'</span> + resource_id)</span><br><span class="line">    <span class="keyword">if</span> opener.code != <span class="number">200</span>:</span><br><span class="line">        <span class="keyword">raise</span> RuntimeError(<span class="string">'invalid return code!'</span>)</span><br><span class="line">    content = opener.read()</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">return</span> json.loads(content)</span><br><span class="line">    <span class="keyword">except</span> ValueError:</span><br><span class="line">        <span class="keyword">return</span> content</span><br></pre></td></tr></table></figure></p><p>对于每一个REST操作，都会有类似的代码。差别仅在于API的地址和HTTP method（GET、POST、等）。此时，可以引入一个<code>GetProxy</code>，可以代替我们实现这些繁杂的工作。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GetProxy</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getattr__</span><span class="params">(self, api_path)</span>:</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">_rest_fetch</span><span class="params">(*paras)</span>:</span></span><br><span class="line">            opener = urllib.urlopen(<span class="string">'http://remote.server/api/'</span> + api_path + <span class="string">'/'</span> + <span class="string">'/'</span>.join(resource_id))</span><br><span class="line">            <span class="keyword">if</span> opener.code != <span class="number">200</span>:</span><br><span class="line">                <span class="keyword">raise</span> RuntimeError(<span class="string">'invalid return code!'</span>)</span><br><span class="line">            content = opener.read()</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                <span class="keyword">return</span> json.loads(content)</span><br><span class="line">            <span class="keyword">except</span> ValueError:</span><br><span class="line">                <span class="keyword">return</span> content</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> _rest_fetch</span><br></pre></td></tr></table></figure><p>此时，新的调用方式如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">proxy = GetProxy()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调用API</span></span><br><span class="line">proxy.user(<span class="number">123</span>) <span class="comment"># http://remote.server/api/user/123</span></span><br><span class="line">proxy.resource(<span class="string">'switch'</span>, <span class="number">456</span>) <span class="comment"># http://remote.server/api/resource/switch/456</span></span><br></pre></td></tr></table></figure></p><p>可见，通过动态代理，极大简化了调用过程。</p><p>相比于静态代理， 动态代理的优势在于可以<strong>很方便的对代理类的函数进行统一的处理</strong>，而不用修改每个代理类的函数。</p><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://adolph.cc/15712984956484.html" target="_blank" rel="noopener">http://adolph.cc/15712984956484.html</a><br><a href="https://blog.zhangyu.so/python/2016/02/24/design-patterns-of-python-proxy/" target="_blank" rel="noopener">https://blog.zhangyu.so/python/2016/02/24/design-patterns-of-python-proxy/</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;代理模式&lt;/code&gt;：&lt;strong&gt;为其他对象提供一种代理以控制对这个对象的访问。&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;在某些情况下，一个对象不适合或者不能直接引用另一个对象，而代理对象可以在客户端和目标对象
+      
+    
+    </summary>
+    
+    
+      <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
+    
+      <category term="设计模式" scheme="https://mrleecn.cn/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>深入理解协程（二）：yield from实现协程</title>
+    <link href="https://mrleecn.cn/2019/12/16/yieldfrom/"/>
+    <id>https://mrleecn.cn/2019/12/16/yieldfrom/</id>
+    <published>2019-12-16T13:37:40.000Z</published>
+    <updated>2019-12-16T14:46:58.146Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>原创不易，转载请联系作者</p></blockquote><p><code>深入理解协程</code>分为三部分进行讲解：</p><ul><li>协程的引入</li><li>yield from实现协程</li><li>async/await实现异步协程</li></ul><p>本篇为<code>深入理解协程</code>文章的第二篇。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;原创不易，转载请联系作者&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;深入理解协程&lt;/code&gt;分为三部分进行讲解：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;协程的引入&lt;/li&gt;
+&lt;li&gt;yield from实现协程&lt;/li&gt;
+&lt;li&gt;async/aw
+      
+    
+    </summary>
+    
+    
+      <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
+    
+  </entry>
   
   <entry>
     <title>深入理解协程（一）：协程的引入</title>
@@ -208,9 +266,9 @@
     
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
-      <category term="加密" scheme="https://mrleecn.cn/tags/%E5%8A%A0%E5%AF%86/"/>
-    
       <category term="爬虫" scheme="https://mrleecn.cn/tags/%E7%88%AC%E8%99%AB/"/>
+    
+      <category term="加密" scheme="https://mrleecn.cn/tags/%E5%8A%A0%E5%AF%86/"/>
     
   </entry>
   
