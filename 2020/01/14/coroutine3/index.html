@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'true', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+<!-- End Google Analytics -->
+
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?53891daf9e0316e03eadf2da354a713d"></script>
+<!-- End Baidu Tongji -->
+
+
+
+<!-- Baidu Push -->
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<!-- End Baidu Push -->
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="true">
+    
+    
+    
+    
+    <title>深入理解协程（三）：async/await实现异步协程 | 西加加先生&#39;Blog | 努力诚可贵，坚持价更高</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Python">
+    <meta name="description" content="原创不易，转载请联系作者  深入理解协程分为三部分进行讲解：  协程的引入         yield from实现异步协程         async/await实现异步协程  本篇为深入理解协程系列文章的最后一篇。 从本篇你将了解到：  async/await的使用。  如何从yield from风格的协程修改为async/await风格。   篇幅较长，请耐心阅读。 async/await">
+<meta name="keywords" content="Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入理解协程（三）：async&#x2F;await实现异步协程">
+<meta property="og:url" content="https://mrleecn.cn/2020/01/14/coroutine3/index.html">
+<meta property="og:site_name" content="西加加先生&#39;Blog">
+<meta property="og:description" content="原创不易，转载请联系作者  深入理解协程分为三部分进行讲解：  协程的引入         yield from实现异步协程         async/await实现异步协程  本篇为深入理解协程系列文章的最后一篇。 从本篇你将了解到：  async/await的使用。  如何从yield from风格的协程修改为async/await风格。   篇幅较长，请耐心阅读。 async/await">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-01-13T16:13:56.295Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深入理解协程（三）：async&#x2F;await实现异步协程">
+<meta name="twitter:description" content="原创不易，转载请联系作者  深入理解协程分为三部分进行讲解：  协程的引入         yield from实现异步协程         async/await实现异步协程  本篇为深入理解协程系列文章的最后一篇。 从本篇你将了解到：  async/await的使用。  如何从yield from风格的协程修改为async/await风格。   篇幅较长，请耐心阅读。 async/await">
+    
+        <link rel="alternate" type="application/atom+xml" title="西加加先生&#39;Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.gif">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-140803241-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-140803241-1');
+</script>
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">西加加先生</h5>
+          <a href="mailto:466987329@qq.com" title="466987329@qq.com" class="mail">466987329@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ghost7890" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books">
+                <i class="icon icon-lg icon-book"></i>
+                我的读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies">
+                <i class="icon icon-lg icon-film"></i>
+                我的电影
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends-link">
+                <i class="icon icon-lg icon-link"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends-apply">
+                <i class="icon icon-lg icon-user-plus"></i>
+                友链申请
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">深入理解协程（三）：async/await实现异步协程</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">深入理解协程（三）：async/await实现异步协程</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-01-14T12:38:05.000Z" itemprop="datePublished" class="page-time">
+  2020-01-14
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#async-await的引入"><span class="post-toc-number">1.</span> <span class="post-toc-text">async/await的引入</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#async-await的使用"><span class="post-toc-number">2.</span> <span class="post-toc-text">async/await的使用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-创建协程"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">1.创建协程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-任务对象task"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">2. 任务对象task</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-绑定回调函数"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">3.绑定回调函数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-多任务协程"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">4.多任务协程</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#yield-from转async-await"><span class="post-toc-number">3.</span> <span class="post-toc-text">yield from转async/await</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#推荐阅读"><span class="post-toc-number">4.</span> <span class="post-toc-text">推荐阅读</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-coroutine3" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">深入理解协程（三）：async/await实现异步协程</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-01-14 20:38:05" datetime="2020-01-14T12:38:05.000Z" itemprop="datePublished">2020-01-14</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>原创不易，转载请联系作者</p>
+</blockquote>
+<p><code>深入理解协程</code>分为三部分进行讲解：</p>
+<ul>
+<li><strong>协程的引入</strong>        </li>
+<li><strong>yield from实现异步协程</strong>        </li>
+<li><strong>async/await实现异步协程</strong></li>
+</ul>
+<p>本篇为<code>深入理解协程</code>系列文章的<strong>最后一篇</strong>。</p>
+<p>从本篇你将了解到：</p>
+<ol>
+<li><p><code>async/await</code>的使用。</p>
+</li>
+<li><p>如何从<code>yield from</code>风格的协程修改为<code>async/await</code>风格。</p>
+</li>
+</ol>
+<p>篇幅较长，请耐心阅读。</p>
+<h2 id="async-await的引入"><a href="#async-await的引入" class="headerlink" title="async/await的引入"></a>async/await的引入</h2><p>上篇<a href="https://mp.weixin.qq.com/s/kfnrgr5SrEH4uzMqpDoxEA" target="_blank" rel="noopener">【yield from实现异步协程】</a>我们引入了<code>asynico</code>模块，结合<code>yield from</code>实现异步协程。但语法不够简洁，其中涉及的<strong>生成器</strong>，<strong>装饰器</strong>也让人头疼不已。</p>
+<p>为了语法更加简洁。于是，在Python3.5（PEP 492）中新增了<code>async/await</code>语法来实现异步协程。</p>
+<h2 id="async-await的使用"><a href="#async-await的使用" class="headerlink" title="async/await的使用"></a>async/await的使用</h2><p>先介绍几个概念：</p>
+<ul>
+<li><strong>async/await</strong> ：python3.5之后用于定义协程的关键字，async定义一个协程，await用于挂起阻塞的异步调用接口。</li>
+<li><strong>event_loop</strong> ：事件循环，程序开启一个无限的循环，程序员会把一些函数注册到事件循环上。当满足事件发生的时候，调用相应的协程函数。</li>
+<li><strong>coroutine</strong> ：协程对象，指一个使用async关键字定义的函数，它的调用不会立即执行函数，而是会返回一个协程对象。协程对象需要注册到事件循环，由事件循环调用。</li>
+<li><strong>task</strong> ：任务，是对协程进一步封装，其中包含任务的各种状态。</li>
+<li><strong>future</strong>： 代表将来执行或没有执行的任务的结果。它和task上没有本质的区别</li>
+</ul>
+<h3 id="1-创建协程"><a href="#1-创建协程" class="headerlink" title="1.创建协程"></a>1.创建协程</h3><p>在def前加上async的声明，就完成了一个协程函数的定义。<strong>协程函数不能直接调用运行，需要将协程注册到事件循环，并启动事件循环才能使用</strong>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">fun</span><span class="params">(a)</span>:</span>    <span class="comment"># 定义协程函数</span></span><br><span class="line">    print(a)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调用协程函数，生成一个协程对象，此时协程函数并未执行</span></span><br><span class="line">coroutine = fun(<span class="string">'hello world'</span>)</span><br><span class="line"><span class="comment"># 创建事件循环</span></span><br><span class="line">loop = asyncio.get_event_loop()</span><br><span class="line"><span class="comment"># 将协程函数添加到事件循环，并启动</span></span><br><span class="line">loop.run_until_complete(coroutine)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出</span></span><br><span class="line">hello word</span><br></pre></td></tr></table></figure>
+<h3 id="2-任务对象task"><a href="#2-任务对象task" class="headerlink" title="2. 任务对象task"></a>2. 任务对象task</h3><p>协程对象不能直接运行，在注册事件循环的时候，其实是run_until_complete方法将协程包装成为了一个任务（task）对象。我们也可以显式实现它。</p>
+<p><strong>实现方式1：</strong></p>
+<p>使用create_task()创建task。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">fun</span><span class="params">(a)</span>:</span></span><br><span class="line">    print(a)</span><br><span class="line">    <span class="keyword">return</span> a</span><br><span class="line"></span><br><span class="line">coroutine = fun(<span class="string">'hello world'</span>)</span><br><span class="line">loop = asyncio.get_event_loop()</span><br><span class="line"><span class="comment"># 使用create_task()创建task，并将coroutine对象转化成task对象</span></span><br><span class="line">task = loop.create_task(coroutine)</span><br><span class="line">print(<span class="string">f'task: <span class="subst">&#123;task&#125;</span>'</span>)</span><br><span class="line">loop.run_until_complete(task)</span><br><span class="line">print(<span class="string">f'task: <span class="subst">&#123;task&#125;</span>'</span>)</span><br><span class="line">print(<span class="string">f'result: <span class="subst">&#123;result&#125;</span>'</span>)</span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">task: &lt;Task pending coro=&lt;fun() running at D:/test.py:<span class="number">3</span>&gt;&gt;</span><br><span class="line">hello world</span><br><span class="line">task: &lt;Task finished coro=&lt;fun() done, defined at D:/test.py:<span class="number">3</span>&gt; result=<span class="string">'hello world'</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>从输出结果能看到，创建task对象后，未将task添加到事件循环之前，状态是<code>pending</code>；task对象执行完毕后，状态是<code>finished</code>，并将参数<code>a</code>的值返回。</p>
+<p><strong>实现方式2:</strong></p>
+<p>使用asyncio 的 ensure_future() 方法，创建task。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">fun</span><span class="params">(a)</span>:</span></span><br><span class="line">    print(a)</span><br><span class="line">    <span class="keyword">return</span> a</span><br><span class="line"></span><br><span class="line">coroutine = fun(<span class="string">'hello world'</span>)</span><br><span class="line"><span class="comment"># 使用asyncio 的 ensure_future() 方法，创建task，并将coroutine对象转化成task对象</span></span><br><span class="line">task = asyncio.ensure_future(coroutine)</span><br><span class="line">loop = asyncio.get_event_loop()</span><br><span class="line">print(<span class="string">f'task: <span class="subst">&#123;task&#125;</span>'</span>)</span><br><span class="line">loop.run_until_complete(task)</span><br><span class="line">print(<span class="string">f'task: <span class="subst">&#123;task&#125;</span>'</span>)</span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">task: &lt;Task pending coro=&lt;fun() running at D:/test.py:<span class="number">3</span>&gt;&gt;</span><br><span class="line">hello world</span><br><span class="line">task: &lt;Task finished coro=&lt;fun() done, defined at D:/test.py:<span class="number">3</span>&gt; result=<span class="string">'hello world'</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>通过<code>ensure_future()</code> 可以在<code>loop</code>未定义前创建task。实现效果与上面相同。</p>
+<h3 id="3-绑定回调函数"><a href="#3-绑定回调函数" class="headerlink" title="3.绑定回调函数"></a>3.绑定回调函数</h3><p>如果需要在task执行完毕后对结果进行处理，可以通过给task绑定回调函数完成，回调的最后一个参数是future对象（如task对象）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">fun</span><span class="params">(a)</span>:</span></span><br><span class="line">    print(a)</span><br><span class="line">    <span class="keyword">return</span> a</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">callback</span><span class="params">(task)</span>:</span>	<span class="comment"># 回调函数，打印task的返回值</span></span><br><span class="line">    print(<span class="string">f'result: <span class="subst">&#123;task.result()&#125;</span>'</span>)</span><br><span class="line"></span><br><span class="line">coroutine = fun(<span class="string">'hello world'</span>)</span><br><span class="line">loop = asyncio.get_event_loop()</span><br><span class="line">task = loop.create_task(coroutine)</span><br><span class="line">task.add_done_callback(callback)	<span class="comment">#绑定回调函数</span></span><br><span class="line">print(<span class="string">f'task: <span class="subst">&#123;task&#125;</span>'</span>)</span><br><span class="line">loop.run_until_complete(task)</span><br><span class="line">print(<span class="string">f'task: <span class="subst">&#123;task&#125;</span>'</span>)</span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">task: &lt;Task pending coro=&lt;fun() running at D:/test.py:<span class="number">3</span>&gt; cb=[callback() at D:/Study/Python/python_text/非项目/协程.py:<span class="number">7</span>]&gt;</span><br><span class="line">hello world</span><br><span class="line">result: hello world	<span class="comment"># 完成了返回值的打印</span></span><br><span class="line">task: &lt;Task finished coro=&lt;fun() done, defined at D:/test.py:<span class="number">3</span>&gt; result=<span class="string">'hello world'</span>&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="4-多任务协程"><a href="#4-多任务协程" class="headerlink" title="4.多任务协程"></a>4.多任务协程</h3><p>如果我们需要执行多个任务时，我们可以定义一个任务列表，并将需要完成的协程任务都加进去。将原本的<code>loop.run_until_complete(tasks)</code>改为<code>loop.run_until_complete(asyncio.wait(tasks))</code>。</p>
+<p>如果执行的是多个<strong>耗时</strong>的任务，如网络请求、文件读取等。此时就<code>await</code>就派上用场了，<code>await</code>可以针对耗时的操作进行挂起，就像生成器里的yield一样，函数让出控制权。<strong>协程遇到await，事件循环将会挂起该协程，执行别的协程，直到其他的协程也挂起或者执行完毕，再进行下一个协程的执行</strong>。</p>
+<p>举个例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">taskIO_1</span><span class="params">()</span>:</span>	</span><br><span class="line">    print(<span class="string">'开始运行IO任务1...'</span>)</span><br><span class="line">    <span class="keyword">await</span> asyncio.sleep(<span class="number">2</span>)  </span><br><span class="line">    print(<span class="string">'IO任务1已完成，耗时2s'</span>)</span><br><span class="line">    <span class="keyword">return</span> taskIO_1.__name__</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">taskIO_2</span><span class="params">()</span>:</span>		</span><br><span class="line">    print(<span class="string">'开始运行IO任务2...'</span>)</span><br><span class="line">    <span class="keyword">await</span> asyncio.sleep(<span class="number">3</span>)  </span><br><span class="line">    print(<span class="string">'IO任务2已完成，耗时3s'</span>)</span><br><span class="line">    <span class="keyword">return</span> taskIO_2.__name__</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    start = time.time()</span><br><span class="line">    loop = asyncio.get_event_loop() </span><br><span class="line">    tasks = [taskIO_1(), taskIO_2()]</span><br><span class="line">    loop.run_until_complete(asyncio.wait(tasks)) <span class="comment"># 完成事件循环，直到最后一个任务结束</span></span><br><span class="line">    print(<span class="string">'所有IO任务总耗时%.5f秒'</span> % float(time.time()-start))</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 输出</span></span><br><span class="line">开始运行IO任务<span class="number">2.</span>..</span><br><span class="line">开始运行IO任务<span class="number">1.</span>..</span><br><span class="line">IO任务<span class="number">1</span>已完成，耗时<span class="number">2</span>s</span><br><span class="line">IO任务<span class="number">2</span>已完成，耗时<span class="number">3</span>s</span><br><span class="line">所有IO任务总耗时<span class="number">3.00251</span>秒</span><br></pre></td></tr></table></figure>
+<p>可以看出，原本需要5秒，现在执行只需要3秒。</p>
+<h2 id="yield-from转async-await"><a href="#yield-from转async-await" class="headerlink" title="yield from转async/await"></a>yield from转async/await</h2><p>上述代码有没有很眼熟。</p>
+<p>其实，这段代码正是<a href="https://mp.weixin.qq.com/s/kfnrgr5SrEH4uzMqpDoxEA" target="_blank" rel="noopener">【yield from实现异步协程】</a>末尾，<code>yield from</code>结合<code>asynico</code>实现异步协程的代码。只是将yielf from风格变为async/await风格。</p>
+<p>由于<code>async/await</code>与<code>yield from</code>风格的协程底层实现方式相同。因此，从<code>yield from</code>风格改为<code>async/await</code>风格非常容易。只需：</p>
+<ul>
+<li>把<a href="mailto:`@asyncio.coroutine" target="_blank" rel="noopener">`@asyncio.coroutine</a><code>替换为</code>async`；</li>
+<li>把<code>yield from</code>替换为<code>await</code>。</li>
+</ul>
+<p><code>async/await</code>风格的代码隐藏了装饰器、<code>yield from</code>语法，方便了人们的理解，同时也让代码更加简洁。</p>
+<h2 id="推荐阅读"><a href="#推荐阅读" class="headerlink" title="推荐阅读"></a>推荐阅读</h2><p><a href="https://mp.weixin.qq.com/s/v_zdsVkPkQUqJW3KnEqVyA" target="_blank" rel="noopener">深入理解协程（一）：协程的引入</a></p>
+<p><a href="https://mp.weixin.qq.com/s/kfnrgr5SrEH4uzMqpDoxEA" target="_blank" rel="noopener">深入理解协程（二）：yield from实现异步协程</a></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-01-13T16:13:56.295Z" itemprop="dateUpdated">2020-01-14 00:13:56</time>
+</span><br>
+
+
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2020/01/14/coroutine3/" target="_blank" rel="external">https://mrleecn.cn/2020/01/14/coroutine3/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://mrleecn.cn">
+            <img src="/img/avatar.jpg" alt="西加加先生">
+            西加加先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://mrleecn.cn/2020/01/14/coroutine3/&title=《深入理解协程（三）：async/await实现异步协程》 — 西加加先生'Blog&pic=https://mrleecn.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://mrleecn.cn/2020/01/14/coroutine3/&title=《深入理解协程（三）：async/await实现异步协程》 — 西加加先生'Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://mrleecn.cn/2020/01/14/coroutine3/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《深入理解协程（三）：async/await实现异步协程》 — 西加加先生'Blog&url=https://mrleecn.cn/2020/01/14/coroutine3/&via=https://mrleecn.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://mrleecn.cn/2020/01/14/coroutine3/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/01/17/coroutine4/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">深入理解协程（四）：async/await异步爬虫实战</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/01/11/coroutine2/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">深入理解协程（二）：yield from实现异步协程</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: '466987329@qq.com' == 'true',
+            verify: 'false' == 'true',
+            appId: "2vYCN34c68lLIPtCeLOQBWY1-gzGzoHsz",
+            appKey: "H9P3LC1LrBg2feypO5qYxBdf",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check" data-wechat="/img/wechat.png" data-alipay="/img/alipay.png">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>西加加先生 &copy; 2015 - 2020</span>
+            <span>
+                
+                <a href="http://www.miitbeian.gov.cn/" target="_blank">湘ICP备17011548号-1</a><br>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://mrleecn.cn/2020/01/14/coroutine3/&title=《深入理解协程（三）：async/await实现异步协程》 — 西加加先生'Blog&pic=https://mrleecn.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://mrleecn.cn/2020/01/14/coroutine3/&title=《深入理解协程（三）：async/await实现异步协程》 — 西加加先生'Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://mrleecn.cn/2020/01/14/coroutine3/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《深入理解协程（三）：async/await实现异步协程》 — 西加加先生'Blog&url=https://mrleecn.cn/2020/01/14/coroutine3/&via=https://mrleecn.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://mrleecn.cn/2020/01/14/coroutine3/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABxUlEQVR42u3aS26EMBAFwLn/pck20sjOa7cxKCqvRoCgPIuW+/P5xOsarN93v5/Mr2xeuLi4be41XfNPjt6QQOfXh1vCxcU9yB1FjOT3PDB9X59v/g8bLi7uK7nJ3fn5JH8DLi7u/+Amic2LAhkuLu6U2yl87CqsbM7VcHFxG9xdR5PO71vqu7i4uEvcq7iqxY61rwy/jouLe4SbB5S8WbIWEPM0CRcX9yR3XpjIQ1u1QZv/Nbi4uGe4+XhEJ5wl5Y+ogIKLi/sQt19Izdsw1U3i4uI+y82PKVVKJ6jh4uI+xU2OO2tB7cbkBxcX9wZuPnp1BzQ/ZuHi4p7hJuOSa5R+m3a4SVxc3Ju51bDSP7502jO4uLhnuGvtk2qAm2+4PKKBi4t7kJu8rhqwotZptX2Li4t7kNtpne4NbVGuhouLe4S71iKtJjN5yPtUd4aLi7uJexVXdehqrVm7WE3BxcXdxF1LXarJTyeVWtwMLi5um1sNXtXwlJdiowYtLi7uQW4/0OQDFttyNVxc3Ndwk9JnXjAtH5twcXFfyc1bp/kzBSEuLu5Bbj4ekY9T9AMiLi7uU9y1omdn5CIvj7bqu7i4uCvcH8MgAS8d5Ic9AAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

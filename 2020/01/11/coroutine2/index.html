@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'true', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+<!-- End Google Analytics -->
+
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?53891daf9e0316e03eadf2da354a713d"></script>
+<!-- End Baidu Tongji -->
+
+
+
+<!-- Baidu Push -->
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<!-- End Baidu Push -->
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="true">
+    
+    
+    
+    
+    <title>深入理解协程（二）：yield from实现异步协程 | 西加加先生&#39;Blog | 努力诚可贵，坚持价更高</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Python">
+    <meta name="description" content="原创不易，转载请联系作者  深入理解协程分为三部分进行讲解：  协程的引入         yield from实现异步协程         async/await实现异步协程  本篇为深入理解协程系列文章的第二篇。 yield fromyield from是Python3.3（PEP 380）引入的新语法。主要用于解决在生成器中不方便使用生成器的问题。主要有两个功能。 第一个功能：让嵌套生成器">
+<meta name="keywords" content="Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入理解协程（二）：yield from实现异步协程">
+<meta property="og:url" content="https://mrleecn.cn/2020/01/11/coroutine2/index.html">
+<meta property="og:site_name" content="西加加先生&#39;Blog">
+<meta property="og:description" content="原创不易，转载请联系作者  深入理解协程分为三部分进行讲解：  协程的引入         yield from实现异步协程         async/await实现异步协程  本篇为深入理解协程系列文章的第二篇。 yield fromyield from是Python3.3（PEP 380）引入的新语法。主要用于解决在生成器中不方便使用生成器的问题。主要有两个功能。 第一个功能：让嵌套生成器">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-01-12T15:21:31.551Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深入理解协程（二）：yield from实现异步协程">
+<meta name="twitter:description" content="原创不易，转载请联系作者  深入理解协程分为三部分进行讲解：  协程的引入         yield from实现异步协程         async/await实现异步协程  本篇为深入理解协程系列文章的第二篇。 yield fromyield from是Python3.3（PEP 380）引入的新语法。主要用于解决在生成器中不方便使用生成器的问题。主要有两个功能。 第一个功能：让嵌套生成器">
+    
+        <link rel="alternate" type="application/atom+xml" title="西加加先生&#39;Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.gif">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-140803241-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-140803241-1');
+</script>
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">西加加先生</h5>
+          <a href="mailto:466987329@qq.com" title="466987329@qq.com" class="mail">466987329@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ghost7890" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books">
+                <i class="icon icon-lg icon-book"></i>
+                我的读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies">
+                <i class="icon icon-lg icon-film"></i>
+                我的电影
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends-link">
+                <i class="icon icon-lg icon-link"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends-apply">
+                <i class="icon icon-lg icon-user-plus"></i>
+                友链申请
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">深入理解协程（二）：yield from实现异步协程</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">深入理解协程（二）：yield from实现异步协程</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-01-11T12:38:05.000Z" itemprop="datePublished" class="page-time">
+  2020-01-11
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#yield-from"><span class="post-toc-number">1.</span> <span class="post-toc-text">yield from</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#结合asyncio实现异步协程"><span class="post-toc-number">2.</span> <span class="post-toc-text">结合asyncio实现异步协程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#总结"><span class="post-toc-number">3.</span> <span class="post-toc-text">总结</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#参考"><span class="post-toc-number">4.</span> <span class="post-toc-text">参考</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-coroutine2" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">深入理解协程（二）：yield from实现异步协程</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-01-11 20:38:05" datetime="2020-01-11T12:38:05.000Z" itemprop="datePublished">2020-01-11</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>原创不易，转载请联系作者</p>
+</blockquote>
+<p><code>深入理解协程</code>分为三部分进行讲解：</p>
+<ul>
+<li><strong>协程的引入</strong>        </li>
+<li><strong>yield from实现异步协程</strong>        </li>
+<li><strong>async/await实现异步协程</strong></li>
+</ul>
+<p>本篇为<code>深入理解协程</code>系列文章的第二篇。</p>
+<h4 id="yield-from"><a href="#yield-from" class="headerlink" title="yield from"></a>yield from</h4><p><code>yield from</code>是Python3.3（PEP 380）引入的新语法。主要用于解决在生成器中不方便使用生成器的问题。主要有两个功能。</p>
+<p><strong>第一个功能：让嵌套生成器不必再通过循环迭代<code>yield</code>，而可以直接使用<code>yield from</code></strong>。</p>
+<p>看一段代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">titles = [<span class="string">'Python'</span>, <span class="string">'Java'</span>, <span class="string">'C++'</span>]</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func1</span><span class="params">(titles)</span>:</span></span><br><span class="line">    <span class="keyword">yield</span> titles</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func2</span><span class="params">(titles)</span>:</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="keyword">from</span> titles</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> title <span class="keyword">in</span> func1(titles):</span><br><span class="line">    print(title)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> title <span class="keyword">in</span> func2(titles):</span><br><span class="line">    print(title)</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 输出结果</span></span><br><span class="line">[<span class="string">'Python'</span>, <span class="string">'Java'</span>, <span class="string">'C++'</span>]</span><br><span class="line">Python</span><br><span class="line">Java</span><br><span class="line">C++</span><br></pre></td></tr></table></figure>
+<p><code>yield</code>返回的完整的<code>titles</code>列表，而<code>yield from</code>返回的是列表中的具体元素。<code>yield from</code>可以看作是<code>for title in titles: yield title</code>的缩写。这样就可以用<code>yield from</code>减少了一次循环。</p>
+<p><strong>第二个功能：打开双向通道，把最外层给调用方与最内层的子生成器链接起来，二者可以直接通信。</strong></p>
+<p>第二个功能听起来就让人头大。我们再举一个例子进行说明：</p>
+<blockquote>
+<p>【举个例子】：通过生成器实现整数相加，通过<code>send()</code>函数想生成器中传入要相加的数字，最后传入<code>None</code>结束相加。<code>total</code>保存结果。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generator_1</span><span class="params">()</span>:</span>		<span class="comment"># 子生成器</span></span><br><span class="line">    total = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        x = <span class="keyword">yield</span>		<span class="comment"># 解释4</span></span><br><span class="line">        print(<span class="string">f'+ <span class="subst">&#123;x&#125;</span>'</span>)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> x:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        total += x</span><br><span class="line">    <span class="keyword">return</span> total		<span class="comment"># 解释5</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generator_2</span><span class="params">()</span>:</span>		<span class="comment"># 委托生成器</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        total = <span class="keyword">yield</span> <span class="keyword">from</span> generator_1()	<span class="comment"># 解释3</span></span><br><span class="line">        print(<span class="string">f'total: <span class="subst">&#123;total&#125;</span>'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:		<span class="comment"># 调用方</span></span><br><span class="line">    g2 = generator_2()		<span class="comment"># 解释1</span></span><br><span class="line">    g2.send(<span class="literal">None</span>)			<span class="comment"># 解释2</span></span><br><span class="line">    g2.send(<span class="number">2</span>)				<span class="comment"># 解释6</span></span><br><span class="line">    g2.send(<span class="number">3</span>)				</span><br><span class="line">    g2.send(<span class="literal">None</span>)			<span class="comment"># 解释7</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出结果</span></span><br><span class="line">+ <span class="number">2</span></span><br><span class="line">+ <span class="number">3</span></span><br><span class="line">+ <span class="literal">None</span></span><br><span class="line">total: <span class="number">5</span></span><br></pre></td></tr></table></figure>
+<p><strong>说明</strong>：</p>
+<p><strong>解释1</strong>：<code>g2</code>是调用<code>generator_2()</code>得到的生成器对象，作为协程使用。</p>
+<p><strong>解释2</strong>：预激活协程<code>g2</code>。</p>
+<p><strong>解释3</strong>：<code>generator_2</code>接收的值都会经过<code>yield from</code>处理，通过管道传入<code>generator_1</code>实例。<code>generator_2</code>会在<code>yield from</code>处暂停，等待<code>generator_1</code>实例传回的值赋值给<code>total</code>。</p>
+<p><strong>解释4</strong>：调用方传入的值都会传到这里。</p>
+<p><strong>解释5</strong>：此处返回的<code>total</code>正是<code>generator_2()</code>中解释3处等待返回的值。</p>
+<p><strong>解释6</strong>：传入2进行计算。</p>
+<p><strong>解释7</strong>：在计算的结尾传入<code>None</code>，跳出<code>generator_1()</code>的循环，结束计算。</p>
+<p>说到这里，相信看过<a href="https://mp.weixin.qq.com/s/v_zdsVkPkQUqJW3KnEqVyA" target="_blank" rel="noopener">《深入理解协程（一）：协程的引入》</a>的朋友应该就容易理解上面这段代码的运行流程了。</p>
+<p>借助上面例子，说明一下随<code>yield from</code>一起引入的3个概念：</p>
+<ul>
+<li><p><strong>子生成器</strong></p>
+<p>从<code>yield from</code>获取任务并完成具体实现的生成器。</p>
+</li>
+<li><p><strong>委派生成器</strong></p>
+<p>包含有 yield from表达式的生成器函数。负责给<strong>子生成器</strong>委派任务。</p>
+</li>
+<li><p><strong>调用方</strong></p>
+<p>指调用委派生成器的客户端代码。</p>
+</li>
+</ul>
+<p><strong>在每次调用<code>send(value)</code>时，<code>value</code>不是传递给委派生成器，而是借助<code>yield from</code>将<code>value</code>传递给了子生成器的<code>yield</code>。</strong></p>
+<h4 id="结合asyncio实现异步协程"><a href="#结合asyncio实现异步协程" class="headerlink" title="结合asyncio实现异步协程"></a>结合asyncio实现异步协程</h4><p><code>asyncio</code>是Python 3.4 试验性引入的异步I/O框架（PEP 3156），提供了基于协程做异步I/O编写单线程并发代码的基础设施。其核心组件有事件循环（Event Loop）、协程(Coroutine）、任务(Task)、未来对象(Future)以及其他一些扩充和辅助性质的模块。</p>
+<p>在引入<code>asyncio</code>的时候，还提供了一个装饰器<a href="mailto:`@asyncio.coroutine" target="_blank" rel="noopener">`@asyncio.coroutine</a><code>用于装饰使用了</code>yield from`的函数，以标记其为协程。</p>
+<p>在实现异步协程之前，我们先看一个同步的案例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">taskIO_1</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'开始运行IO任务1...'</span>)</span><br><span class="line">    time.sleep(<span class="number">2</span>)  <span class="comment"># 假设该任务耗时2s</span></span><br><span class="line">    print(<span class="string">'IO任务1已完成，耗时2s'</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">taskIO_2</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'开始运行IO任务2...'</span>)</span><br><span class="line">    time.sleep(<span class="number">3</span>)  <span class="comment"># 假设该任务耗时3s</span></span><br><span class="line">    print(<span class="string">'IO任务2已完成，耗时3s'</span>)</span><br><span class="line"></span><br><span class="line">start = time.time()</span><br><span class="line">taskIO_1()</span><br><span class="line">taskIO_2()</span><br><span class="line">print(<span class="string">'所有IO任务总耗时%.5f秒'</span> % float(time.time()-start))</span><br><span class="line"><span class="comment"># 输出结果</span></span><br><span class="line">开始运行IO任务<span class="number">1.</span>..</span><br><span class="line">IO任务<span class="number">1</span>已完成，耗时<span class="number">2</span>s</span><br><span class="line">开始运行IO任务<span class="number">2.</span>..</span><br><span class="line">IO任务<span class="number">2</span>已完成，耗时<span class="number">3</span>s</span><br><span class="line">所有IO任务总耗时<span class="number">5.00094</span>秒</span><br></pre></td></tr></table></figure>
+<p>可以看到，使用同步的方式实现多个IO任务的时间是分别执行这两个IO任务时间的总和。</p>
+<p>下面我们使用<code>yield from</code>与<code>asyncio</code>将上面的同步代码改成异步的。修改结果如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"></span><br><span class="line"><span class="meta">@asyncio.coroutine # 解释1</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">taskIO_1</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'开始运行IO任务1...'</span>)</span><br><span class="line">    <span class="keyword">yield</span> <span class="keyword">from</span> asyncio.sleep(<span class="number">2</span>)  <span class="comment"># 解释2</span></span><br><span class="line">    print(<span class="string">'IO任务1已完成，耗时2s'</span>)</span><br><span class="line">    <span class="keyword">return</span> taskIO_1.__name__</span><br><span class="line"></span><br><span class="line"><span class="meta">@asyncio.coroutine </span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">taskIO_2</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'开始运行IO任务2...'</span>)</span><br><span class="line">    <span class="keyword">yield</span> <span class="keyword">from</span> asyncio.sleep(<span class="number">3</span>)  <span class="comment"># 假设该任务耗时3s</span></span><br><span class="line">    print(<span class="string">'IO任务2已完成，耗时3s'</span>)</span><br><span class="line">    <span class="keyword">return</span> taskIO_2.__name__</span><br><span class="line"></span><br><span class="line"><span class="meta">@asyncio.coroutine </span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span> <span class="comment"># 调用方</span></span><br><span class="line">    tasks = [taskIO_1(), taskIO_2()]  <span class="comment"># 把所有任务添加到task中</span></span><br><span class="line">    done,pending = <span class="keyword">yield</span> <span class="keyword">from</span> asyncio.wait(tasks) <span class="comment"># 子生成器</span></span><br><span class="line">    <span class="keyword">for</span> r <span class="keyword">in</span> done: <span class="comment"># done和pending都是一个任务，所以返回结果需要逐个调用result()</span></span><br><span class="line">        print(<span class="string">'协程无序返回值：'</span>+r.result())</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    start = time.time()</span><br><span class="line">    loop = asyncio.get_event_loop() <span class="comment"># 创建一个事件循环对象loop</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        loop.run_until_complete(main()) <span class="comment"># 完成事件循环，直到最后一个任务结束</span></span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        loop.close() <span class="comment"># 结束事件循环</span></span><br><span class="line">    print(<span class="string">'所有IO任务总耗时%.5f秒'</span> % float(time.time()-start))</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 输出结果</span></span><br><span class="line">开始运行IO任务<span class="number">2.</span>..</span><br><span class="line">开始运行IO任务<span class="number">1.</span>..</span><br><span class="line">IO任务<span class="number">1</span>已完成，耗时<span class="number">2</span>s</span><br><span class="line">IO任务<span class="number">2</span>已完成，耗时<span class="number">3</span>s</span><br><span class="line">协程无序返回值：taskIO_1</span><br><span class="line">协程无序返回值：taskIO_2</span><br><span class="line">所有IO任务总耗时<span class="number">3.00303</span>秒</span><br></pre></td></tr></table></figure>
+<p><strong>说明</strong>：</p>
+<p><strong>解释1</strong>：<a href="mailto:`@asyncio.coroutine" target="_blank" rel="noopener">`@asyncio.coroutine</a><code>**装饰器**是协程函数的标志，我们需要在每一个任务函数前加这个装饰器，并在函数中使用</code>yield from`。</p>
+<p><strong>解释2</strong>：此处假设该任务运行需要2秒，此处使用异步等待2秒<code>asyncio.sleep(2)</code>，而非同步等待<code>time.sleep(2)</code>。</p>
+<p><strong>执行过程</strong>：</p>
+<ol>
+<li>先通过get_event_loop()获取了一个标准事件循环loop(因为是一个，所以协程是单线程)</li>
+<li>然后，我们通过run_until_complete(main())来运行协程(此处把调用方协程main()作为参数，调用方负责调用其他委托生成器)，run_until_complete的特点就像该函数的名字，直到循环事件的所有事件都处理完才能完整结束.</li>
+<li>进入调用方协程，我们把多个任务[taskIO_1()和taskIO_2()]放到一个task列表中，可理解为打包任务。</li>
+<li>我们使用asyncio.wait(tasks)来获取一个awaitable objects即可等待对象的集合，通过yield from返回一个包含(done, pending)的元组，done表示已完成的任务列表，pending表示未完成的任务列表。</li>
+<li>因为done里面有我们需要的返回结果，但它目前还是个任务列表，所以要取出返回的结果值，我们遍历它并逐个调用result()取出结果即可。</li>
+<li>最后我们通过loop.close()关闭事件循环。</li>
+</ol>
+<p>可见，<strong>通过使用协程，极大提高了多任务的执行效率，程序最后消耗的时间是任务队列中耗时最多时间任务的时长。</strong></p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>本篇讲述了：</p>
+<ul>
+<li><code>yield from</code>如何实现协程</li>
+<li>如何结合<code>asyncio</code>实现异步协程</li>
+</ul>
+<p>虽然有了<code>yield from</code>的存在，让协程实现比之前容易了，但是这种异步协程的实现方式，并不是很<code>pythonic</code>。现在已经不推荐使用了。下篇将与您分享更加完善的Python异步实现方式——<code>async/await实现异步协程</code>。</p>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a href="https://blog.csdn.net/SL_World/article/details/86597738" target="_blank" rel="noopener">Python异步IO之协程(一):从yield from到async的使用</a></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-01-12T15:21:31.551Z" itemprop="dateUpdated">2020-01-12 23:21:31</time>
+</span><br>
+
+
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2020/01/11/coroutine2/" target="_blank" rel="external">https://mrleecn.cn/2020/01/11/coroutine2/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://mrleecn.cn">
+            <img src="/img/avatar.jpg" alt="西加加先生">
+            西加加先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://mrleecn.cn/2020/01/11/coroutine2/&title=《深入理解协程（二）：yield from实现异步协程》 — 西加加先生'Blog&pic=https://mrleecn.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://mrleecn.cn/2020/01/11/coroutine2/&title=《深入理解协程（二）：yield from实现异步协程》 — 西加加先生'Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://mrleecn.cn/2020/01/11/coroutine2/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《深入理解协程（二）：yield from实现异步协程》 — 西加加先生'Blog&url=https://mrleecn.cn/2020/01/11/coroutine2/&via=https://mrleecn.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://mrleecn.cn/2020/01/11/coroutine2/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/01/14/coroutine3/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">深入理解协程（三）：async/await实现异步协程</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/01/06/designmodel4/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">《大话设计模式》——代理模式（Python版）</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: '466987329@qq.com' == 'true',
+            verify: 'false' == 'true',
+            appId: "2vYCN34c68lLIPtCeLOQBWY1-gzGzoHsz",
+            appKey: "H9P3LC1LrBg2feypO5qYxBdf",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check" data-wechat="/img/wechat.png" data-alipay="/img/alipay.png">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>西加加先生 &copy; 2015 - 2020</span>
+            <span>
+                
+                <a href="http://www.miitbeian.gov.cn/" target="_blank">湘ICP备17011548号-1</a><br>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://mrleecn.cn/2020/01/11/coroutine2/&title=《深入理解协程（二）：yield from实现异步协程》 — 西加加先生'Blog&pic=https://mrleecn.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://mrleecn.cn/2020/01/11/coroutine2/&title=《深入理解协程（二）：yield from实现异步协程》 — 西加加先生'Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://mrleecn.cn/2020/01/11/coroutine2/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《深入理解协程（二）：yield from实现异步协程》 — 西加加先生'Blog&url=https://mrleecn.cn/2020/01/11/coroutine2/&via=https://mrleecn.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://mrleecn.cn/2020/01/11/coroutine2/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABxElEQVR42u3aQWoDMQwF0Nz/0lPoqlAy+ZJtMS3Pq5CMw0sWQv7y6xWv63v9fH3/zu+973a9TixcXNxl7nW77p/JvzP/Cz7sxcXFHeRWi9e7Z5JP86KGi4v7fO6ubiT/flxc3L/CTYpafojCxcV9MjcvOtW9eQO0+ayGi4u7wO0FpntfH893cXFxN00l8sKUl79rYeHi4s5we0PQ+x+QD1ryqrU0s8XFxS1y80FpXrwOXr/AxcUd4a4UoN4Itnq9o1B3cXFxR7h5fHm/N79+EZU5XFzcEW61Abo/9vTGt71BDi4u7jnuSgFKBiRHDj+4uLjHuL2oNI9Oorw2vqKBi4s7w62CqtHGSl1qdmG4uLhbuUlzkxedXiksFFZcXNxBbjUcqR5m8ufLzQ0uLu4mbrV8VBua3njmQ1SKi4s7yM0j1JVotTpWiZIVXFzcrdw8qui1NeUAtBiw4uLinuBexbWr0ckDU1xc3HnuyhWN9V29gBUXF3eGWx2g7proNgsZLi7uIDcvQ3svYZTPari4uA/j9qa4K1e7cHFx/x+32hIVxie4uLgj3PXGpXe1onBNExcXd5Dbiz7zH7AeoZbpuLi4fe4XC0zsC0TQdiEAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>
