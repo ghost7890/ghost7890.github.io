@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'true', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+<!-- End Google Analytics -->
+
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?53891daf9e0316e03eadf2da354a713d"></script>
+<!-- End Baidu Tongji -->
+
+
+
+<!-- Baidu Push -->
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<!-- End Baidu Push -->
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="true">
+    
+    
+    
+    
+    <title>GitHub高级搜索指南 | 西加加先生&#39;Blog | 努力诚可贵，坚持价更高</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="GitHub">
+    <meta name="description" content="还在为自学时找不到适合练手的项目而苦恼？ 还在好奇别人是如何在GitHub众多项目中找到高质量代码的？ 真的是因为他们独具慧眼吗？ 不，其实他们只是掌握了正确的搜索方法。 下面介绍几种常用的GitHub高级搜索方法。相信你看完之后也能很快在GitHub众多项目中找到自己所需的项目。 GitHub项目页介绍首先先介绍下，一个GitHub项目页的构成。">
+<meta name="keywords" content="GitHub">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GitHub高级搜索指南">
+<meta property="og:url" content="https://mrleecn.cn/2020/01/19/Github/index.html">
+<meta property="og:site_name" content="西加加先生&#39;Blog">
+<meta property="og:description" content="还在为自学时找不到适合练手的项目而苦恼？ 还在好奇别人是如何在GitHub众多项目中找到高质量代码的？ 真的是因为他们独具慧眼吗？ 不，其实他们只是掌握了正确的搜索方法。 下面介绍几种常用的GitHub高级搜索方法。相信你看完之后也能很快在GitHub众多项目中找到自己所需的项目。 GitHub项目页介绍首先先介绍下，一个GitHub项目页的构成。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://abc.mrleecn.cn/blog/20200119/bATcLI6ujHMq.png?imageslim">
+<meta property="og:image" content="http://abc.mrleecn.cn/blog/20200119/WiLG7GIFMeN6.png?imageslim">
+<meta property="og:image" content="http://abc.mrleecn.cn/blog/20200119/imRMnp1fj1bq.png?imageslim">
+<meta property="og:image" content="http://abc.mrleecn.cn/blog/20200119/0WD67cjpx14q.png?imageslim">
+<meta property="og:image" content="http://abc.mrleecn.cn/blog/20200119/x4D1RXP7kTF5.png?imageslim">
+<meta property="og:updated_time" content="2020-01-19T15:52:06.611Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GitHub高级搜索指南">
+<meta name="twitter:description" content="还在为自学时找不到适合练手的项目而苦恼？ 还在好奇别人是如何在GitHub众多项目中找到高质量代码的？ 真的是因为他们独具慧眼吗？ 不，其实他们只是掌握了正确的搜索方法。 下面介绍几种常用的GitHub高级搜索方法。相信你看完之后也能很快在GitHub众多项目中找到自己所需的项目。 GitHub项目页介绍首先先介绍下，一个GitHub项目页的构成。">
+<meta name="twitter:image" content="http://abc.mrleecn.cn/blog/20200119/bATcLI6ujHMq.png?imageslim">
+    
+        <link rel="alternate" type="application/atom+xml" title="西加加先生&#39;Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.gif">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-140803241-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-140803241-1');
+</script>
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">西加加先生</h5>
+          <a href="mailto:466987329@qq.com" title="466987329@qq.com" class="mail">466987329@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ghost7890" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books">
+                <i class="icon icon-lg icon-book"></i>
+                我的读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies">
+                <i class="icon icon-lg icon-film"></i>
+                我的电影
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends-link">
+                <i class="icon icon-lg icon-link"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends-apply">
+                <i class="icon icon-lg icon-user-plus"></i>
+                友链申请
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">GitHub高级搜索指南</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">GitHub高级搜索指南</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-01-19T02:38:05.000Z" itemprop="datePublished" class="page-time">
+  2020-01-19
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#GitHub项目页介绍"><span class="post-toc-number">1.</span> <span class="post-toc-text">GitHub项目页介绍</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#例子"><span class="post-toc-number">2.</span> <span class="post-toc-text">例子</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#普通搜索"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">普通搜索</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#高级搜索"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">高级搜索</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-过滤出star数量大于2000的项目"><span class="post-toc-number">2.2.1.</span> <span class="post-toc-text">1. 过滤出star数量大于2000的项目</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-过滤出Python开发的项目"><span class="post-toc-number">2.2.2.</span> <span class="post-toc-text">2. 过滤出Python开发的项目</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-过滤出最后更新时间2019年10月1日之后的项目"><span class="post-toc-number">2.2.3.</span> <span class="post-toc-text">3. 过滤出最后更新时间2019年10月1日之后的项目</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#补充"><span class="post-toc-number">3.</span> <span class="post-toc-text">补充</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-过滤出仓库名中包含关键字的项目"><span class="post-toc-number">3.0.1.</span> <span class="post-toc-text">1.过滤出仓库名中包含关键字的项目</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-过滤出描述中包含关键字的项目"><span class="post-toc-number">3.0.2.</span> <span class="post-toc-text">2.过滤出描述中包含关键字的项目</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-过滤出readme中包含关键字的项目"><span class="post-toc-number">3.0.3.</span> <span class="post-toc-text">3.过滤出readme中包含关键字的项目</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-过滤出仓库大小在某个范围的项目"><span class="post-toc-number">3.0.4.</span> <span class="post-toc-text">4.过滤出仓库大小在某个范围的项目</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-Github" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">GitHub高级搜索指南</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-01-19 10:38:05" datetime="2020-01-19T02:38:05.000Z" itemprop="datePublished">2020-01-19</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p><strong>还在为自学时找不到适合练手的项目而苦恼？</strong></p>
+<p><strong>还在好奇别人是如何在GitHub众多项目中找到高质量代码的？</strong></p>
+<p><strong>真的是因为他们独具慧眼吗？</strong></p>
+<p><strong>不</strong>，其实他们只是掌握了<strong>正确的搜索方法</strong>。</p>
+<p>下面介绍几种常用的GitHub高级搜索方法。相信你看完之后也能很快在GitHub众多项目中找到自己所需的项目。</p>
+<h2 id="GitHub项目页介绍"><a href="#GitHub项目页介绍" class="headerlink" title="GitHub项目页介绍"></a>GitHub项目页介绍</h2><p>首先先介绍下，一个GitHub项目页的构成。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://abc.mrleecn.cn/blog/20200119/bATcLI6ujHMq.png?imageslim" alt="mark" title>
+                </div>
+                <div class="image-caption">mark</div>
+            </figure>
+<p>如上图，其中包含<strong>仓库名</strong>、<strong>star数量</strong>、<strong>fork数量</strong>、<strong>描述</strong>、<strong>最后更新时间</strong>、<strong>readme</strong>。我们可以根据需求按照上面要素过滤掉不符合自己需求的项目。</p>
+<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>举个例子：<strong>假设我们要搜索一些高质量的并使用Python开发的爬虫项目。</strong></p>
+<h3 id="普通搜索"><a href="#普通搜索" class="headerlink" title="普通搜索"></a>普通搜索</h3><p>相信有很多人会采用下面的方式进行搜索。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://abc.mrleecn.cn/blog/20200119/WiLG7GIFMeN6.png?imageslim" alt="mark" title>
+                </div>
+                <div class="image-caption">mark</div>
+            </figure>
+<p>可以看到，这种方式搜索有以下几个缺点：</p>
+<ul>
+<li><strong>海量搜索结果</strong>（<code>20K+</code>），难以找到自己需要的项目。</li>
+<li><strong>“年代久远”的项目混入其中</strong>，很多年代久远的项目当下并适用当下情况，尤其是爬虫。</li>
+<li><strong>项目质量良莠不齐</strong>，高质量的项目和质量一般的项目混在一起。</li>
+<li><strong>包含多种编程语言</strong></li>
+</ul>
+<p>这种情况下我们就需要加入<strong>限定条件</strong>进行过滤，也就是我们所说的<strong>高级搜索</strong>。</p>
+<h3 id="高级搜索"><a href="#高级搜索" class="headerlink" title="高级搜索"></a>高级搜索</h3><h4 id="1-过滤出star数量大于2000的项目"><a href="#1-过滤出star数量大于2000的项目" class="headerlink" title="1. 过滤出star数量大于2000的项目"></a>1. 过滤出star数量大于2000的项目</h4><p>   <strong>过滤语句：</strong></p>
+<ul>
+<li><p><strong>star数量大于2000</strong></p>
+<p><code>关键字 stars:&gt;2000</code></p>
+</li>
+<li><p><strong>star数量在1000~2000之间</strong></p>
+<p><code>关键字 stars:1000..2000</code></p>
+<p><img src="http://abc.mrleecn.cn/blog/20200119/imRMnp1fj1bq.png?imageslim" alt="mark"></p>
+<p>经过过滤后，可以看到还剩下<code>22</code>个项目，其中包含了</p>
+</li>
+<li><p><strong>非Python开发的项目</strong></p>
+</li>
+<li><p><strong>时间久远的项目</strong></p>
+<p>我们继续过滤。</p>
+</li>
+</ul>
+<h4 id="2-过滤出Python开发的项目"><a href="#2-过滤出Python开发的项目" class="headerlink" title="2. 过滤出Python开发的项目"></a>2. 过滤出Python开发的项目</h4><p>   <strong>过滤语句：</strong></p>
+<p>   <code>关键词 language:编程语言</code></p>
+<p>   追加到上条过滤语句后，即为：<code>爬虫 stars:&gt;2000 language:Python</code>。</p>
+<p>   过滤效果如下：</p>
+<p>   <img src="http://abc.mrleecn.cn/blog/20200119/0WD67cjpx14q.png?imageslim" alt="mark"></p>
+<p>   符合要求的项目数量还剩<code>14</code>个，其中还包含几个2018年的项目，我们继续过滤。</p>
+<h4 id="3-过滤出最后更新时间2019年10月1日之后的项目"><a href="#3-过滤出最后更新时间2019年10月1日之后的项目" class="headerlink" title="3. 过滤出最后更新时间2019年10月1日之后的项目"></a>3. 过滤出最后更新时间2019年10月1日之后的项目</h4><p>   过滤语句：</p>
+<p>   <code>关键字 pushed:&gt;xxxx-xx-xx</code></p>
+<p>   对应的本例的语句就是：</p>
+<p>   <code>爬虫 stars:&gt;2000 language:Python pushed:&gt;2019-10-01</code></p>
+<p>   <img src="http://abc.mrleecn.cn/blog/20200119/x4D1RXP7kTF5.png?imageslim" alt="mark"></p>
+<p>   经过此次过滤后，只剩下<code>9</code>个符合要求的项目。到此，我们就得到了Github中<strong>使用Python开发的</strong>、<strong>star数超过2000的</strong>、<strong>最近两个月内仍有更新</strong>的爬虫项目。</p>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>除了上面提到的过滤语句外，下面几个过滤语句也很常用。</p>
+<h4 id="1-过滤出仓库名中包含关键字的项目"><a href="#1-过滤出仓库名中包含关键字的项目" class="headerlink" title="1.过滤出仓库名中包含关键字的项目"></a>1.过滤出仓库名中包含关键字的项目</h4><p>  <code>in:name 关键字</code></p>
+<p>  eg： <code>in:name python</code></p>
+<h4 id="2-过滤出描述中包含关键字的项目"><a href="#2-过滤出描述中包含关键字的项目" class="headerlink" title="2.过滤出描述中包含关键字的项目"></a>2.过滤出描述中包含关键字的项目</h4><p>  <code>in:decription 关键字</code></p>
+<p>  eg：<code>in:decription python</code></p>
+<h4 id="3-过滤出readme中包含关键字的项目"><a href="#3-过滤出readme中包含关键字的项目" class="headerlink" title="3.过滤出readme中包含关键字的项目"></a>3.过滤出readme中包含关键字的项目</h4><p>  <code>in:readme 关键字</code></p>
+<p>  eg：<code>in:readme python</code></p>
+<h4 id="4-过滤出仓库大小在某个范围的项目"><a href="#4-过滤出仓库大小在某个范围的项目" class="headerlink" title="4.过滤出仓库大小在某个范围的项目"></a>4.过滤出仓库大小在某个范围的项目</h4><ul>
+<li><p>大于等于</p>
+<p><code>size:&gt;=数量 关键字</code> </p>
+<p>eg：<code>size:&gt;=5000 python</code></p>
+</li>
+<li><p>之间</p>
+<p><code>size:最小值..最大值 关键字</code></p>
+<p>eg：<code>size:20..5000 python</code></p>
+<p>这里注意下，这个数字代表K, 5000代表着5M</p>
+</li>
+</ul>
+<p><strong>以上即为GitHub常用的高级搜索方法。希望大家通过此方法能在GitHub中找到自己所需的项目。</strong></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-01-19T15:52:06.611Z" itemprop="dateUpdated">2020-01-19 23:52:06</time>
+</span><br>
+
+
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2020/01/19/Github/" target="_blank" rel="external">https://mrleecn.cn/2020/01/19/Github/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://mrleecn.cn">
+            <img src="/img/avatar.jpg" alt="西加加先生">
+            西加加先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GitHub/">GitHub</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://mrleecn.cn/2020/01/19/Github/&title=《GitHub高级搜索指南》 — 西加加先生'Blog&pic=https://mrleecn.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://mrleecn.cn/2020/01/19/Github/&title=《GitHub高级搜索指南》 — 西加加先生'Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://mrleecn.cn/2020/01/19/Github/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《GitHub高级搜索指南》 — 西加加先生'Blog&url=https://mrleecn.cn/2020/01/19/Github/&via=https://mrleecn.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://mrleecn.cn/2020/01/19/Github/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/01/17/coroutine4/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">深入理解协程（四）：async/await异步爬虫实战</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: '466987329@qq.com' == 'true',
+            verify: 'false' == 'true',
+            appId: "2vYCN34c68lLIPtCeLOQBWY1-gzGzoHsz",
+            appKey: "H9P3LC1LrBg2feypO5qYxBdf",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check" data-wechat="/img/wechat.png" data-alipay="/img/alipay.png">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>西加加先生 &copy; 2015 - 2020</span>
+            <span>
+                
+                <a href="http://www.miitbeian.gov.cn/" target="_blank">湘ICP备17011548号-1</a><br>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://mrleecn.cn/2020/01/19/Github/&title=《GitHub高级搜索指南》 — 西加加先生'Blog&pic=https://mrleecn.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://mrleecn.cn/2020/01/19/Github/&title=《GitHub高级搜索指南》 — 西加加先生'Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://mrleecn.cn/2020/01/19/Github/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《GitHub高级搜索指南》 — 西加加先生'Blog&url=https://mrleecn.cn/2020/01/19/Github/&via=https://mrleecn.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://mrleecn.cn/2020/01/19/Github/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABxUlEQVR42u3aQY7DMAgF0N7/0p3tSJ10PlDTVnpeRUpkP2eBDOZ2i8f917h6+/jl40hme8HAxcUdc6sL5Mvk8yQGXFzcfW4SnqrPV0tecZ8bcHFxP5lbDX/VX4CLi/u93F6a9LZAhouL2+LmISlKUeJqxsFcDRcXd8DNw9O55yP1XVxc3Bb3XhzVjfVWuVwdFxd3hZsHlFdtqRrIcHFx97lJQbNaDE2aLfKiyT//FRcX9wC3V+LsNVXkJZXoiIOLi3uMmwemPNjlMzz/TX/YcHFxF7nPQfNKZu8IdZn84OLirnCT6aqljTfnari4uOM6Q96klaQ31Qas6gy4uLg73Ek4S45HvS8vN4mLi3uY2wtJ1WA0T5ZwcXE3uafbqqo5S7lFAxcX9xj36nW1FaMaCnvXtLi4uPvc6tS9ZGZUYMXFxV3k9o4d1UvTPDWKMidcXNwD3HkyU71krR6McHFx97nV4BLdzAy21AuyuLi4J7hJ8Opdk+TXtIWjEi4u7iJ3EmiSNo582+WCKS4u7gdwe6WQyU8ZTYSLi7vCzQsfUWCqllBxcXEXudX2iHlzRrM9CxcXd4Xbu/isFjvyU8o88OHi4g64P7CH4jHnm8TpAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

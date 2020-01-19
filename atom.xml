@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mrleecn.cn/"/>
-  <updated>2020-01-18T03:29:59.236Z</updated>
+  <updated>2020-01-19T15:52:06.611Z</updated>
   <id>https://mrleecn.cn/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>GitHub高级搜索指南</title>
+    <link href="https://mrleecn.cn/2020/01/19/Github/"/>
+    <id>https://mrleecn.cn/2020/01/19/Github/</id>
+    <published>2020-01-19T02:38:05.000Z</published>
+    <updated>2020-01-19T15:52:06.611Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>还在为自学时找不到适合练手的项目而苦恼？</strong></p><p><strong>还在好奇别人是如何在GitHub众多项目中找到高质量代码的？</strong></p><p><strong>真的是因为他们独具慧眼吗？</strong></p><p><strong>不</strong>，其实他们只是掌握了<strong>正确的搜索方法</strong>。</p><p>下面介绍几种常用的GitHub高级搜索方法。相信你看完之后也能很快在GitHub众多项目中找到自己所需的项目。</p><h2 id="GitHub项目页介绍"><a href="#GitHub项目页介绍" class="headerlink" title="GitHub项目页介绍"></a>GitHub项目页介绍</h2><p>首先先介绍下，一个GitHub项目页的构成。</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="http://abc.mrleecn.cn/blog/20200119/bATcLI6ujHMq.png?imageslim" alt="mark" title>                </div>                <div class="image-caption">mark</div>            </figure><p>如上图，其中包含<strong>仓库名</strong>、<strong>star数量</strong>、<strong>fork数量</strong>、<strong>描述</strong>、<strong>最后更新时间</strong>、<strong>readme</strong>。我们可以根据需求按照上面要素过滤掉不符合自己需求的项目。</p><h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>举个例子：<strong>假设我们要搜索一些高质量的并使用Python开发的爬虫项目。</strong></p><h3 id="普通搜索"><a href="#普通搜索" class="headerlink" title="普通搜索"></a>普通搜索</h3><p>相信有很多人会采用下面的方式进行搜索。</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="http://abc.mrleecn.cn/blog/20200119/WiLG7GIFMeN6.png?imageslim" alt="mark" title>                </div>                <div class="image-caption">mark</div>            </figure><p>可以看到，这种方式搜索有以下几个缺点：</p><ul><li><strong>海量搜索结果</strong>（<code>20K+</code>），难以找到自己需要的项目。</li><li><strong>“年代久远”的项目混入其中</strong>，很多年代久远的项目当下并适用当下情况，尤其是爬虫。</li><li><strong>项目质量良莠不齐</strong>，高质量的项目和质量一般的项目混在一起。</li><li><strong>包含多种编程语言</strong></li></ul><p>这种情况下我们就需要加入<strong>限定条件</strong>进行过滤，也就是我们所说的<strong>高级搜索</strong>。</p><h3 id="高级搜索"><a href="#高级搜索" class="headerlink" title="高级搜索"></a>高级搜索</h3><h4 id="1-过滤出star数量大于2000的项目"><a href="#1-过滤出star数量大于2000的项目" class="headerlink" title="1. 过滤出star数量大于2000的项目"></a>1. 过滤出star数量大于2000的项目</h4><p>   <strong>过滤语句：</strong></p><ul><li><p><strong>star数量大于2000</strong></p><p><code>关键字 stars:&gt;2000</code></p></li><li><p><strong>star数量在1000~2000之间</strong></p><p><code>关键字 stars:1000..2000</code></p><p><img src="http://abc.mrleecn.cn/blog/20200119/imRMnp1fj1bq.png?imageslim" alt="mark"></p><p>经过过滤后，可以看到还剩下<code>22</code>个项目，其中包含了</p></li><li><p><strong>非Python开发的项目</strong></p></li><li><p><strong>时间久远的项目</strong></p><p>我们继续过滤。</p></li></ul><h4 id="2-过滤出Python开发的项目"><a href="#2-过滤出Python开发的项目" class="headerlink" title="2. 过滤出Python开发的项目"></a>2. 过滤出Python开发的项目</h4><p>   <strong>过滤语句：</strong></p><p>   <code>关键词 language:编程语言</code></p><p>   追加到上条过滤语句后，即为：<code>爬虫 stars:&gt;2000 language:Python</code>。</p><p>   过滤效果如下：</p><p>   <img src="http://abc.mrleecn.cn/blog/20200119/0WD67cjpx14q.png?imageslim" alt="mark"></p><p>   符合要求的项目数量还剩<code>14</code>个，其中还包含几个2018年的项目，我们继续过滤。</p><h4 id="3-过滤出最后更新时间2019年10月1日之后的项目"><a href="#3-过滤出最后更新时间2019年10月1日之后的项目" class="headerlink" title="3. 过滤出最后更新时间2019年10月1日之后的项目"></a>3. 过滤出最后更新时间2019年10月1日之后的项目</h4><p>   过滤语句：</p><p>   <code>关键字 pushed:&gt;xxxx-xx-xx</code></p><p>   对应的本例的语句就是：</p><p>   <code>爬虫 stars:&gt;2000 language:Python pushed:&gt;2019-10-01</code></p><p>   <img src="http://abc.mrleecn.cn/blog/20200119/x4D1RXP7kTF5.png?imageslim" alt="mark"></p><p>   经过此次过滤后，只剩下<code>9</code>个符合要求的项目。到此，我们就得到了Github中<strong>使用Python开发的</strong>、<strong>star数超过2000的</strong>、<strong>最近两个月内仍有更新</strong>的爬虫项目。</p><h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>除了上面提到的过滤语句外，下面几个过滤语句也很常用。</p><h4 id="1-过滤出仓库名中包含关键字的项目"><a href="#1-过滤出仓库名中包含关键字的项目" class="headerlink" title="1.过滤出仓库名中包含关键字的项目"></a>1.过滤出仓库名中包含关键字的项目</h4><p>  <code>in:name 关键字</code></p><p>  eg： <code>in:name python</code></p><h4 id="2-过滤出描述中包含关键字的项目"><a href="#2-过滤出描述中包含关键字的项目" class="headerlink" title="2.过滤出描述中包含关键字的项目"></a>2.过滤出描述中包含关键字的项目</h4><p>  <code>in:decription 关键字</code></p><p>  eg：<code>in:decription python</code></p><h4 id="3-过滤出readme中包含关键字的项目"><a href="#3-过滤出readme中包含关键字的项目" class="headerlink" title="3.过滤出readme中包含关键字的项目"></a>3.过滤出readme中包含关键字的项目</h4><p>  <code>in:readme 关键字</code></p><p>  eg：<code>in:readme python</code></p><h4 id="4-过滤出仓库大小在某个范围的项目"><a href="#4-过滤出仓库大小在某个范围的项目" class="headerlink" title="4.过滤出仓库大小在某个范围的项目"></a>4.过滤出仓库大小在某个范围的项目</h4><ul><li><p>大于等于</p><p><code>size:&gt;=数量 关键字</code> </p><p>eg：<code>size:&gt;=5000 python</code></p></li><li><p>之间</p><p><code>size:最小值..最大值 关键字</code></p><p>eg：<code>size:20..5000 python</code></p><p>这里注意下，这个数字代表K, 5000代表着5M</p></li></ul><p><strong>以上即为GitHub常用的高级搜索方法。希望大家通过此方法能在GitHub中找到自己所需的项目。</strong></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;还在为自学时找不到适合练手的项目而苦恼？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;还在好奇别人是如何在GitHub众多项目中找到高质量代码的？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;真的是因为他们独具慧眼吗？&lt;/strong&gt;&lt;/p&gt;
+&lt;p
+      
+    
+    </summary>
+    
+    
+      <category term="GitHub" scheme="https://mrleecn.cn/tags/GitHub/"/>
+    
+  </entry>
   
   <entry>
     <title>深入理解协程（四）：async/await异步爬虫实战</title>
@@ -386,11 +412,11 @@
     
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
-      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
-    
       <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
     
       <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
+    
+      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
     
   </entry>
   
@@ -422,11 +448,11 @@
     
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
-      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
-    
       <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
     
       <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
+    
+      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
     
   </entry>
   
@@ -458,11 +484,11 @@
     
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
-      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
-    
       <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
     
       <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
+    
+      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
     
   </entry>
   
@@ -487,11 +513,11 @@
     
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
-      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
-    
       <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
     
       <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
+    
+      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
     
   </entry>
   
@@ -522,11 +548,11 @@
     
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
-      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
-    
       <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
     
       <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
+    
+      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
     
   </entry>
   
