@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'true', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+<!-- End Google Analytics -->
+
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?53891daf9e0316e03eadf2da354a713d"></script>
+<!-- End Baidu Tongji -->
+
+
+
+<!-- Baidu Push -->
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<!-- End Baidu Push -->
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="true">
+    
+    
+    
+    
+    <title>《大话设计模式》——工厂方法模式（Python版） | 西加加先生&#39;Blog | 努力诚可贵，坚持价更高</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Python,设计模式">
+    <meta name="description" content="工厂方法模式：定义一个创建产品对象的工厂接口，将实际创建工作推迟到子类中。  介绍工厂方法模式，又称工厂模式、多态工厂模式和虚拟构造器模式，通过定义工厂父类负责定义创建对象的公共接口，而子类则负责生成具体的对象。 对比简单工厂模式是对简单工厂模式的一个延伸，所以它们诞生的背景以及所解决的问题是大同小异。（不了解简单工厂模式的请看《大话设计模式》——简单工厂模式） 简单工厂模式简单来说，简单工厂模">
+<meta name="keywords" content="Python,设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《大话设计模式》——工厂方法模式（Python版）">
+<meta property="og:url" content="https://mrleecn.cn/2020/02/03/designmodel5/index.html">
+<meta property="og:site_name" content="西加加先生&#39;Blog">
+<meta property="og:description" content="工厂方法模式：定义一个创建产品对象的工厂接口，将实际创建工作推迟到子类中。  介绍工厂方法模式，又称工厂模式、多态工厂模式和虚拟构造器模式，通过定义工厂父类负责定义创建对象的公共接口，而子类则负责生成具体的对象。 对比简单工厂模式是对简单工厂模式的一个延伸，所以它们诞生的背景以及所解决的问题是大同小异。（不了解简单工厂模式的请看《大话设计模式》——简单工厂模式） 简单工厂模式简单来说，简单工厂模">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-02-05T09:00:00.846Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《大话设计模式》——工厂方法模式（Python版）">
+<meta name="twitter:description" content="工厂方法模式：定义一个创建产品对象的工厂接口，将实际创建工作推迟到子类中。  介绍工厂方法模式，又称工厂模式、多态工厂模式和虚拟构造器模式，通过定义工厂父类负责定义创建对象的公共接口，而子类则负责生成具体的对象。 对比简单工厂模式是对简单工厂模式的一个延伸，所以它们诞生的背景以及所解决的问题是大同小异。（不了解简单工厂模式的请看《大话设计模式》——简单工厂模式） 简单工厂模式简单来说，简单工厂模">
+    
+        <link rel="alternate" type="application/atom+xml" title="西加加先生&#39;Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.gif">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-140803241-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-140803241-1');
+</script>
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">西加加先生</h5>
+          <a href="mailto:466987329@qq.com" title="466987329@qq.com" class="mail">466987329@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ghost7890" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books">
+                <i class="icon icon-lg icon-book"></i>
+                我的读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies">
+                <i class="icon icon-lg icon-film"></i>
+                我的电影
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends-link">
+                <i class="icon icon-lg icon-link"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends-apply">
+                <i class="icon icon-lg icon-user-plus"></i>
+                友链申请
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">《大话设计模式》——工厂方法模式（Python版）</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">《大话设计模式》——工厂方法模式（Python版）</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-02-03T02:38:05.000Z" itemprop="datePublished" class="page-time">
+  2020-02-03
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#介绍"><span class="post-toc-number">1.</span> <span class="post-toc-text">介绍</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#对比简单工厂模式"><span class="post-toc-number">2.</span> <span class="post-toc-text">对比简单工厂模式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#简单工厂模式"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">简单工厂模式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#工厂方法模式"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">工厂方法模式</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#详细介绍"><span class="post-toc-number">3.</span> <span class="post-toc-text">详细介绍</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#工厂方法模式的四个要素："><span class="post-toc-number">3.1.</span> <span class="post-toc-text">工厂方法模式的四个要素：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#使用步骤："><span class="post-toc-number">3.2.</span> <span class="post-toc-text">使用步骤：</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#具体例子："><span class="post-toc-number">3.2.1.</span> <span class="post-toc-text">具体例子：</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#应用场景"><span class="post-toc-number">4.</span> <span class="post-toc-text">应用场景</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考"><span class="post-toc-number">5.</span> <span class="post-toc-text">参考</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-designmodel5" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">《大话设计模式》——工厂方法模式（Python版）</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-02-03 10:38:05" datetime="2020-02-03T02:38:05.000Z" itemprop="datePublished">2020-02-03</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><code>工厂方法模式</code>：定义一个创建产品对象的工厂接口，将实际创建工作推迟到子类中。</p>
+</blockquote>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p><strong>工厂方法模式</strong>，又称<strong>工厂模式</strong>、<strong>多态工厂模式</strong>和<strong>虚拟构造器模式</strong>，通过定义工厂父类负责定义创建对象的公共接口，而子类则负责生成具体的对象。</p>
+<h2 id="对比简单工厂模式"><a href="#对比简单工厂模式" class="headerlink" title="对比简单工厂模式"></a>对比简单工厂模式</h2><p><strong>是对简单工厂模式的一个延伸</strong>，所以它们诞生的背景以及所解决的问题是大同小异。（不了解简单工厂模式的请看<a href="https://mp.weixin.qq.com/s/JBjbxIr5CkO-OGPsvmu8Gw" target="_blank" rel="noopener">《大话设计模式》——简单工厂模式</a>）</p>
+<h3 id="简单工厂模式"><a href="#简单工厂模式" class="headerlink" title="简单工厂模式"></a>简单工厂模式</h3><p>简单来说，简单工厂模式是由一个工厂对象<strong>根据不同参数创建不同的实例</strong>。具体传什么参数，创建什么实例的逻辑是在工厂对象中完成的。</p>
+<p><strong>优点</strong>：</p>
+<ul>
+<li>只需要传入一个正确的参数，就可以获取你所需要的对象而无需知道其创建细节。</li>
+</ul>
+<p><strong>缺点</strong>：</p>
+<ul>
+<li>工厂一旦需要生产新产品就需要修改工厂类的方法逻辑，违背了<strong>开放—封闭原则</strong>；</li>
+<li>如果产品实例种类很多，也导致了工厂内部逻辑复杂，不易维护。</li>
+</ul>
+<h3 id="工厂方法模式"><a href="#工厂方法模式" class="headerlink" title="工厂方法模式"></a>工厂方法模式</h3><p>工厂方法模式是对简单工厂模式进一步的解耦。将把原本会因为业务代码而庞大的简单工厂类，<strong>拆分成了一个个的工厂类</strong>，这样代码就不会都耦合在同一个类里了。</p>
+<p><strong>优点</strong>：</p>
+<ul>
+<li>用户只需要关心所需产品的对应工厂，无需关心细节</li>
+<li>加入新产品符合开闭原则，<strong>提高可扩展性</strong></li>
+<li>进一步降低了程序的<strong>耦合性</strong></li>
+</ul>
+<p><strong>缺点</strong>：</p>
+<ul>
+<li>类的个数容易过多，增加复杂度</li>
+<li>增加了系统的抽象性和理解难度</li>
+</ul>
+<h2 id="详细介绍"><a href="#详细介绍" class="headerlink" title="详细介绍"></a>详细介绍</h2><h3 id="工厂方法模式的四个要素："><a href="#工厂方法模式的四个要素：" class="headerlink" title="工厂方法模式的四个要素："></a>工厂方法模式的四个要素：</h3><ul>
+<li><strong>抽象产品类</strong>（Product）：提供抽象方法供具体产品类实现</li>
+<li><strong>具体产品类</strong>（ConcreteProduct）：提供具体的产品</li>
+<li><strong>抽象工厂类</strong>（Factory）：提供抽象方法供具体工厂实现</li>
+<li><strong>具体工厂类</strong>（ConcreteFactory）：提供具体的工厂</li>
+</ul>
+<h3 id="使用步骤："><a href="#使用步骤：" class="headerlink" title="使用步骤："></a>使用步骤：</h3><ol>
+<li>创建<strong>抽象工厂类</strong>，定义具体工厂的公共接口； </li>
+<li>创建<strong>抽象产品类</strong> ，定义具体产品的公共接口； </li>
+<li>创建<strong>具体产品类</strong>（继承抽象产品类） ，定义生产的具体产品； </li>
+<li>创建<strong>具体工厂类</strong>（继承抽象工厂类），定义创建对应具体产品实例的方法； </li>
+<li>外界通过调用具体工厂类的方法，从而创建不同<strong>具体产品类的实例</strong></li>
+</ol>
+<h4 id="具体例子："><a href="#具体例子：" class="headerlink" title="具体例子："></a>具体例子：</h4><blockquote>
+<p><strong>背景</strong>: 现公司监控系统报警需要对接企业微信公众号, 由于未认证企业微信推送消息的限制, 默认每天推送条数上限为<code>6000</code>条, 考虑到报警系统多, 规则没有收敛, 接收的人员多, 每天6000条可能不够用, 所以需要创建多个未认证的企业微信账号用于发送报警信息。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 抽象工厂类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WeChatFactory</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">create_wechat</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 具体工厂类A（创建账号A）</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AccountAFactory</span><span class="params">(WeChatFactory)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">create_wechat</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> AccountA()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 具体工厂类B（创建账号B）</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AccountBFactory</span><span class="params">(WeChatFactory)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">create_wechat</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> AccountB()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 抽象产品类（微信账号功能）</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WeChat</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">send_message</span><span class="params">(self, content)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">send_image</span><span class="params">(self, imageid)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 具体产品类A(账号A功能)</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AccountA</span><span class="params">(WeChat)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">send_message</span><span class="params">(self, content)</span>:</span></span><br><span class="line">        print(<span class="string">"使用企业微信账号A推送信息: "</span>, content)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">send_image</span><span class="params">(self, imageid)</span>:</span></span><br><span class="line">        print(<span class="string">"使用企业微信账号A推送图片: "</span>, imageid)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 具体产品类B（账号B功能）</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AccountB</span><span class="params">(WeChat)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">send_message</span><span class="params">(self, content)</span>:</span></span><br><span class="line">        print(<span class="string">"使用企业微信账号B推送信息: "</span>, content)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">send_image</span><span class="params">(self, imageid)</span>:</span></span><br><span class="line">        print(<span class="string">"使用企业微信账号B推送图片: "</span>, imageid)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">	<span class="comment"># 实例化账号A</span></span><br><span class="line">    wechat_factory_a = AccountAFactory()</span><br><span class="line">	<span class="comment"># 创建账号A的微信对象</span></span><br><span class="line">    wechat1 = wechat_factory_a.create_wechat()</span><br><span class="line">    </span><br><span class="line">	<span class="comment"># 使用账号A对象发送信息</span></span><br><span class="line">    wechat1.send_message(content=<span class="string">"haha"</span>)</span><br><span class="line">    wechat1.send_image(imageid=<span class="string">"hehe.jpg"</span>)</span><br><span class="line"></span><br><span class="line">	<span class="comment"># 实例化账号B</span></span><br><span class="line">    wechat_factory_b = AccountBFactory()</span><br><span class="line">	<span class="comment"># 创建账号B的微信对象</span></span><br><span class="line">    wechat2 = wechat_factory_b.create_wechat()</span><br><span class="line">	<span class="comment"># 使用账号B对象发送信息</span></span><br><span class="line">    wechat2.send_message(content=<span class="string">"heihei"</span>)</span><br><span class="line">    wechat2.send_image(imageid=<span class="string">"hehe.jpg"</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>执行结果</strong>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">使用企业微信账号A推送信息:  haha</span><br><span class="line">使用企业微信账号A推送图片:  hehe.jpg</span><br><span class="line">使用企业微信账号B推送信息:  heihei</span><br><span class="line">使用企业微信账号B推送图片:  hehe.jpg</span><br></pre></td></tr></table></figure>
+<p>如果此时, 两个微信账号都不够用了, 需要增加第三个账号时, 所有的类都不需要修改, 只需创建新的类即可, 符合开放封闭原则。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AccountC</span><span class="params">(WeChat)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">send_message</span><span class="params">(self, content)</span>:</span></span><br><span class="line">        print(<span class="string">"使用企业微信账号C推送信息: "</span>, content)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">send_image</span><span class="params">(self, imageid)</span>:</span></span><br><span class="line">        print(<span class="string">"使用企业微信账号C推送图片: "</span>, imageid)</span><br><span class="line">      </span><br><span class="line">    </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AccountCFactory</span><span class="params">(WeChatFactory)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">create_wechat</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> AccountC()</span><br></pre></td></tr></table></figure>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ul>
+<li><strong>当一个类不知道它所需要的对象的类时</strong><br>在工厂方法模式中，客户端不需要知道具体产品类的类名，只需要知道所对应的工厂即可；</li>
+<li><strong>当一个类希望通过其子类来指定创建对象时</strong><br>在工厂方法模式中，对于抽象工厂类只需要提供一个创建产品的接口，而由其子类来确定具体要创建的对象，利用面向对象的多态性和里氏代换原则，在程序运行时，子类对象将覆盖父类对象，从而使得系统更容易扩展。</li>
+<li>将创建对象的任务委托给多个工厂子类中的某一个，客户端在使用时可以无须关心是哪一个工厂子类创建产品子类，需要时再动态指定，可将具体工厂类的类名存储在配置文件或数据库中。</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://docs.lvrui.io/2018/08/08/Python语言实现工厂方法设计模式/" target="_blank" rel="noopener">Python语言实现工厂方法设计模式</a></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-02-05T09:00:00.846Z" itemprop="dateUpdated">2020-02-05 17:00:00</time>
+</span><br>
+
+
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2020/02/03/designmodel5/" target="_blank" rel="external">https://mrleecn.cn/2020/02/03/designmodel5/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://mrleecn.cn">
+            <img src="/img/avatar.jpg" alt="西加加先生">
+            西加加先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://mrleecn.cn/2020/02/03/designmodel5/&title=《《大话设计模式》——工厂方法模式（Python版）》 — 西加加先生'Blog&pic=https://mrleecn.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://mrleecn.cn/2020/02/03/designmodel5/&title=《《大话设计模式》——工厂方法模式（Python版）》 — 西加加先生'Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://mrleecn.cn/2020/02/03/designmodel5/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《大话设计模式》——工厂方法模式（Python版）》 — 西加加先生'Blog&url=https://mrleecn.cn/2020/02/03/designmodel5/&via=https://mrleecn.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://mrleecn.cn/2020/02/03/designmodel5/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/01/19/Github/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">GitHub高级搜索指南</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: '466987329@qq.com' == 'true',
+            verify: 'false' == 'true',
+            appId: "2vYCN34c68lLIPtCeLOQBWY1-gzGzoHsz",
+            appKey: "H9P3LC1LrBg2feypO5qYxBdf",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check" data-wechat="/img/wechat.png" data-alipay="/img/alipay.png">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>西加加先生 &copy; 2015 - 2020</span>
+            <span>
+                
+                <a href="http://www.miitbeian.gov.cn/" target="_blank">湘ICP备17011548号-1</a><br>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://mrleecn.cn/2020/02/03/designmodel5/&title=《《大话设计模式》——工厂方法模式（Python版）》 — 西加加先生'Blog&pic=https://mrleecn.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://mrleecn.cn/2020/02/03/designmodel5/&title=《《大话设计模式》——工厂方法模式（Python版）》 — 西加加先生'Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://mrleecn.cn/2020/02/03/designmodel5/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《大话设计模式》——工厂方法模式（Python版）》 — 西加加先生'Blog&url=https://mrleecn.cn/2020/02/03/designmodel5/&via=https://mrleecn.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://mrleecn.cn/2020/02/03/designmodel5/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACO0lEQVR42u3awXLDIAxF0fz/T7vbzKTg+yQ3HeCy6qSN4XihSkKvF17X23r/5PO38zX67miXh5cMGTKWZfCNOePz+fPnkH3nu8iQIeMExiiCkb9Jtx9R5y/r5swyZMiQgRk8vPJQLkOGDBk1Bi81b1K6/w24MmTIWIrBG2TzNhxpnNWK3sdqcRkyZCzI4EHz+z//yf2GDBkylmJc4eJXArVjXaUlQ4aMvRl8mzQF5M/kn9/sK0OGjMMYcbALG2f8IiFo9smQIWNTxjy08TDKrxb6l52/PF+GDBnHMNLStD8q0QnrQS9QhgwZWzBq4a8/SNEJ7jddQxkyZGzN4IGPB990eIInlA/EbxkyZCzISMNrCibH5ZcE8f8NGTJkLMjot9J4uKwVvWR3GTJk7M3gIxRpCcobfGlZOxyzkCFDxqYMnvCRVI9v+WyCKEOGjL0Z5EB8VKK2S9rOC4YtZMiQsQUjTd0IJk0r+RBYkJLKkCFjI0ba9kpL0H5yicK3DBkytmZ0Amut0ZYCgrJWhgwZRzJeePEEMQ3fwUuUIUPGMQw0MBoG01oSyXeXIUPGOYxaQ79f4qbNtdZcmwwZMhZkXOF6tvStXTAUk0IZMmQsy0jL1DQ086OnTytiZMiQsSyDBNk0EawNWKBMdvRdGTJkHMBIi9ha8Zn2yuJhCxkyZMgoHY6H5tqlpgwZMmTULgZ4UZq+jpvrARkyZGzN4M362kHT55BXLEOGjHMYrdKxUdDW8K2LTBkyZKzH+AGEEtE/2xsyGQAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

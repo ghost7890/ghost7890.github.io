@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://mrleecn.cn/2020/02/03/designmodel5/</loc>
+    
+    <lastmod>2020-02-05T09:00:00.846Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://mrleecn.cn/2019/08/03/centos74py37/</loc>
+    
+    <lastmod>2020-01-27T03:10:42.633Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://mrleecn.cn/2020/01/19/Github/</loc>
     
     <lastmod>2020-01-19T15:52:06.611Z</lastmod>
@@ -117,13 +131,6 @@
     <loc>https://mrleecn.cn/2019/08/04/centos74py27/</loc>
     
     <lastmod>2019-08-10T09:31:02.982Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://mrleecn.cn/2019/08/03/centos74py37/</loc>
-    
-    <lastmod>2019-08-10T09:30:49.937Z</lastmod>
     
   </url>
   
@@ -254,7 +261,7 @@
   </url>
   
   <url>
-    <loc>https://mrleecn.cn/tags/index.html</loc>
+    <loc>https://mrleecn.cn/friends-link/index.html</loc>
     
     <lastmod>2019-05-24T15:33:45.029Z</lastmod>
     
@@ -262,6 +269,13 @@
   
   <url>
     <loc>https://mrleecn.cn/friends-apply/index.html</loc>
+    
+    <lastmod>2019-05-24T15:33:45.029Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://mrleecn.cn/2019/05/19/%E4%BD%8D%E8%BF%90%E7%AE%97/</loc>
     
     <lastmod>2019-05-24T15:33:45.029Z</lastmod>
     
@@ -282,13 +296,6 @@
   </url>
   
   <url>
-    <loc>https://mrleecn.cn/friends-link/index.html</loc>
-    
-    <lastmod>2019-05-24T15:33:45.029Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://mrleecn.cn/2019/05/14/%E5%86%99%E7%BB%99%E5%B9%B4%E8%BD%BB%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%8410%E7%82%B9%E5%90%AF%E7%A4%BA/</loc>
     
     <lastmod>2019-05-24T15:33:45.029Z</lastmod>
@@ -296,7 +303,7 @@
   </url>
   
   <url>
-    <loc>https://mrleecn.cn/2019/05/19/%E4%BD%8D%E8%BF%90%E7%AE%97/</loc>
+    <loc>https://mrleecn.cn/tags/index.html</loc>
     
     <lastmod>2019-05-24T15:33:45.029Z</lastmod>
     

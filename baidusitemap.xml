@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://mrleecn.cn/2020/02/03/designmodel5/</loc>
+    <lastmod>2020-02-05</lastmod>
+  </url>  <url>
+    <loc>https://mrleecn.cn/2019/08/03/centos74py37/</loc>
+    <lastmod>2020-01-27</lastmod>
+  </url>  <url>
     <loc>https://mrleecn.cn/2020/01/19/Github/</loc>
     <lastmod>2020-01-19</lastmod>
   </url>  <url>
@@ -52,9 +58,6 @@
     <loc>https://mrleecn.cn/2019/08/04/centos74py27/</loc>
     <lastmod>2019-08-10</lastmod>
   </url>  <url>
-    <loc>https://mrleecn.cn/2019/08/03/centos74py37/</loc>
-    <lastmod>2019-08-10</lastmod>
-  </url>  <url>
     <loc>https://mrleecn.cn/2019/08/02/centos68py37/</loc>
     <lastmod>2019-08-10</lastmod>
   </url>  <url>
@@ -103,6 +106,9 @@
     <loc>https://mrleecn.cn/2019/05/26/softskills1/</loc>
     <lastmod>2019-05-26</lastmod>
   </url>  <url>
+    <loc>https://mrleecn.cn/2019/05/19/%E4%BD%8D%E8%BF%90%E7%AE%97/</loc>
+    <lastmod>2019-05-24</lastmod>
+  </url>  <url>
     <loc>https://mrleecn.cn/2019/04/28/%E5%8D%81%E6%AD%A5%E5%AD%A6%E4%B9%A0%E6%B3%95/</loc>
     <lastmod>2019-05-24</lastmod>
   </url>  <url>
@@ -110,9 +116,6 @@
     <lastmod>2019-05-24</lastmod>
   </url>  <url>
     <loc>https://mrleecn.cn/2019/05/14/%E5%86%99%E7%BB%99%E5%B9%B4%E8%BD%BB%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%8410%E7%82%B9%E5%90%AF%E7%A4%BA/</loc>
-    <lastmod>2019-05-24</lastmod>
-  </url>  <url>
-    <loc>https://mrleecn.cn/2019/05/19/%E4%BD%8D%E8%BF%90%E7%AE%97/</loc>
     <lastmod>2019-05-24</lastmod>
   </url>  <url>
     <loc>https://mrleecn.cn/2019/05/16/time%E6%A8%A1%E5%9D%97%E5%92%8Cdatetime%E6%A8%A1%E5%9D%97%E5%B8%B8%E8%A7%81%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/</loc>
