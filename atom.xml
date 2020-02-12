@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mrleecn.cn/"/>
-  <updated>2020-02-05T09:00:00.846Z</updated>
+  <updated>2020-02-12T03:25:52.234Z</updated>
   <id>https://mrleecn.cn/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Python多重继承之菱形继承</title>
+    <link href="https://mrleecn.cn/2020/02/12/multjicheng/"/>
+    <id>https://mrleecn.cn/2020/02/12/multjicheng/</id>
+    <published>2020-02-12T03:25:23.000Z</published>
+    <updated>2020-02-12T03:25:52.234Z</updated>
+    
+    <content type="html"><![CDATA[<p>继承是面向对象编程的一个重要的方式，通过继承，子类就可以扩展父类的功能。在python中一个类能继承自不止一个父类，这叫做python的<strong>多重继承</strong>（Multiple Inheritance ）。</p><p><strong>语法</strong></p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubclassName</span><span class="params">(BaseClass1, BaseClass2, BaseClass3, ...)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure><h2 id="菱形继承"><a href="#菱形继承" class="headerlink" title="菱形继承"></a>菱形继承</h2><p>在多层继承和多继承同时使用的情况下，就会出现复杂的继承关系，多重多继承。</p><p>其中，就会出现菱形继承。如下图所示。<figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="http://abc.mrleecn.cn/blog/20200212/KjSWBU2hd50e.png?imageslim" alt="mark" title>                </div>                <div class="image-caption">mark</div>            </figure></p><p>在这种结构中，在调用顺序上就出现了疑惑，调用顺序究竟是以下哪一种顺序呢</p><ul><li><strong>D-&gt;B-&gt;A-&gt;C</strong>（深度优先）</li><li><strong>D-&gt;B-&gt;C-&gt;A</strong>（广度优先）</li></ul><p>下面我们来解答下这个问题。</p><p>举个例子来看下：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'init A...'</span>)</span><br><span class="line">        print(<span class="string">'end A...'</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span><span class="params">(A)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'init B...'</span>)</span><br><span class="line">        A.__init__(self)</span><br><span class="line">        print(<span class="string">'end B...'</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span><span class="params">(A)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'init C...'</span>)</span><br><span class="line">        A.__init__(self)</span><br><span class="line">        print(<span class="string">'end C...'</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">D</span><span class="params">(B, C)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'init D...'</span>)</span><br><span class="line">        B.__init__(self)</span><br><span class="line">        C.__init__(self)</span><br><span class="line">        print(<span class="string">'end D...'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    D()</span><br></pre></td></tr></table></figure><p>输出结果</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">init D...</span><br><span class="line">init B...</span><br><span class="line">init A...</span><br><span class="line">end A...</span><br><span class="line">end B...</span><br><span class="line">init C...</span><br><span class="line">init A...</span><br><span class="line">end A...</span><br><span class="line">end C...</span><br><span class="line">end D...</span><br></pre></td></tr></table></figure><p>从输出结果中看，调用顺序为：D-&gt;B-&gt;A-&gt;C-&gt;A。可以看到，B、C共同继承于A，A被调用了两次。A没必要重复调用两次。</p><p>其实，上面问题的根源都跟MRO有关,<strong>MRO(Method Resolution Order)</strong>也叫<strong>方法解析顺序</strong>，主要用于在多重继承时判断调的属性来自于哪个类，其使用了一种叫做<strong>C3</strong>的算法，其基本思想时<strong>在避免同一类被调用多次的前提下，使用广度优先和从左到右的原则去寻找需要的属性和方法。</strong></p><p>那么如何避免顶层父类中的某个方法被多次调用呢，此时就需要super()来发挥作用了,super本质上是一个类，内部记录着MRO信息，由于C3算法确保同一个类只会被搜寻一次，这样就避免了顶层父类中的方法被多次执行了，上面代码可以改为：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'init A...'</span>)</span><br><span class="line">        print(<span class="string">'end A...'</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span><span class="params">(A)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'init B...'</span>)</span><br><span class="line">        super(B, self).__init__()</span><br><span class="line">        print(<span class="string">'end B...'</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span><span class="params">(A)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'init C...'</span>)</span><br><span class="line">        super(C, self).__init__()</span><br><span class="line">        print(<span class="string">'end C...'</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">D</span><span class="params">(B, C)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'init D...'</span>)</span><br><span class="line">        super(D, self).__init__()</span><br><span class="line">        print(<span class="string">'end D...'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    D()</span><br></pre></td></tr></table></figure><p>输出结果：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">init D...</span><br><span class="line">init B...</span><br><span class="line">init C...</span><br><span class="line">init A...</span><br><span class="line">end A...</span><br><span class="line">end C...</span><br><span class="line">end B...</span><br><span class="line">end D...</span><br></pre></td></tr></table></figure><p>可以看出，此时的调用顺序是D-&gt;B-&gt;C-&gt;A。即采用是<strong>广度优先</strong>的遍历方式。</p><h2 id="补充内容"><a href="#补充内容" class="headerlink" title="补充内容"></a>补充内容</h2><p>Python类分为两种，一种叫<strong>经典类</strong>，一种叫<strong>新式类</strong>。都支持多继承，但继承顺序不同。</p><ul><li><strong>新式类</strong>：从object继承来的类。（如:class A(object)），采用<strong>广度优先</strong>搜索的方式继承（即先水平搜索，再向上搜索）。</li><li><strong>经典类</strong>：不从object继承来的类。（如：class A()），采用<strong>深度优先</strong>搜索的方式继承（即先深入继承树的左侧，再返回，再找右侧）。</li></ul><p>Python2.x中类的是有经典类和新式类两种。<strong>Python3.x中都是新式类。</strong></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;继承是面向对象编程的一个重要的方式，通过继承，子类就可以扩展父类的功能。在python中一个类能继承自不止一个父类，这叫做python的&lt;strong&gt;多重继承&lt;/strong&gt;（Multiple Inheritance ）。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;语法&lt;/stro
+      
+    
+    </summary>
+    
+    
+      <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
+    
+  </entry>
   
   <entry>
     <title>《大话设计模式》——工厂方法模式（Python版）</title>
@@ -406,9 +430,9 @@
     
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
-      <category term="爬虫" scheme="https://mrleecn.cn/tags/%E7%88%AC%E8%99%AB/"/>
-    
       <category term="加密" scheme="https://mrleecn.cn/tags/%E5%8A%A0%E5%AF%86/"/>
+    
+      <category term="爬虫" scheme="https://mrleecn.cn/tags/%E7%88%AC%E8%99%AB/"/>
     
   </entry>
   
@@ -440,11 +464,11 @@
     
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
-      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
-    
       <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
     
       <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
+    
+      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
     
   </entry>
   
@@ -476,11 +500,11 @@
     
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
-      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
-    
       <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
     
       <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
+    
+      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
     
   </entry>
   
@@ -512,11 +536,11 @@
     
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
-      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
-    
       <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
     
       <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
+    
+      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
     
   </entry>
   
@@ -541,11 +565,11 @@
     
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
-      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
-    
       <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
     
       <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
+    
+      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
     
   </entry>
   
@@ -576,11 +600,11 @@
     
       <category term="Python" scheme="https://mrleecn.cn/tags/Python/"/>
     
-      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
-    
       <category term="Linux" scheme="https://mrleecn.cn/tags/Linux/"/>
     
       <category term="软件安装" scheme="https://mrleecn.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/"/>
+    
+      <category term="Docker" scheme="https://mrleecn.cn/tags/Docker/"/>
     
   </entry>
   
